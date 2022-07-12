@@ -1,9 +1,16 @@
 # Laboratorio 0
 
 ```console
-user@compiladores:~$ antlr4 Expr.g4
-user@compiladores:~$ javac Expr*.java
-user@compiladores:~$ grun Expr prog -gui
+$ antlr4 Expr.g4
+$ javac Expr*.java
+$ grun Expr prog -gui
 100+2*34
 ^D
+```
+
+
+```console
+$ antlr4 Expr.g4
+$ javac Expr*.java
+$ java ExprMain sample.expr
 ```
