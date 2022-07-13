@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 
-public class ExprMain {
+public class yaplMain {
     public static void main(String[] args) throws Exception {
         String inputFile = null;
         
@@ -18,7 +18,7 @@ public class ExprMain {
         CharStream cs = CharStreams.fromStream(is);
 
         // Create a lexer which scans the character stream to create a token stream.
-        ExprLexer lexer = new ExprLexer(cs);
+        yaplLexer lexer = new yaplLexer(cs);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         // Print the token stream.
@@ -31,7 +31,7 @@ public class ExprMain {
 
         // Create a parser which parses the token stream
         // to create a parse tree.
-        ExprParser parser = new ExprParser(tokens);
+        yaplParser parser = new yaplParser(tokens);
         ParseTree tree = parser.prog();
 
         // Print the parse tree in Lisp format.
