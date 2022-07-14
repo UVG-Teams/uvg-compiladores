@@ -19,6 +19,8 @@ public class yaplMain {
 
         // Create a lexer which scans the character stream to create a token stream.
         yaplLexer lexer = new yaplLexer(cs);
+        lexer.addErrorListener(new ThrowingErrorListener());
+
         CommonTokenStream tokens = new CommonTokenStream(lexer);
 
         // Print the token stream.
@@ -32,6 +34,8 @@ public class yaplMain {
         // Create a parser which parses the token stream
         // to create a parse tree.
         yaplParser parser = new yaplParser(tokens);
+        parser.addErrorListener(new ThrowingErrorListener());
+
         ParseTree tree = parser.prog();
 
         // Print the parse tree in Lisp format.
