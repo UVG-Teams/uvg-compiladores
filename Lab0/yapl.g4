@@ -22,12 +22,11 @@ TRUE: 'true';
 LET: 'let';
 
 
-// EOF: '\0';
+TYPE_ID: [A-Z][a-zA-Z0-9_]*|SELF_TYPE;
+OBJECT_ID: [a-z][a-zA-Z0-9_]*;
 SELF: 'self';
 SELF_TYPE: 'SELF_TYPE';
 // KEYWORDS: (CLASS|ELSE|FALSE|FI|IF|IN|INHERITS|ISVOID|LOOP|POOL|THEN|WHILE|NEW|NOT|TRUE);
-TYPE_ID: [A-Z][a-zA-Z0-9_]*|SELF_TYPE;
-OBJECT_ID: [a-z][a-zA-Z0-9_]*;
 // ID: TYPE_ID | OBJECT_ID ;
 STRING              : '"' (ESC | ~ ["\\])* '"' ;
 fragment ESC        : '\\' (["\\/bfnrt] | UNICODE) ;
@@ -39,6 +38,7 @@ NEWLINE: [\r\n]+ -> skip;
 INT: [0-9]+;
 COMMENT: '--' .*? NEWLINE -> skip;
 COMMENT_BLOCK: '(*' .*? '*)' -> skip;
+// ERROR:.;
 
 
 
@@ -65,6 +65,7 @@ expr: (TYPE_ID | OBJECT_ID) '<-' expr
     | expr ('+'|'-') expr
     | expr ('*'|'/') expr
     | '-' expr
+    | '~' expr
     | expr ('<'|'<=') expr
     | expr '=' expr
     | NOT expr
@@ -74,5 +75,5 @@ expr: (TYPE_ID | OBJECT_ID) '<-' expr
     | STRING
     | TRUE
     | FALSE
-    | SELF
+    | SELF    
     ;
