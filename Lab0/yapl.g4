@@ -77,3 +77,4 @@ expr: (TYPE_ID | OBJECT_ID) '<-' expr
     | FALSE
     | SELF    
     ;
+    
