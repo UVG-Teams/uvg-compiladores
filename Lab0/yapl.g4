@@ -38,7 +38,7 @@ NEWLINE: [\r\n]+ -> skip;
 INT: [0-9]+;
 COMMENT: '--' .*? NEWLINE -> skip;
 COMMENT_BLOCK: '(*' .*? '*)' -> skip;
-// ERROR:.;
+// ERROR: .;
 
 
 
