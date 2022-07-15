@@ -2,6 +2,12 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.*;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import org.antlr.v4.runtime.misc.*;
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 
 public class yaplMain {
@@ -41,5 +47,30 @@ public class yaplMain {
         // Print the parse tree in Lisp format.
         System.out.println("\nParse tree (Lisp format):");
         System.out.println(tree.toStringTree(parser));
+
+        // TestContext treeView = parser.test();
+        // treeView.inspect(parser);
+
+        // Trees.inspect(tree, parser);
+        // List<String> ruleNames = Arrays.asList(parser.ruleNames);
+        // TreeViewer viewer = new TreeViewer(ruleNames, treeView);
+        // viewer.open();
+        
+        // Process pr = Runtime.getRuntime().exec("echo hola");
+        // pr.waitFor();
+
+        // ProcessBuilder processBuilder = new ProcessBuilder();
+        // processBuilder.command("cat", "hello_world.cl", "|", "java", "org.antlr.v4.gui.TestRig", "yapl", "prog", "-gui");
+        // Process process = processBuilder.start();
+
+        // BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+        // String line;
+        // while ((line = reader.readLine()) != null) {
+        //     System.out.println(line);
+        // }
+
+        // int exitCode = process.waitFor();
+        // System.out.println("\nExited with error code : " + exitCode);
     }
 }
