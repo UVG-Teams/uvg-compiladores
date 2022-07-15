@@ -21,28 +21,40 @@ NOT: 'not' | 'NOT';
 TRUE: 'true';
 LET: 'let';
 
+
 // EOF: '\0';
 SELF: 'self';
 SELF_TYPE: 'SELF_TYPE';
-KEYWORDS: (CLASS|ELSE|FALSE|FI|IF|IN|INHERITS|ISVOID|LOOP|POOL|THEN|WHILE|NEW|NOT|TRUE);
-TYPE_ID: [A-Z][a-zA-Z0-9]+;
-OBJECT_ID: [a-z][a-zA-Z0-9]+;
+// KEYWORDS: (CLASS|ELSE|FALSE|FI|IF|IN|INHERITS|ISVOID|LOOP|POOL|THEN|WHILE|NEW|NOT|TRUE);
+TYPE_ID: [A-Z][a-zA-Z0-9_]*|SELF_TYPE;
+OBJECT_ID: [a-z][a-zA-Z0-9_]*;
 // ID: TYPE_ID | OBJECT_ID ;
-STRING: '"' (~'"' (~'\n')*)* '"';
+STRING              : '"' (ESC | ~ ["\\])* '"' ;
+fragment ESC        : '\\' (["\\/bfnrt] | UNICODE) ;
+fragment UNICODE    : 'u' HEX HEX HEX HEX ;
+fragment HEX        : [0-9a-fA-F] ;
+
 WHITESPACE: (' '|'\n'|'\f'|'\r'|'\t') -> skip;
 NEWLINE: [\r\n]+ -> skip;
 INT: [0-9]+;
-// COMMENT: '--' (~'\n')* NEWLINE -> skip;
-// COMMENT_BLOCK: '(*' (~'*(' (~'\n')*)* '*)' -> skip;
 COMMENT: '--' .*? NEWLINE -> skip;
 COMMENT_BLOCK: '(*' .*? '*)' -> skip;
 
 
 
-
 // Definicion sintatica
+prog: (class_def ';')+;
+
+class_def: CLASS TYPE_ID (INHERITS TYPE_ID)? '{' (feature ';')* '}';
+
+feature: (TYPE_ID | OBJECT_ID) ('(' (formal ( ',' formal)*)? ')')? ':' TYPE_ID '{' expr '}'
+    | (TYPE_ID | OBJECT_ID) ':' TYPE_ID ( '<-' expr )?;
+
+formal: (TYPE_ID | OBJECT_ID) ':' TYPE_ID;
+
 expr: (TYPE_ID | OBJECT_ID) '<-' expr
-    | expr ('@' TYPE_ID)? '.' (TYPE_ID | OBJECT_ID) '(' ( expr (';' expr)* )? ')'
+    // | expr ('@' TYPE_ID)? '.' (TYPE_ID | OBJECT_ID) '(' ( expr (';' expr)* )? ')'
+    | expr ('@' TYPE_ID)? '.' (TYPE_ID | OBJECT_ID) '(' ( expr (',' expr)* )? ')'
     | (TYPE_ID | OBJECT_ID) '(' (expr (',' expr)*)? ')'
     | IF expr THEN expr ELSE expr FI
     | WHILE expr LOOP expr POOL
@@ -62,13 +74,5 @@ expr: (TYPE_ID | OBJECT_ID) '<-' expr
     | STRING
     | TRUE
     | FALSE
+    | SELF
     ;
-
-formal: (TYPE_ID | OBJECT_ID) ':' TYPE_ID;
-
-feature: (TYPE_ID | OBJECT_ID) ('(' (formal ( ',' formal)*)? ')')? ':' TYPE_ID '{' expr '}'
-    | (TYPE_ID | OBJECT_ID) ':' TYPE_ID ( '<-' expr )?;
-
-class_def: CLASS TYPE_ID (INHERITS TYPE_ID)? '{' (feature ';')* '}';
-
-prog: (class_def ';')+;
