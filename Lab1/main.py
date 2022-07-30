@@ -1,7 +1,7 @@
 import sys
 from antlr4 import *
-from yaplLexer import yaplLexer
-from yaplParser import yaplParser
+from build.yaplLexer import yaplLexer
+from build.yaplParser import yaplParser
 from yaplErrorListener import yaplErrorListener
 
 def main(argv):
@@ -26,11 +26,8 @@ def main(argv):
     print("\nParse Tree:")
     print(tree.toStringTree(parser.ruleNames))
 
-    # output = open("output.html","w", encoding='utf-8')
-    # htmlChat = HtmlListener(output)
     # walker = ParseTreeWalker()
     # walker.walk(htmlChat, tree)
-    # output.close()
 
 if __name__ == '__main__':
     main(sys.argv)
