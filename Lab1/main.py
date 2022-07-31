@@ -1,23 +1,34 @@
 import sys
 from antlr4 import *
-from dist.yaplLexer import yaplLexer
-from dist.yaplParser import yaplParser
-# from HtmlChatListener import HtmlChatListener
+from build.yaplLexer import yaplLexer
+from build.yaplParser import yaplParser
+from yaplWalker import yaplWalker
+from yaplErrorListener import yaplErrorListener
 
 def main(argv):
     input = FileStream(argv[1])
-    lexer = yaplLexer(input)
-    stream = CommonTokenStream(lexer)
-    parser = yaplParser(stream)
-    # tree = parser.chat()
 
-    # output = open("output.html","w", encoding='utf-8')
-    
-    # # htmlChat = HtmlChatListener(output)
-    # walker = ParseTreeWalker()
-    # walker.walk(htmlChat, tree)
-        
-    # output.close()      
+    lexer = yaplLexer(input)
+    lexer.removeErrorListeners()
+    lexer.addErrorListener(yaplErrorListener())
+
+    stream = CommonTokenStream(lexer)
+    stream.fill()
+
+    print("Tokens:")
+    for token in stream.tokens:
+        print(token)
+
+    parser = yaplParser(stream)
+    parser.removeErrorListeners()
+    parser.addErrorListener(yaplErrorListener())
+
+    tree = parser.prog()
+    print("\nParse Tree:")
+    # print(tree.toStringTree(parser.ruleNames))
+
+    walker = yaplWalker()
+    walker.visit(tree)
 
 if __name__ == '__main__':
     main(sys.argv)

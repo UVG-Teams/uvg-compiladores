@@ -1,4 +1,4 @@
-// Generated from /Users/luca/Documents/UVG/2022/Segundo semestre/Compiladores/uvg-compiladores/Lab1/yapl.g4 by ANTLR 4.9.2
+// Generated from /Users/willi/Desktop/repos/uvg-compiladores/lab1/yapl.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
