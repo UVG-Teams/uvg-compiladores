@@ -1,6 +1,6 @@
 # Sistema de Tipos
-ø option + o </br>
-Γ (Gamma): ambito </br>
+Ø (): (En cualquier ámbito, en el ámbito global)</br>
+Γ (Gamma): ambito (En un ámbito en particular)</br>
 ⊢ (Trinquete): a la derecha del trinquete es estrictamente verdadero </br>
 
 Γ ⊢ M : A </br> 
@@ -14,6 +14,14 @@ $$
 Γ ⊢ a: int \\
 {Γ ⊢ b: int \over a + b: int}
 $$
+
+```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```
 
 
 
