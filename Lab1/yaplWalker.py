@@ -26,9 +26,8 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#class_def.
     def visitClass_def(self, ctx:yaplParser.Class_defContext):
-        print(ctx.CLASS())
-        print(ctx.INHERITS())
-        print(ctx.TYPE_ID())
+        # print(ctx.INHERITS())
+        self.symbolTable.add(ctx.CLASS(), ctx.TYPE_ID()[0])
         return self.visitChildren(ctx)
 
 
