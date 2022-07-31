@@ -1,10 +1,23 @@
+"""
+Universidad del Valle de Guatemala
+Compiladores
+
+Autores:
+Gian Luca Rivera
+Francisco Rosal
+"""
+
 from antlr4 import *
+from symbolTable import SymbolTable
 from build.yaplParser import yaplParser
 from build.yaplVisitor import yaplVisitor
 
 # This class defines a custom visitor for a parse tree.
 
 class yaplWalker(yaplVisitor):
+
+    def initSymbolTable(self):
+        self.symbolTable = SymbolTable()
 
     # Visit a parse tree produced by yaplParser#prog.
     def visitProg(self, ctx:yaplParser.ProgContext):
@@ -13,9 +26,8 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#class_def.
     def visitClass_def(self, ctx:yaplParser.Class_defContext):
-        print(ctx.CLASS())
-        print(ctx.INHERITS())
-        print(ctx.TYPE_ID())
+        # print(ctx.INHERITS())
+        self.symbolTable.add(ctx.CLASS(), ctx.TYPE_ID()[0])
         return self.visitChildren(ctx)
 
 
