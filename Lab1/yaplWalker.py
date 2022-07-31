@@ -38,28 +38,30 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#feature.
     def visitFeature(self, ctx:yaplParser.FeatureContext):
+        self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID())
+
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
-
-        self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID())
 
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by yaplParser#formal.
     def visitFormal(self, ctx:yaplParser.FormalContext):
-        print(ctx.OBJECT_ID)
-        print(ctx.TYPE_ID())
+        self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID())
+
+        if len(ctx.TYPE_ID()) == 1:
+            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by yaplParser#expr.
     def visitExpr(self, ctx:yaplParser.ExprContext):
-        if len(ctx.TYPE_ID()) == 1:
-            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
-
         if len(ctx.OBJECT_ID()) == 1:
             self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID()[0])
+
+        if len(ctx.TYPE_ID()) == 1:
+            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
 
         if ctx.IF():
             self.symbolTable.add("IF", ctx.IF())
