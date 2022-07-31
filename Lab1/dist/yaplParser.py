@@ -197,6 +197,12 @@ class yaplParser ( Parser ):
             if hasattr( listener, "exitProg" ):
                 listener.exitProg(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProg" ):
+                return visitor.visitProg(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -266,6 +272,12 @@ class yaplParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitClass_def" ):
                 listener.exitClass_def(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitClass_def" ):
+                return visitor.visitClass_def(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -353,6 +365,12 @@ class yaplParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFeature" ):
                 listener.exitFeature(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFeature" ):
+                return visitor.visitFeature(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -479,6 +497,12 @@ class yaplParser ( Parser ):
             if hasattr( listener, "exitFormal" ):
                 listener.exitFormal(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFormal" ):
+                return visitor.visitFormal(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -596,6 +620,12 @@ class yaplParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExpr" ):
                 listener.exitExpr(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpr" ):
+                return visitor.visitExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
