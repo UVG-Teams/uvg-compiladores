@@ -19,6 +19,9 @@ class yaplWalker(yaplVisitor):
     def initSymbolTable(self):
         self.symbolTable = SymbolTable()
 
+    def getSymbolTable(self):
+        return  self.symbolTable
+
     # Visit a parse tree produced by yaplParser#prog.
     def visitProg(self, ctx:yaplParser.ProgContext):
         return self.visitChildren(ctx)

@@ -10,7 +10,16 @@ A: Tipo de dato </br> </br>
 En el ambito gamma es estrictamente verdadero que la variable M es de tipo A.</br> 
 
 ## Tipos de datos
+* int: 
+    * $Ø ⊢ [0-9]: int$
+* string:
+    * $Ø ⊢ "[a-zA-Z0-9]": str$
+* bool: 
+    * $Ø ⊢ true: bool$
+    * $Ø ⊢ false: bool$
+
 ## Reglas de ámbito
+Ámbito estático ya que se realiza un análisis de programa fuente de manera estática y no en tiempo ejecución.
 
 ## Reglas de tipos
 ### Operaciones entre int
@@ -248,7 +257,7 @@ $$
 
 $$
 Γ ⊢ a: str \\
-{Γ ⊢ b: str \over a - b: ERROR}
+{Γ ⊢ b: int \over a - b: ERROR}
 $$
 
 ```mermaid
@@ -258,21 +267,21 @@ $$
       A --- C[E];
       B --- D[N];
       C --- E[N];
-      D --- F[5];
+      D --- F[G];
       E --- G[11];
       
       A -.-|ERROR| A;
       B -.-|str| B;
-      C -.-|str| C;
+      C -.-|int| C;
       D -.-|str| D;
-      E -.-|str| E;
+      E -.-|int| E;
       F -.-|str| F;
-      G -.-|str| G;
+      G -.-|int| G;
 ```
 
 $$
 Γ ⊢ a: str \\
-{Γ ⊢ b: str \over a * b: ERROR}
+{Γ ⊢ b: int \over a * b: str}
 $$
 
 ```mermaid
@@ -282,21 +291,21 @@ $$
       A --- C[E];
       B --- D[N];
       C --- E[N];
-      D --- F[5];
+      D --- F[G];
       E --- G[11];
       
-      A -.-|ERROR| A;
+      A -.-|str| A;
       B -.-|str| B;
-      C -.-|str| C;
+      C -.-|int| C;
       D -.-|str| D;
-      E -.-|str| E;
+      E -.-|int| E;
       F -.-|str| F;
-      G -.-|str| G;
+      G -.-|int| G;
 ```
 
 $$
 Γ ⊢ a: str \\
-{Γ ⊢ b: str \over a / b: ERROR}
+{Γ ⊢ b: int \over a / b: ERROR}
 $$
 
 ```mermaid
@@ -306,24 +315,165 @@ $$
       A --- C[E];
       B --- D[N];
       C --- E[N];
-      D --- F[5];
+      D --- F[G];
       E --- G[11];
       
       A -.-|ERROR| A;
       B -.-|str| B;
-      C -.-|str| C;
+      C -.-|int| C;
       D -.-|str| D;
-      E -.-|str| E;
+      E -.-|int| E;
       F -.-|str| F;
-      G -.-|str| G;
+      G -.-|int| G;
 ```
 
 
-Tipos de datos (int, bool, char, etc y sus posibles valores)
+### Operaciones entre bool
 
-Reglas de ambito (Estatico o dinamico)
-Ámbito estático
-Reglas de tipos
+$$
+Γ ⊢ a: bool \\
+{Γ ⊢ b: bool \over a + b: ERROR}
+$$
 
+
+```mermaid
+  graph TD;
+      A[E] --- B[E];
+      A --- H[+]
+      A --- C[E];
+      B --- D[N];
+      C --- E[N];
+      D --- F[true];
+      E --- G[false];
+      
+      A -.-|ERROR| A;
+      B -.-|bool| B;
+      C -.-|bool| C;
+      D -.-|bool| D;
+      E -.-|bool| E;
+      F -.-|bool| F;
+      G -.-|bool| G;
+```
+
+
+$$
+Γ ⊢ a: bool \\
+{Γ ⊢ b: bool \over a - b: ERROR}
+$$
+
+```mermaid
+  graph TD;
+      A[E] --- B[E];
+      A --- H[-]
+      A --- C[E];
+      B --- D[N];
+      C --- E[N];
+      D --- F[true];
+      E --- G[false];
+      
+      A -.-|ERROR| A;
+      B -.-|bool| B;
+      C -.-|bool| C;
+      D -.-|bool| D;
+      E -.-|bool| E;
+      F -.-|bool| F;
+      G -.-|bool| G;
+```
+
+$$
+Γ ⊢ a: bool \\
+{Γ ⊢ b: bool \over a * b: ERROR}
+$$
+
+```mermaid
+  graph TD;
+      A[E] --- B[E];
+      A --- H[*]
+      A --- C[E];
+      B --- D[N];
+      C --- E[N];
+      D --- F[true];
+      E --- G[false];
+      
+      A -.-|ERROR| A;
+      B -.-|bool| B;
+      C -.-|bool| C;
+      D -.-|bool| D;
+      E -.-|bool| E;
+      F -.-|bool| F;
+      G -.-|bool| G;
+```
+
+$$
+Γ ⊢ a: bool \\
+{Γ ⊢ b: bool \over a / b: ERROR}
+$$
+
+```mermaid
+  graph TD;
+      A[E] --- B[E];
+      A --- H["/"]
+      A --- C[E];
+      B --- D[N];
+      C --- E[N];
+      D --- F[true];
+      E --- G[false];
+      
+      A -.-|ERROR| A;
+      B -.-|bool| B;
+      C -.-|bool| C;
+      D -.-|bool| D;
+      E -.-|bool| E;
+      F -.-|bool| F;
+      G -.-|bool| G;
+```
+
+$$
+Γ ⊢ a: bool \\
+{Γ ⊢ b: bool \over a \& b: bool}
+$$
+
+```mermaid
+  graph TD;
+      A[E] --- B[E];
+      A --- H["&"]
+      A --- C[E];
+      B --- D[N];
+      C --- E[N];
+      D --- F[true];
+      E --- G[false];
+      
+      A -.-|bool| A;
+      B -.-|bool| B;
+      C -.-|bool| C;
+      D -.-|bool| D;
+      E -.-|bool| E;
+      F -.-|bool| F;
+      G -.-|bool| G;
+```
+
+$$
+Γ ⊢ a: bool \\
+{Γ ⊢ b: bool \over a | b: bool}
+$$
+
+```mermaid
+  graph TD;
+      A[E] --- B[E];
+      A --- H["|"]
+      A --- C[E];
+      B --- D[N];
+      C --- E[N];
+      D --- F[true];
+      E --- G[false];
+      
+      A -.-|bool| A;
+      B -.-|bool| B;
+      C -.-|bool| C;
+      D -.-|bool| D;
+      E -.-|bool| E;
+      F -.-|bool| F;
+      G -.-|bool| G;
+```
 
 
