@@ -43,6 +43,7 @@ def main(argv):
     print("\nSymbol Table:")
     for record in walker.symbolTable.records:
         print("Symbol", record.toString())
+        # print(record.id)
 
 if __name__ == '__main__':
     main(sys.argv)
