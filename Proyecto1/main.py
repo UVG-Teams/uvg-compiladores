@@ -52,10 +52,9 @@ def main(argv):
 
 if __name__ == '__main__':
     window = tk.Tk()
-    height = window.winfo_screenmmheight()
-    width = window.winfo_screenmmwidth()
     window.title('Analizador Semántico')
-    # window.minsize("1500x500")
-    print("\n width x height = %d x %d (in mm)\n" %(width, height))
+    window.geometry("500x500")
+    window.attributes('-fullscreen', True)
+    # print("\n width x height = %d x %d (in mm)\n" %(width, height))
     main(sys.argv)
     window.mainloop()
