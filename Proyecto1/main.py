@@ -53,7 +53,7 @@ def main(argv):
 if __name__ == '__main__':
     window = tk.Tk()
     window.title('Analizador Semántico')
-    window.geometry("500x500")
+    window.geometry("1500x1000")
     window.attributes('-fullscreen', True)
     # print("\n width x height = %d x %d (in mm)\n" %(width, height))
     main(sys.argv)
