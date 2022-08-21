@@ -14,6 +14,10 @@ from build.yaplParser import yaplParser
 from yaplWalker import yaplWalker
 from yaplErrorListener import yaplErrorListener
 
+import tkinter as tk
+from tkinter import *
+from tkinter.ttk import *
+
 
 def main(argv):
     input = FileStream(argv[1])
@@ -47,4 +51,10 @@ def main(argv):
         # print(record.id)
 
 if __name__ == '__main__':
+    window = tk.Tk()
+    window.title('Analizador Semántico')
+    window.geometry("500x500")
+    window.attributes('-fullscreen', True)
+    # print("\n width x height = %d x %d (in mm)\n" %(width, height))
     main(sys.argv)
+    window.mainloop()
