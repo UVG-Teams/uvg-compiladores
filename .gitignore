@@ -15,4 +15,4 @@ __pycache__/
 # Built Visual Studio Code Extensions
 *.vsix
 
-*/venv
+*/venv/
