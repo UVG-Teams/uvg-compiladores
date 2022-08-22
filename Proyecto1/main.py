@@ -77,13 +77,13 @@ if __name__ == '__main__':
         command = lambda:open_file()
     ) 
     label_file_explorer = tk.Label(window, text = " ", width = 20, height = 4, fg = "white")
-    text_area_code = scrolledtext.ScrolledText(window, width = 200, height = 40, font = ("Times New Roman",15), foreground = "white")
+    text_area_code = scrolledtext.ScrolledText(window, width = 203, height = 40, font = ("Times New Roman",15), foreground = "white")
     text_area_console = scrolledtext.ScrolledText(window, width = 100, height = 16, font = ("Times New Roman",15), foreground = "red")
     text_area_symbolT = scrolledtext.ScrolledText(window, width = 100, height = 16, font = ("Times New Roman",15), foreground = "blue")
 
-    adharbtn.grid(row=0, column=1)
-    label_file_explorer.grid(row=0, column=2)
-    text_area_code.grid(column = 0, row = 1, columnspan=50, rowspan=100)
+    adharbtn.grid(row=0, column=0)
+    label_file_explorer.grid(row=0, column=1)
+    text_area_code.grid(column = 0, row = 1, columnspan=50, rowspan=100, padx=(12, 0))
     text_area_console.grid(column = 0, row = 160)
     text_area_symbolT.grid(column = 1, row = 160)
 
