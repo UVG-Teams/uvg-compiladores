@@ -35,14 +35,7 @@ def open_file():
         content = file_path.read()
         text_area_code.insert(tk.INSERT, "\n")
         text_area_code.insert(tk.INSERT, content, "\n")
-        # temp_file(content, filename_splited)
 
-def temp_file(content, name):
-    with open('input/temp_{name}'.format(name=name), 'w') as f:
-        fetched_content = text_area_code.get('1.0', 'end-1c')
-        f.write(fetched_content)
-        # for i in content:
-        #     f.write(i)
 
 def run():
     with open('input/temp.yapl', 'w') as f:
@@ -80,6 +73,8 @@ def main(argv):
     print("\nSymbol Table:")
     for record in walker.symbolTable.records:
         print("Symbol", record.toString())
+        text_area_symbolT.insert(tk.INSERT, "\n")
+        text_area_symbolT.insert(tk.INSERT, record.toString())
         # print(record.id)
 
 if __name__ == '__main__':
