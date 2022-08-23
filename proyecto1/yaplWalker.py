@@ -16,6 +16,12 @@ from build.yaplVisitor import yaplVisitor
 
 class yaplWalker(yaplVisitor):
 
+    def __init__(self) -> None:
+        self.errors = []
+        self.main_class_count = 0
+        self.main_method_count = 0
+        super().__init__()
+
     def initSymbolTable(self):
         self.symbolTable = SymbolTable()
 
@@ -24,6 +30,39 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#prog.
     def visitProg(self, ctx:yaplParser.ProgContext):
+
+        for node in ctx.class_def():
+            child_ctx = self.visit(node)
+
+            # Checking Main Class errors
+            if str(child_ctx.TYPE_ID()[0]) == "Main":
+                self.main_class_count += 1
+                if len(child_ctx.TYPE_ID()) > 1:
+                    self.errors.append({
+                        "msg": "Clase Main no debe heredar de ninguna",
+                        "payload": child_ctx.TYPE_ID()[1].getPayload()
+                    })
+
+                for feat_node in child_ctx.feature():
+                    feat_child_ctx = self.visit(feat_node)
+
+                    if str(feat_child_ctx.OBJECT_ID()) == "main":
+                        self.main_method_count += 1
+
+                        # TODO: Revisar por los parametros de la funcion
+
+        if self.main_class_count != 1:
+            self.errors.append({
+                "msg": "Solo una clase Main debe existir",
+                "payload": child_ctx.TYPE_ID()[0].getPayload()
+            })
+
+        if self.main_method_count != 1:
+            self.errors.append({
+                "msg": "Solo un metodo main en la clase Main debe existir",
+                "payload": feat_child_ctx.OBJECT_ID().getPayload()
+            })
+
         return self.visitChildren(ctx)
 
 
@@ -32,11 +71,13 @@ class yaplWalker(yaplVisitor):
         self.symbolTable.add("CLASS", ctx.CLASS())
 
         if len(ctx.TYPE_ID()) == 1:
-            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
+            class_name = ctx.TYPE_ID()[0]
+            self.symbolTable.add("TYPE_ID", class_name)
 
         # print(ctx.INHERITS())
 
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#feature.
@@ -46,7 +87,8 @@ class yaplWalker(yaplVisitor):
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
 
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#formal.

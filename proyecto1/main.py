@@ -50,11 +50,20 @@ def main(argv):
         print("Symbol", record.toString())
         # print(record.id)
 
+
+    if len(walker.errors) >= 1:
+        print("\n" + yaplErrorListener.ANSI_RED)
+        print("----------------------------- ERROR -----------------------------")
+        for error in walker.errors:
+            print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+        print("-----------------------------------------------------------------")
+        print("\n" + yaplErrorListener.ANSI_RESET)
+
 if __name__ == '__main__':
-    window = tk.Tk()
-    window.title('Analizador Semántico')
-    window.geometry("1500x1000")
-    window.attributes('-fullscreen', True)
+    # window = tk.Tk()
+    # window.title('Analizador Semántico')
+    # window.geometry("1500x1000")
+    # window.attributes('-fullscreen', True)
     # print("\n width x height = %d x %d (in mm)\n" %(width, height))
     main(sys.argv)
-    window.mainloop()
+    # window.mainloop()
