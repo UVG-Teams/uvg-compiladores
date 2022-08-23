@@ -31,8 +31,14 @@ def open_file():
         label_file_explorer.configure(text="./" + filename_splited)
 
         content = file_path.read()
-        print(content)
+        text_area_code.insert(tk.INSERT, "\n")
         text_area_code.insert(tk.INSERT, content, "\n")
+        run(content, filename_splited)
+
+def run(content, name):
+    with open('input/temp_{name}'.format(name=name), 'x') as f:
+        for i in content:
+            f.write(i)
 
 def main(argv):
     input = FileStream(argv[1])
@@ -95,9 +101,9 @@ if __name__ == '__main__':
     adharbtn.grid(row=0, column=0)
     label_file_explorer.grid(row=0, column=1)
     runbtn.grid(row=0, column=19, columnspan=2)
-    text_area_code.grid(column = 0, row = 1, columnspan=20, rowspan=100, padx=(12, 0))
-    text_area_console.grid(column = 0, row = 166, columnspan=10)
-    text_area_symbolT.grid(column = 10, row = 166, columnspan=10)
+    text_area_code.grid(column=0, row=1, columnspan=20, rowspan=100, padx=(12, 0))
+    text_area_console.grid(column=0, row=166, columnspan=10)
+    text_area_symbolT.grid(column=10, row=166, columnspan=10)
 
     main(sys.argv)
     window.mainloop()
