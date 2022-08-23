@@ -35,18 +35,21 @@ def open_file():
         content = file_path.read()
         text_area_code.insert(tk.INSERT, "\n")
         text_area_code.insert(tk.INSERT, content, "\n")
-        temp_file(content, filename_splited)
+        # temp_file(content, filename_splited)
 
 def temp_file(content, name):
     with open('input/temp_{name}'.format(name=name), 'w') as f:
-        # fetched_content = text_area_code.get('1.0', 'end-1c')
-        # f.write(fetched_content)
-        for i in content:
-            f.write(i)
+        fetched_content = text_area_code.get('1.0', 'end-1c')
+        f.write(fetched_content)
+        # for i in content:
+        #     f.write(i)
 
 def run():
-     run_main.set(True)
-     text_area_console.insert(tk.INSERT, "Running ...", "\n")
+    with open('input/temp.yapl', 'w') as f:
+        fetched_content = text_area_code.get('1.0', 'end-1c')
+        f.write(fetched_content)
+    run_main.set(True)
+    text_area_console.insert(tk.INSERT, "Running ...", "\n")
 
 def main(argv):
     input = FileStream(argv[1])
