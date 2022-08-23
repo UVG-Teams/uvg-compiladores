@@ -89,11 +89,16 @@ def main(argv):
     walker.initSymbolTable()
     walker.visit(tree)
 
+    cont = 0
     print("\nSymbol Table:")
     for record in walker.symbolTable.records:
+        cont = cont + 1
         print("Symbol", record.toString())
-        text_area_symbolT.insert(tk.INSERT, "\n")
-        text_area_symbolT.insert(tk.INSERT, record.toString())
+        if cont == 1:
+            text_area_symbolT.insert(tk.INSERT, record.toString())
+        else:
+            text_area_symbolT.insert(tk.INSERT, "\n")
+            text_area_symbolT.insert(tk.INSERT, record.toString())
         # print(record.id)
 
 
@@ -138,7 +143,7 @@ if __name__ == '__main__':
     l = LineNumbers(window, text_area_code, width=2, height=38, font=("Times New Roman", 15), foreground="gray", highlightthickness=0)
 
     # Add elements to UI
-    adharbtn.grid(row=0, column=0)
+    adharbtn.grid(row=0, column=0, padx=(0, 200))
     label_file_explorer.grid(row=0, column=1)
     runbtn.grid(row=0, column=19, columnspan=2)
     text_area_code.grid(column=0, row=1, columnspan=20, rowspan=100, padx=(35, 0))
