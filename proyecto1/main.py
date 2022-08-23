@@ -77,8 +77,16 @@ def main(argv):
         text_area_symbolT.insert(tk.INSERT, record.toString())
         # print(record.id)
 
-if __name__ == '__main__':
 
+    if len(walker.errors) >= 1:
+        print("\n" + yaplErrorListener.ANSI_RED)
+        print("----------------------------- ERROR -----------------------------")
+        for error in walker.errors:
+            print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+        print("-----------------------------------------------------------------")
+        print("\n" + yaplErrorListener.ANSI_RESET)
+
+if __name__ == '__main__':
     window = tk.Tk()
     window.title('Analizador Semántico')
     # window.geometry("1500x1000")
@@ -114,7 +122,7 @@ if __name__ == '__main__':
     text_area_console.grid(column=0, row=166, columnspan=10)
     text_area_symbolT.grid(column=10, row=166, columnspan=10)
 
-    runbtn.wait_variable(run_main)
+    # runbtn.wait_variable(run_main)
     main(sys.argv)
     text_area_console.insert(tk.INSERT, "\nCool")
     window.mainloop()
