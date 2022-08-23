@@ -20,7 +20,7 @@ from tkinter import *
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfile
 
-
+input = ""
 # Class that writes line number in text widget
 class LineNumbers(tk.Text):
     def __init__(self, master, text_widget, **kwargs):
@@ -50,7 +50,8 @@ def open_file():
         # pass
         filename_splited = file_path.name.split("/")
         filename_splited = filename_splited[len(filename_splited)-1]
-        archivo1_ = "./" + filename_splited
+        hola = filename_splited[len(filename_splited)-2]
+        archivo1_ = "input/" + filename_splited
         label_file_explorer.configure(text="./" + filename_splited)
 
         content = file_path.read()
@@ -63,8 +64,10 @@ def run():
     run_main.set(True)
     text_area_console.insert(tk.INSERT, "Running ...", "\n")
 
-def main(argv):
-    input = FileStream(argv[1])
+def main():
+    # print("acaaaaa ", argv[1])
+    # input = FileStream(argv[1])
+    input = FileStream('input/temp.yapl')
 
     lexer = yaplLexer(input)
     lexer.removeErrorListeners()
@@ -152,7 +155,7 @@ if __name__ == '__main__':
     text_area_symbolT.grid(column=10, row=166, columnspan=10, pady=(20,0))
 
     runbtn.wait_variable(run_main)
-    main(sys.argv)
+    main()
     text_area_console.insert(tk.INSERT, "\nCool")
     window.mainloop()
 
