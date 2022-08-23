@@ -8,6 +8,7 @@ Francisco Rosal
 """
 
 import sys
+import os
 from tkinter import scrolledtext
 from antlr4 import *
 from build.yaplLexer import yaplLexer
@@ -56,6 +57,7 @@ def open_file():
 
         content = file_path.read()
         text_area_code.insert(tk.INSERT, content, "\n")
+        runbtn.config(state="normal")
 
 def run():
     with open('input/temp.yapl', 'w') as f:
@@ -64,8 +66,11 @@ def run():
     run_main.set(True)
     text_area_console.insert(tk.INSERT, "Running ...", "\n")
 
+def clear():
+    python = sys.executable
+    os.execl(python, python, * sys.argv)
+
 def main():
-    # print("acaaaaa ", argv[1])
     # input = FileStream(argv[1])
     input = FileStream('input/temp.yapl')
 
@@ -135,20 +140,26 @@ if __name__ == '__main__':
     runbtn = Button(
         window, 
         text ='Run', 
+        state="disabled",
         command = run
+    )
+    clearbtn = Button(
+        window, 
+        text ='Clear', 
+        command = clear
     )
     label_file_explorer = tk.Label(window, text = " ", width = 20, height = 4, fg = "white")
     # text_area_code = scrolledtext.ScrolledText(window, width = 204, height = 40, font = ("Times New Roman",15), foreground = "white")
     text_area_code = tk.Text(window, width=202, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
     text_area_console = tk.Text(window, width=102, height=16, font=("Times New Roman", 15), foreground="green", highlightthickness=0)
     text_area_symbolT = tk.Text(window, width=99, height=16, font=("Times New Roman", 15), foreground="skyblue", highlightthickness=0)
-
     l = LineNumbers(window, text_area_code, width=2, height=38, font=("Times New Roman", 15), foreground="gray", highlightthickness=0)
 
     # Add elements to UI
     adharbtn.grid(row=0, column=0, padx=(0, 200))
     label_file_explorer.grid(row=0, column=1)
-    runbtn.grid(row=0, column=19, columnspan=2)
+    runbtn.grid(row=0, column=18, )
+    clearbtn.grid(row=0, column=19, columnspan=2)
     text_area_code.grid(column=0, row=1, columnspan=20, rowspan=100, padx=(35, 0))
     l.grid(column=0, row=1, padx=(0, 300))
     text_area_console.grid(column=0, row=166, columnspan=10, pady=(20,0), padx=(0,4))
