@@ -18,7 +18,9 @@ from yaplErrorListener import yaplErrorListener
 import tkinter as tk
 from tkinter import *
 from tkinter.ttk import *
-from tkinter.filedialog import askopenfile 
+from tkinter.filedialog import askopenfile
+
+
 
 
 def open_file():
@@ -33,12 +35,18 @@ def open_file():
         content = file_path.read()
         text_area_code.insert(tk.INSERT, "\n")
         text_area_code.insert(tk.INSERT, content, "\n")
-        run(content, filename_splited)
+        temp_file(content, filename_splited)
 
-def run(content, name):
-    with open('input/temp_{name}'.format(name=name), 'x') as f:
+def temp_file(content, name):
+    with open('input/temp_{name}'.format(name=name), 'w') as f:
+        # fetched_content = text_area_code.get('1.0', 'end-1c')
+        # f.write(fetched_content)
         for i in content:
             f.write(i)
+
+def run():
+     run_main.set(True)
+     text_area_console.insert(tk.INSERT, "Running ...", "\n")
 
 def main(argv):
     input = FileStream(argv[1])
@@ -72,6 +80,7 @@ def main(argv):
         # print(record.id)
 
 if __name__ == '__main__':
+
     window = tk.Tk()
     window.title('Analizador Semántico')
     # window.geometry("1500x1000")
@@ -80,6 +89,8 @@ if __name__ == '__main__':
     # window.geometry("%dx%d" % (width, height))
     window.state('zoomed') 
     # window.attributes('-fullscreen', True)
+
+    run_main = BooleanVar()
 
     # Definition of UI elements
     adharbtn = Button(
@@ -90,11 +101,11 @@ if __name__ == '__main__':
     runbtn = Button(
         window, 
         text ='Run', 
-        command = lambda:open_file()
+        command = run
     )
     label_file_explorer = tk.Label(window, text = " ", width = 20, height = 4, fg = "white")
     text_area_code = scrolledtext.ScrolledText(window, width = 204, height = 40, font = ("Times New Roman",15), foreground = "white")
-    text_area_console = scrolledtext.ScrolledText(window, width = 101, height = 16, font = ("Times New Roman",15), foreground = "red")
+    text_area_console = scrolledtext.ScrolledText(window, width = 101, height = 16, font = ("Times New Roman",15), foreground = "green")
     text_area_symbolT = scrolledtext.ScrolledText(window, width = 99, height = 16, font = ("Times New Roman",15), foreground = "skyblue")
 
     # Add elements to UI
@@ -105,5 +116,7 @@ if __name__ == '__main__':
     text_area_console.grid(column=0, row=166, columnspan=10)
     text_area_symbolT.grid(column=10, row=166, columnspan=10)
 
+    runbtn.wait_variable(run_main)
     main(sys.argv)
+    text_area_console.insert(tk.INSERT, "\nCool")
     window.mainloop()
