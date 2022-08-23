@@ -83,18 +83,17 @@ def main(argv):
         print("----------------------------- ERROR -----------------------------")
         for error in walker.errors:
             print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+            text_area_console.insert(tk.INSERT, "\n")
+            text_area_console.insert(tk.INSERT, "Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
+            text_area_console.tag_config('error', foreground="red")
         print("-----------------------------------------------------------------")
         print("\n" + yaplErrorListener.ANSI_RESET)
 
 if __name__ == '__main__':
     window = tk.Tk()
     window.title('Analizador Semántico')
-    # window.geometry("1500x1000")
-    # width= window.winfo_screenwidth()               
-    # height= window.winfo_screenheight()               
-    # window.geometry("%dx%d" % (width, height))
     window.state('zoomed') 
-    # window.attributes('-fullscreen', True)
+    
 
     run_main = BooleanVar()
 
