@@ -122,7 +122,7 @@ if __name__ == '__main__':
     text_area_console.grid(column=0, row=166, columnspan=10)
     text_area_symbolT.grid(column=10, row=166, columnspan=10)
 
-    # runbtn.wait_variable(run_main)
+    runbtn.wait_variable(run_main)
     main(sys.argv)
     text_area_console.insert(tk.INSERT, "\nCool")
     window.mainloop()
