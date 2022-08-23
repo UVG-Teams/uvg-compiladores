@@ -30,6 +30,10 @@ def open_file():
         archivo1_ = "./" + filename_splited
         label_file_explorer.configure(text="./" + filename_splited)
 
+        content = file_path.read()
+        print(content)
+        text_area_code.insert(tk.INSERT, content, "\n")
+
 def main(argv):
     input = FileStream(argv[1])
 
@@ -71,6 +75,7 @@ if __name__ == '__main__':
     window.state('zoomed') 
     # window.attributes('-fullscreen', True)
 
+    # Definition of UI elements
     adharbtn = Button(
         window, 
         text ='Choose File', 
@@ -86,6 +91,7 @@ if __name__ == '__main__':
     text_area_console = scrolledtext.ScrolledText(window, width = 101, height = 16, font = ("Times New Roman",15), foreground = "red")
     text_area_symbolT = scrolledtext.ScrolledText(window, width = 99, height = 16, font = ("Times New Roman",15), foreground = "skyblue")
 
+    # Add elements to UI
     adharbtn.grid(row=0, column=0)
     label_file_explorer.grid(row=0, column=1)
     runbtn.grid(row=0, column=19, columnspan=2)
