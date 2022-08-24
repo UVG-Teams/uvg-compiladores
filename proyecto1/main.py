@@ -9,7 +9,6 @@ Francisco Rosal
 
 import sys
 import os
-from tkinter import scrolledtext
 from antlr4 import *
 from build.yaplLexer import yaplLexer
 from build.yaplParser import yaplParser
@@ -20,6 +19,7 @@ import tkinter as tk
 from tkinter import *
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfile
+from prettytable import PrettyTable
 
 input = ""
 # Class that writes line number in text widget
@@ -99,15 +99,22 @@ def main():
 
     cont = 0
     print("\nSymbol Table:")
+    # myTable = PrettyTable()
     for record in walker.symbolTable.records:
         cont = cont + 1
         print("Symbol", record.toString())
+        # myTable.field_names = ["Id", "Kind", "Line", "Column", "Value"]
+        # myTable.add_row([record.id, record.kind, record.line, record.column, record.value])
+        # print(myTable)
+        print("AAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHH ", record.id)
         if cont == 1:
             text_area_symbolT.insert(tk.INSERT, record.toString())
         else:
             text_area_symbolT.insert(tk.INSERT, "\n")
             text_area_symbolT.insert(tk.INSERT, record.toString())
-        # print(record.id)
+        print(record.id)
+    
+    # print(myTable)
 
 
     if len(walker.errors) >= 1:
@@ -170,11 +177,3 @@ if __name__ == '__main__':
     text_area_console.insert(tk.INSERT, "\nCool")
     window.mainloop()
 
-
-# if __name__ == '__main__':
-#     w = tk.Tk()
-#     t = tk.Text(w)
-#     l = LineNumbers(w, t, width=1)
-#     l.grid(column=0, row=0)
-#     t.grid(column=1, row=0)
-#     w.mainloop()
