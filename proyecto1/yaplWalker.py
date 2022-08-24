@@ -17,6 +17,7 @@ from build.yaplVisitor import yaplVisitor
 class yaplWalker(yaplVisitor):
 
     def __init__(self) -> None:
+        self.basic_types = ["Int", "String", "Bool"]
         self.errors = []
         self.main_class_count = 0
         self.main_method_count = 0
@@ -49,7 +50,11 @@ class yaplWalker(yaplVisitor):
                     if str(feat_child_ctx.OBJECT_ID()) == "main":
                         self.main_method_count += 1
 
-                        # TODO: Revisar por los parametros de la funcion
+                        if len(feat_child_ctx.formal()) > 0:
+                            self.errors.append({
+                                "msg": "Metodo main no debe tener parametros formales",
+                                "payload": feat_child_ctx.OBJECT_ID().getPayload()
+                            })
 
         if self.main_class_count != 1:
             self.errors.append({
@@ -74,7 +79,29 @@ class yaplWalker(yaplVisitor):
             class_name = ctx.TYPE_ID()[0]
             self.symbolTable.add("TYPE_ID", class_name)
 
-        # print(ctx.INHERITS())
+        # Class inheritance validations
+        if ctx.INHERITS():
+            # Inherit from a basic type is not possible
+            if str(ctx.TYPE_ID()[1]) in self.basic_types:
+                self.errors.append({
+                    "msg": "No se puede heredar de un tipo basico",
+                    "payload": ctx.TYPE_ID()[1].getPayload()
+                })
+
+            # Recursive inheritance is not possible
+            if str(ctx.TYPE_ID()[0]) == str(ctx.TYPE_ID()[1]):
+                self.errors.append({
+                    "msg": "No se puede heredar recursivamente",
+                    "payload": ctx.TYPE_ID()[1].getPayload()
+                })
+
+            # Multiple inheritance is not possible
+            if len(ctx.TYPE_ID()) >= 3 and ctx.TYPE_ID()[2]:
+                self.errors.append({
+                    "msg": "No se puede tener multiple herencia",
+                    "payload": ctx.TYPE_ID()[2].getPayload()
+                })
+
 
         self.visitChildren(ctx)
         return ctx
@@ -97,7 +124,9 @@ class yaplWalker(yaplVisitor):
 
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
-        return self.visitChildren(ctx)
+
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr.
