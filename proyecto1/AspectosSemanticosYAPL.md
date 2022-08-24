@@ -6,7 +6,7 @@ Semántico dentro del Compilador de YAPL:
 - [x] Un programa en YAPL es una secuencia de 1 o más definiciones de clases, con 
 atributos y métodos. 
 - [x] Todo programa en YAPL debe de contener una clase Main. 
-- [ ] La clase Main debe contener un método main sin parámetros formales. 
+- [x] La clase Main debe contener un método main sin parámetros formales. 
 - [x] La clase Main no puede heredar de ninguna otra clase. 
 - [ ] Le ejecución de un programa en YAPL, comienza evaluando (new Main).main() 
  

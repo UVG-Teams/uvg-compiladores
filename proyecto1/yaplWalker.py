@@ -50,7 +50,11 @@ class yaplWalker(yaplVisitor):
                     if str(feat_child_ctx.OBJECT_ID()) == "main":
                         self.main_method_count += 1
 
-                        # TODO: Revisar por los parametros de la funcion
+                        if len(feat_child_ctx.formal()) > 0:
+                            self.errors.append({
+                                "msg": "Metodo main no debe tener parametros formales",
+                                "payload": feat_child_ctx.OBJECT_ID().getPayload()
+                            })
 
         if self.main_class_count != 1:
             self.errors.append({
@@ -120,7 +124,9 @@ class yaplWalker(yaplVisitor):
 
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0])
-        return self.visitChildren(ctx)
+
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr.
