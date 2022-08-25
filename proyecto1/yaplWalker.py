@@ -124,6 +124,7 @@ class yaplWalker(yaplVisitor):
 
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column)
+
         self.visitChildren(ctx)
         return ctx
 

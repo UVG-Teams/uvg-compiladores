@@ -10,8 +10,8 @@ Francisco Rosal
 class Symbol():
 
     def __init__(self, kind, id, line, column, value):
-        self.kind = kind
-        self.id = id
+        self.kind = str(kind)
+        self.id = str(id)
         self.line = line
         self.column = column
         self.value = value
@@ -37,5 +37,5 @@ class SymbolTable():
 
     def find(self, kind, id):
         for symbol in self.records:
-            if symbol.kind == kind and symbol.id == id:
+            if symbol.kind == str(kind) and symbol.id == str(id):
                 return symbol
