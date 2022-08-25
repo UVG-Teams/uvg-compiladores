@@ -28,7 +28,7 @@ método, dentro de la clase.
 - [x] Todos los atributos y métodos dentro de una clase poseen acceso público. 
 - [ ] Los identificadores de un ámbito local ocultan la definición de identificadores en el 
 ámbito global. 
-- [ ] Ningún identificador puede ser definido más de una vez dentro de un mismo ámbito. 
+- [x] Ningún identificador puede ser definido más de una vez dentro de un mismo ámbito. 
 - [ ] Si B hereda de A y B sobrescribe un método de A, este método debe de poseer la 
 misma firma con la que fue declarado en A. 
 - [x] No es posible la herencia múltiple de clases y herencia recursiva. 
@@ -62,8 +62,8 @@ recursivos {i.e. [class1].[class2]....[classn].[atributo]}
 
 - [ ] Los argumentos de los métodos que son de tipos básicos se pasan por valor. 
 - [ ] Los argumentos de los métodos que son tipos derivados se pasan por referencia. 
-- [ ] Los argumentos formales del método son considerados variables locales del método. 
-- [ ] Los argumentos son evaluados de izquierda a derecha. 
+- [x] Los argumentos formales del método son considerados variables locales del método. 
+- [x] Los argumentos son evaluados de izquierda a derecha. 
 - [ ] El  tipo  de  la  expresión  de  retorno  del  método  debe  coincidir  con  el  tipo  de  retorno 
 declarado con el método. 
 - [ ] El valor de la expresión de retorno será devuelto al método llamador y asignado al lado 
@@ -91,7 +91,7 @@ expresión de tipo de dato Bool.
 
 ## Clases especiales 
 
-- [ ] Existe una clase especial IO que define funciones de entrada y salida de valores tipo 
+- [x] Existe una clase especial IO que define funciones de entrada y salida de valores tipo 
 Int y Bool. 
-- [ ] La tabla de símbolos debe de contener de forma predefinida la definición de las clases 
+- [x] La tabla de símbolos debe de contener de forma predefinida la definición de las clases 
 IO, Int, String y Bool junto a sus métodos ya definidos. 

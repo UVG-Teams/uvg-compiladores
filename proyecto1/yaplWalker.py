@@ -33,6 +33,71 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#prog.
     def visitProg(self, ctx:yaplParser.ProgContext):
+
+        # Defining Int
+        self.symbolTable.add(
+            "CLASS",
+            "Int",
+            "class",
+        )
+
+        # Defining Bool
+        self.symbolTable.add(
+            "CLASS",
+            "Bool",
+            "class",
+        )
+
+        # Defining String
+        self.symbolTable.add(
+            "CLASS",
+            "String",
+            "class",
+        )
+
+        # Defining IO
+        self.symbolTable.add(
+            "CLASS",
+            "IO",
+            "class",
+        )
+
+        self.symbolTable.add(
+            "OBJECT_ID",
+            "in_string",
+            "Object",
+            numParams=1,
+            paramTypes=["String"],
+            scope="global - IO"
+        )
+
+        self.symbolTable.add(
+            "OBJECT_ID",
+            "out_string",
+            "Object",
+            numParams=1,
+            paramTypes=["String"],
+            scope="global - IO"
+        )
+
+        self.symbolTable.add(
+            "OBJECT_ID",
+            "in_int",
+            "Object",
+            numParams=1,
+            paramTypes=["Int"],
+            scope="global - IO"
+        )
+
+        self.symbolTable.add(
+            "OBJECT_ID",
+            "out_int",
+            "Object",
+            numParams=1,
+            paramTypes=["Int"],
+            scope="global - IO"
+        )
+
         self.visitChildren(ctx)
         return ctx
 
@@ -57,21 +122,15 @@ class yaplWalker(yaplVisitor):
                 "payload": ctx.TYPE_ID()[0].getPayload()
             })
 
+        class_name = ctx.TYPE_ID()[0]
+
         self.symbolTable.add(
             "CLASS",
+            class_name,
             ctx.CLASS(),
             line=ctx.CLASS().getPayload().line,
             column=ctx.CLASS().getPayload().column
         )
-
-        if len(ctx.TYPE_ID()) == 1:
-            class_name = ctx.TYPE_ID()[0]
-            self.symbolTable.add(
-                "TYPE_ID",
-                class_name,
-                line=class_name.getPayload().line,
-                column=class_name.getPayload().column
-            )
 
         # Class inheritance validations
         if ctx.INHERITS():
@@ -126,28 +185,13 @@ class yaplWalker(yaplVisitor):
         self.symbolTable.add(
             "OBJECT_ID",
             ctx.OBJECT_ID(),
+            ctx.TYPE_ID()[0],
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
             numParams=len(ctx.formal()),
             paramTypes=[],
             scope="global - {class_scope}".format(class_scope=self.current_class)
         )
-
-        if len(ctx.TYPE_ID()) == 1:
-            if len(ctx.formal()) == 0:
-                self.symbolTable.add(
-                    "TYPE_ID",
-                    ctx.TYPE_ID()[0],
-                    line=ctx.TYPE_ID()[0].getPayload().line,
-                    column=ctx.TYPE_ID()[0].getPayload().column,
-                )
-            else:
-                self.symbolTable.add(
-                    "TYPE_ID",
-                    ctx.TYPE_ID()[0],
-                    line=ctx.TYPE_ID()[0].getPayload().line,
-                    column=ctx.TYPE_ID()[0].getPayload().column,
-                )
 
         self.visitChildren(ctx)
         return ctx
@@ -176,18 +220,11 @@ class yaplWalker(yaplVisitor):
         self.symbolTable.add(
             "OBJECT_ID",
             ctx.OBJECT_ID(),
+            ctx.TYPE_ID()[0],
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
             scope=scope
         )
-
-        if len(ctx.TYPE_ID()) == 1:
-            self.symbolTable.add(
-                "TYPE_ID",
-                ctx.TYPE_ID()[0],
-                line=ctx.TYPE_ID()[0].getPayload().line,
-                column=ctx.TYPE_ID()[0].getPayload().column,
-            )
 
         self.visitChildren(ctx)
         return ctx
@@ -204,12 +241,12 @@ class yaplWalker(yaplVisitor):
                     "payload": ctx.OBJECT_ID()[0].getPayload()
                 })
 
-            self.symbolTable.add(
-                "OBJECT_ID",
-                ctx.OBJECT_ID()[0],
-                line=ctx.OBJECT_ID()[0].getPayload().line,
-                column=ctx.OBJECT_ID()[0].getPayload().column
-            )
+                self.symbolTable.add(
+                    "OBJECT_ID",
+                    ctx.OBJECT_ID()[0],
+                    line=ctx.OBJECT_ID()[0].getPayload().line,
+                    column=ctx.OBJECT_ID()[0].getPayload().column
+                )
 
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add(
