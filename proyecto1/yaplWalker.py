@@ -31,48 +31,28 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#prog.
     def visitProg(self, ctx:yaplParser.ProgContext):
-
-        for node in ctx.class_def():
-            child_ctx = self.visit(node)
-
-            # Checking Main Class errors
-            if str(child_ctx.TYPE_ID()[0]) == "Main":
-                self.main_class_count += 1
-                if len(child_ctx.TYPE_ID()) > 1:
-                    self.errors.append({
-                        "msg": "Clase Main no debe heredar de ninguna",
-                        "payload": child_ctx.TYPE_ID()[1].getPayload()
-                    })
-
-                for feat_node in child_ctx.feature():
-                    feat_child_ctx = self.visit(feat_node)
-
-                    if str(feat_child_ctx.OBJECT_ID()) == "main":
-                        self.main_method_count += 1
-
-                        if len(feat_child_ctx.formal()) > 0:
-                            self.errors.append({
-                                "msg": "Metodo main no debe tener parametros formales",
-                                "payload": feat_child_ctx.OBJECT_ID().getPayload()
-                            })
-
-        if self.main_class_count != 1:
-            self.errors.append({
-                "msg": "Solo una clase Main debe existir",
-                "payload": child_ctx.TYPE_ID()[0].getPayload()
-            })
-
-        if self.main_method_count != 1:
-            self.errors.append({
-                "msg": "Solo un metodo main en la clase Main debe existir",
-                "payload": feat_child_ctx.OBJECT_ID().getPayload()
-            })
-
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#class_def.
     def visitClass_def(self, ctx:yaplParser.Class_defContext):
+
+        # Checking Main Class errors
+        if str(ctx.TYPE_ID()[0]) == "Main":
+            self.main_class_count += 1
+            if len(ctx.TYPE_ID()) > 1:
+                self.errors.append({
+                    "msg": "Clase Main no debe heredar de ninguna",
+                    "payload": ctx.TYPE_ID()[1].getPayload()
+                })
+
+        if self.main_class_count != 1:
+            self.errors.append({
+                "msg": "Solo una clase Main debe existir",
+                "payload": ctx.TYPE_ID()[0].getPayload()
+            })
+
         self.symbolTable.add("CLASS", ctx.CLASS(), line=ctx.CLASS().getPayload().line, column=ctx.CLASS().getPayload().column)
 
         if len(ctx.TYPE_ID()) == 1:
@@ -102,13 +82,30 @@ class yaplWalker(yaplVisitor):
                     "payload": ctx.TYPE_ID()[2].getPayload()
                 })
 
-
         self.visitChildren(ctx)
+
+        # Checking the amount of main methods
+        if self.main_method_count != 1:
+            self.errors.append({
+                "msg": "Solo un metodo main en la clase Main debe existir",
+                # "payload": feat_child_ctx.OBJECT_ID().getPayload()
+            })
+
         return ctx
 
 
     # Visit a parse tree produced by yaplParser#feature.
     def visitFeature(self, ctx:yaplParser.FeatureContext):
+        # Checking the amount of main methods
+        if str(ctx.OBJECT_ID()) == "main":
+            self.main_method_count += 1
+
+            if len(ctx.formal()) > 0:
+                self.errors.append({
+                    "msg": "Metodo main no debe tener parametros formales",
+                    "payload": ctx.OBJECT_ID().getPayload()
+                })
+
         self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID(), line=ctx.OBJECT_ID().getPayload().line, column=ctx.OBJECT_ID().getPayload().column)
 
         if len(ctx.TYPE_ID()) == 1:
@@ -124,13 +121,22 @@ class yaplWalker(yaplVisitor):
 
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column)
+
         self.visitChildren(ctx)
-        return ctx 
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr.
     def visitExpr(self, ctx:yaplParser.ExprContext):
         if len(ctx.OBJECT_ID()) == 1:
+            symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID()[0])
+
+            if not symbol:
+                self.errors.append({
+                    "msg": "Undefined: {id}".format(id=ctx.OBJECT_ID()[0]),
+                    "payload": ctx.OBJECT_ID()[0].getPayload()
+                })
+
             self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID()[0], line=ctx.OBJECT_ID()[0].getPayload().line, column=ctx.OBJECT_ID()[0].getPayload().column)
 
         if len(ctx.TYPE_ID()) == 1:
@@ -187,7 +193,8 @@ class yaplWalker(yaplVisitor):
         if ctx.SELF():
             self.symbolTable.add("SELF", ctx.SELF(), line=ctx.SELF().getPayload().line, column=ctx.SELF().getPayload().column)
 
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
 
