@@ -121,11 +121,15 @@ def main():
         for error in walker.errors:
             if "payload" in error:
                 print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+                text_area_console.insert(tk.INSERT, "\n")
+                text_area_console.insert(tk.INSERT, "Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
+                text_area_console.tag_config('error', foreground="red")
             else:
                 print("Error: " + error["msg"])
-            text_area_console.insert(tk.INSERT, "\n")
-            text_area_console.insert(tk.INSERT, "Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
-            text_area_console.tag_config('error', foreground="red")
+                text_area_console.insert(tk.INSERT, "\n")
+                text_area_console.insert(tk.INSERT, "Error: " + error["msg"])
+                text_area_console.tag_config('error', foreground="red")
+            
         print("-----------------------------------------------------------------")
         print("\n" + yaplErrorListener.ANSI_RESET)
 
