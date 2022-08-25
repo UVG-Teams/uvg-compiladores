@@ -9,9 +9,10 @@ Francisco Rosal
 
 class Symbol():
 
-    def __init__(self, kind, id, line, column, value, scope, numParams, paramTypes):
+    def __init__(self, kind, id, class_type, line, column, value, scope, numParams, paramTypes):
         self.kind = str(kind)
         self.id = str(id)
+        self.class_type = str(class_type)
         self.line = line
         self.column = column
         self.value = value
@@ -20,15 +21,16 @@ class Symbol():
         self.paramTypes = paramTypes
 
     def keys(self):
-        return ["kind", "id", "line", "column", "value", "scope", "numParams", "paramTypes"]
+        return ["kind", "id", "class_type", "line", "column", "value", "scope", "numParams", "paramTypes"]
 
     def values(self):
-        return [self.kind, self.id, self.line, self.column, self.value, self.scope, self.numParams, self.paramTypes]
+        return [self.kind, self.id, self.class_type, self.line, self.column, self.value, self.scope, self.numParams, self.paramTypes]
 
     def toString(self):
-        return "Id: {id}, Kind: {kind}, Line: {line}, Column: {column}, Value: {value}, Scope: {scope}, Number of Parameters: {numParams}, Type of Parameters: {paramTypes}".format(
+        return "Id: {id}, Kind: {kind}, Line: {line}, ClassType: {class_type}, Column: {column}, Value: {value}, Scope: {scope}, Number of Parameters: {numParams}, Type of Parameters: {paramTypes}".format(
             kind = self.kind,
             id = self.id,
+            class_type = self.class_type,
             line = self.line,
             column = self.column,
             value = self.value,
@@ -47,6 +49,7 @@ class SymbolTable():
         self,
         kind,
         id,
+        class_type=None,
         line=None,
         column=None,
         value=None,
@@ -60,6 +63,7 @@ class SymbolTable():
                 Symbol(
                     kind,
                     id,
+                    class_type,
                     line,
                     column,
                     value,
