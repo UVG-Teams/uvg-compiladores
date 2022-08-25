@@ -34,3 +34,8 @@ class SymbolTable():
     def add(self, kind, id, line=None, column=None, value=None, is_array=False):
         if not is_array:
             self.records.append(Symbol(kind, id, line, column, value))
+
+    def find(self, kind, id):
+        for symbol in self.records:
+            if symbol.kind == kind and symbol.id == id:
+                return symbol

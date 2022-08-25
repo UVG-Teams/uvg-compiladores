@@ -125,12 +125,20 @@ class yaplWalker(yaplVisitor):
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column)
         self.visitChildren(ctx)
-        return ctx 
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr.
     def visitExpr(self, ctx:yaplParser.ExprContext):
         if len(ctx.OBJECT_ID()) == 1:
+            symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID()[0])
+
+            if not symbol:
+                self.errors.append({
+                    "msg": "Undefined: {id}".format(id=ctx.OBJECT_ID()[0]),
+                    "payload": ctx.OBJECT_ID()[0].getPayload()
+                })
+
             self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID()[0], line=ctx.OBJECT_ID()[0].getPayload().line, column=ctx.OBJECT_ID()[0].getPayload().column)
 
         if len(ctx.TYPE_ID()) == 1:
