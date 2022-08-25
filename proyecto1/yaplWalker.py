@@ -120,7 +120,10 @@ class yaplWalker(yaplVisitor):
 
 
         if len(ctx.TYPE_ID()) == 1:
-            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column, typeParams=paramTypes)
+            if len(ctx.formal()) == 0:
+                self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column)
+            else:
+                self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column, typeParams=paramTypes)
 
         self.visitChildren(ctx)
         return ctx
