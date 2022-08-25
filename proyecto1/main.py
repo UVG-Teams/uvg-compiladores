@@ -106,13 +106,11 @@ def main():
         # myTable.field_names = ["Id", "Kind", "Line", "Column", "Value"]
         # myTable.add_row([record.id, record.kind, record.line, record.column, record.value])
         # print(myTable)
-        print("AAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHH ", record.id)
         if cont == 1:
             text_area_symbolT.insert(tk.INSERT, record.toString())
         else:
             text_area_symbolT.insert(tk.INSERT, "\n")
             text_area_symbolT.insert(tk.INSERT, record.toString())
-        print(record.id)
     
     # print(myTable)
 
@@ -121,7 +119,10 @@ def main():
         print("\n" + yaplErrorListener.ANSI_RED)
         print("----------------------------- ERROR -----------------------------")
         for error in walker.errors:
-            print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+            if "payload" in error:
+                print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+            else:
+                print("Error: " + error["msg"])
             text_area_console.insert(tk.INSERT, "\n")
             text_area_console.insert(tk.INSERT, "Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
             text_area_console.tag_config('error', foreground="red")
