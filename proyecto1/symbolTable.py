@@ -19,6 +19,12 @@ class Symbol():
         self.numParams = numParams
         self.typeParams = typeParams
 
+    def keys(self):
+        return ["kind", "id", "line", "column", "value", "scope", "numParams", "typeParams"]
+
+    def values(self):
+        return [self.kind, self.id, self.line, self.column, self.value, self.scope, self.numParams, self.typeParams]
+
     def toString(self):
         return "Id: {id}, Kind: {kind}, Line: {line}, Column: {column}, Value: {value}, Scope: {scope}, Number of Parameters: {numParams}, Type of Parameters: {typeParams}".format(
             kind = self.kind,

@@ -157,7 +157,8 @@ class yaplWalker(yaplVisitor):
             "OBJECT_ID",
             ctx.OBJECT_ID(),
             line=ctx.OBJECT_ID().getPayload().line,
-            column=ctx.OBJECT_ID().getPayload().column
+            column=ctx.OBJECT_ID().getPayload().column,
+            scope="local"
         )
 
         if len(ctx.TYPE_ID()) == 1:
@@ -165,7 +166,8 @@ class yaplWalker(yaplVisitor):
                 "TYPE_ID",
                 ctx.TYPE_ID()[0],
                 line=ctx.TYPE_ID()[0].getPayload().line,
-                column=ctx.TYPE_ID()[0].getPayload().column
+                column=ctx.TYPE_ID()[0].getPayload().column,
+                scope="local"
             )
 
         self.visitChildren(ctx)
