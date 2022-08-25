@@ -127,7 +127,7 @@ def main():
                 text_area_console.insert(tk.INSERT, "\n")
                 text_area_console.insert(tk.INSERT, "Error: " + error["msg"])
                 text_area_console.tag_config('error', foreground="red")
-            
+
         print("-----------------------------------------------------------------")
         print("\n" + yaplErrorListener.ANSI_RESET)
 

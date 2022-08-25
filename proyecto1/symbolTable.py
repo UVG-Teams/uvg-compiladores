@@ -9,7 +9,7 @@ Francisco Rosal
 
 class Symbol():
 
-    def __init__(self, kind, id, line, column, value, scope, numParams, typeParams):
+    def __init__(self, kind, id, line, column, value, scope, numParams, paramTypes):
         self.kind = str(kind)
         self.id = str(id)
         self.line = line
@@ -17,16 +17,16 @@ class Symbol():
         self.value = value
         self.scope = scope
         self.numParams = numParams
-        self.typeParams = typeParams
+        self.paramTypes = paramTypes
 
     def keys(self):
-        return ["kind", "id", "line", "column", "value", "scope", "numParams", "typeParams"]
+        return ["kind", "id", "line", "column", "value", "scope", "numParams", "paramTypes"]
 
     def values(self):
-        return [self.kind, self.id, self.line, self.column, self.value, self.scope, self.numParams, self.typeParams]
+        return [self.kind, self.id, self.line, self.column, self.value, self.scope, self.numParams, self.paramTypes]
 
     def toString(self):
-        return "Id: {id}, Kind: {kind}, Line: {line}, Column: {column}, Value: {value}, Scope: {scope}, Number of Parameters: {numParams}, Type of Parameters: {typeParams}".format(
+        return "Id: {id}, Kind: {kind}, Line: {line}, Column: {column}, Value: {value}, Scope: {scope}, Number of Parameters: {numParams}, Type of Parameters: {paramTypes}".format(
             kind = self.kind,
             id = self.id,
             line = self.line,
@@ -34,7 +34,7 @@ class Symbol():
             value = self.value,
             scope = self.scope,
             numParams = self.numParams,
-            typeParams = self.typeParams
+            paramTypes = self.paramTypes
         )
 
 
@@ -53,7 +53,7 @@ class SymbolTable():
         scope=None,
         is_array=False,
         numParams=None,
-        typeParams=None
+        paramTypes=None
     ):
         if not is_array:
             self.records.append(
@@ -65,11 +65,15 @@ class SymbolTable():
                     value,
                     scope,
                     numParams,
-                    typeParams
+                    paramTypes
                 )
             )
 
-    def find(self, kind, id):
+    def find(self, kind, id, scope=None):
         for symbol in self.records:
             if symbol.kind == str(kind) and symbol.id == str(id):
-                return symbol
+                if scope:
+                    if symbol.scope == scope:
+                        return symbol
+                else:
+                    return symbol
