@@ -109,7 +109,7 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#feature.
     def visitFeature(self, ctx:yaplParser.FeatureContext):
-        self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID(), line=ctx.OBJECT_ID().getPayload().line, column=ctx.OBJECT_ID().getPayload().column)
+        self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID(), line=ctx.OBJECT_ID().getPayload().line, column=ctx.OBJECT_ID().getPayload().column, numParams=len(ctx.formal()))
 
         if len(ctx.TYPE_ID()) == 1:
             self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column)
