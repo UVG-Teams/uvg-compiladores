@@ -128,15 +128,10 @@ class yaplWalker(yaplVisitor):
             ctx.OBJECT_ID(),
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
-            numParams=len(ctx.formal())
+            numParams=len(ctx.formal()),
+            paramTypes=[],
+            scope="global - {class_scope}".format(class_scope=self.current_class)
         )
-
-        paramTypes = []
-        for formal_node in ctx.formal():
-            formal_child_ctx = self.visit(formal_node)
-
-            print("---", formal_child_ctx.TYPE_ID()[0])
-            paramTypes.append(str(formal_child_ctx.TYPE_ID()[0]))
 
         if len(ctx.TYPE_ID()) == 1:
             if len(ctx.formal()) == 0:
@@ -152,7 +147,6 @@ class yaplWalker(yaplVisitor):
                     ctx.TYPE_ID()[0],
                     line=ctx.TYPE_ID()[0].getPayload().line,
                     column=ctx.TYPE_ID()[0].getPayload().column,
-                    typeParams=paramTypes
                 )
 
         self.visitChildren(ctx)
@@ -161,12 +155,30 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#formal.
     def visitFormal(self, ctx:yaplParser.FormalContext):
+        global_scope = "global - {class_scope}".format(class_scope=self.current_class)
+        scope = "local - {method_scope}".format(method_scope=self.current_method)
+
+        # Adding the current formal to the feature which belongs
+        feature_symbol = self.symbolTable.find("OBJECT_ID", self.current_method, global_scope)
+
+        if feature_symbol:
+            feature_symbol.paramTypes.append(str(ctx.TYPE_ID()[0]))
+
+        # Checking if already exists this formal on the current_scope
+        symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID(), scope)
+
+        if symbol:
+            self.errors.append({
+                "msg": "{id} already exists".format(id=ctx.OBJECT_ID()),
+                "payload": ctx.OBJECT_ID().getPayload()
+            })
+
         self.symbolTable.add(
             "OBJECT_ID",
             ctx.OBJECT_ID(),
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
-            scope="local"
+            scope=scope
         )
 
         if len(ctx.TYPE_ID()) == 1:
@@ -175,7 +187,6 @@ class yaplWalker(yaplVisitor):
                 ctx.TYPE_ID()[0],
                 line=ctx.TYPE_ID()[0].getPayload().line,
                 column=ctx.TYPE_ID()[0].getPayload().column,
-                scope="local"
             )
 
         self.visitChildren(ctx)

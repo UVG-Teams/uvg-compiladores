@@ -21,7 +21,7 @@ derivados a partir de ellos.
 
 - [x] Un atributo dentro de una clase debe ser declarado antes de su uso. 
 - [x] Un método dentro de una clase puede ser llamado de forma recursiva. 
-- [ ] Existen dos ámbitos dentro de una clase, el ámbito Global y el ámbito Local.  Un 
+- [x] Existen dos ámbitos dentro de una clase, el ámbito Global y el ámbito Local.  Un 
 ámbito Global es el definido dentro de la sección del cuerpo de la clase, mientras que 
 un ámbito Local se crea con las instrucciones Let o dentro de la definición de un 
 método, dentro de la clase. 
