@@ -111,8 +111,16 @@ class yaplWalker(yaplVisitor):
     def visitFeature(self, ctx:yaplParser.FeatureContext):
         self.symbolTable.add("OBJECT_ID", ctx.OBJECT_ID(), line=ctx.OBJECT_ID().getPayload().line, column=ctx.OBJECT_ID().getPayload().column, numParams=len(ctx.formal()))
 
+        paramTypes = []
+        for formal_node in ctx.formal():
+            formal_child_ctx = self.visit(formal_node)
+
+            print("---", formal_child_ctx.TYPE_ID()[0])
+            paramTypes.append(str(formal_child_ctx.TYPE_ID()[0]))
+
+
         if len(ctx.TYPE_ID()) == 1:
-            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column)
+            self.symbolTable.add("TYPE_ID", ctx.TYPE_ID()[0], line=ctx.TYPE_ID()[0].getPayload().line, column=ctx.TYPE_ID()[0].getPayload().column, typeParams=paramTypes)
 
         self.visitChildren(ctx)
         return ctx
