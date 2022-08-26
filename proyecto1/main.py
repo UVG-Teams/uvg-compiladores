@@ -105,12 +105,13 @@ def main():
         # print("Symbol", record.toString())
         myTable.field_names = record.keys()
         myTable.add_row(record.values())
-        if cont == 1:
-            text_area_symbolT.insert(tk.INSERT, record.toString())
-        else:
-            text_area_symbolT.insert(tk.INSERT, "\n")
-            text_area_symbolT.insert(tk.INSERT, record.toString())
+        # if cont == 1:
+        #     text_area_symbolT.insert(tk.INSERT, record.toString())
+        # else:
+        #     text_area_symbolT.insert(tk.INSERT, "\n")
+        #     text_area_symbolT.insert(tk.INSERT, record.toString())
     print(myTable)
+    text_area_symbolT.insert(tk.INSERT, myTable)
 
 
     if len(walker.errors) >= 1:
