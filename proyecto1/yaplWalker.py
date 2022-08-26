@@ -231,6 +231,15 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr.
     def visitExpr(self, ctx:yaplParser.ExprContext):
+        if ctx.LET():
+            self.symbolTable.add(
+                "OBJECT_ID",
+                ctx.OBJECT_ID()[0],
+                ctx.TYPE_ID()[0],
+                line=ctx.LET().getPayload().line,
+                column=ctx.LET().getPayload().column
+            )
+
         if len(ctx.OBJECT_ID()) == 1:
             symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID()[0])
 
@@ -309,14 +318,6 @@ class yaplWalker(yaplVisitor):
                 ctx.POOL(),
                 line=ctx.POOL().getPayload().line,
                 column=ctx.POOL().getPayload().column
-            )
-
-        if ctx.LET():
-            self.symbolTable.add(
-                "LET",
-                ctx.LET(),
-                line=ctx.LET().getPayload().line,
-                column=ctx.LET().getPayload().column
             )
 
         if ctx.IN():
