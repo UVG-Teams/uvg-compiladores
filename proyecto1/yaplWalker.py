@@ -99,6 +99,21 @@ class yaplWalker(yaplVisitor):
         )
 
         self.visitChildren(ctx)
+
+        # Checking the amount of Main classes
+        if self.main_class_count != 1:
+            self.errors.append({
+                "msg": "Solo una clase Main debe existir",
+                "payload": ctx.TYPE_ID()[0].getPayload()
+            })
+
+        # Checking the amount of main methods
+        if self.main_method_count != 1:
+            self.errors.append({
+                "msg": "Solo un metodo main en la clase Main debe existir",
+                # "payload": feat_child_ctx.OBJECT_ID().getPayload()
+            })
+
         return ctx
 
 
@@ -108,7 +123,7 @@ class yaplWalker(yaplVisitor):
         self.current_class = str(ctx.TYPE_ID()[0])
 
         # Checking Main Class errors
-        if str(ctx.TYPE_ID()[0]) == "Main":
+        if self.current_class == "Main":
             self.main_class_count += 1
             if len(ctx.TYPE_ID()) > 1:
                 self.errors.append({
@@ -116,17 +131,9 @@ class yaplWalker(yaplVisitor):
                     "payload": ctx.TYPE_ID()[1].getPayload()
                 })
 
-        if self.main_class_count != 1:
-            self.errors.append({
-                "msg": "Solo una clase Main debe existir",
-                "payload": ctx.TYPE_ID()[0].getPayload()
-            })
-
-        class_name = ctx.TYPE_ID()[0]
-
         self.symbolTable.add(
             "CLASS",
-            class_name,
+            self.current_class,
             ctx.CLASS(),
             line=ctx.CLASS().getPayload().line,
             column=ctx.CLASS().getPayload().column
@@ -142,7 +149,7 @@ class yaplWalker(yaplVisitor):
                 })
 
             # Recursive inheritance is not possible
-            if str(ctx.TYPE_ID()[0]) == str(ctx.TYPE_ID()[1]):
+            if self.current_class == str(ctx.TYPE_ID()[1]):
                 self.errors.append({
                     "msg": "No se puede heredar recursivamente",
                     "payload": ctx.TYPE_ID()[1].getPayload()
@@ -156,14 +163,6 @@ class yaplWalker(yaplVisitor):
                 })
 
         self.visitChildren(ctx)
-
-        # Checking the amount of main methods
-        if self.main_method_count != 1:
-            self.errors.append({
-                "msg": "Solo un metodo main en la clase Main debe existir",
-                # "payload": feat_child_ctx.OBJECT_ID().getPayload()
-            })
-
         return ctx
 
 
