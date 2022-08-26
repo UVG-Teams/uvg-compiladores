@@ -104,7 +104,7 @@ class yaplWalker(yaplVisitor):
         if self.main_class_count != 1:
             self.errors.append({
                 "msg": "Solo una clase Main debe existir",
-                "payload": ctx.TYPE_ID()[0].getPayload()
+                # "payload": ctx.TYPE_ID()[0].getPayload()
             })
 
         # Checking the amount of main methods
