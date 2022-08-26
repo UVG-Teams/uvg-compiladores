@@ -476,4 +476,5 @@ $$
       G -.-|bool| G;
 ```
 
-
+* Suponemos que solo las variables y metodos tienen un scope o global o local
+* Todos los metodos de una clase son globales
