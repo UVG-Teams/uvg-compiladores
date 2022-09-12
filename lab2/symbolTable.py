@@ -9,7 +9,7 @@ Francisco Rosal
 
 class Symbol():
 
-    def __init__(self, kind, id, class_type, line, column, value, scope, numParams, paramTypes, size, max_size, address_id):
+    def __init__(self, kind, id, class_type, line, column, value, scope, scope_type, numParams, paramTypes, size, max_size, address_id):
         self.kind = str(kind)
         self.id = str(id)
         self.class_type = str(class_type)
@@ -17,6 +17,7 @@ class Symbol():
         self.column = column
         self.value = value
         self.scope = scope
+        self.scope_type = scope_type
         self.numParams = numParams
         self.paramTypes = paramTypes
         self.size = size
@@ -24,10 +25,10 @@ class Symbol():
         self.address_id = address_id
 
     def keys(self):
-        return ["kind", "id", "class_type", "line", "column", "value", "scope", "numParams", "paramTypes", "size", "max_size", "address_id"]
+        return ["kind", "id", "class_type", "line", "column", "value", "scope", "scope_type", "numParams", "paramTypes", "size", "max_size", "address_id"]
 
     def values(self):
-        return [self.kind, self.id, self.class_type, self.line, self.column, self.value, self.scope, self.numParams, self.paramTypes, self.size, self.max_size, self.address_id]
+        return [self.kind, self.id, self.class_type, self.line, self.column, self.value, self.scope, self.scope_type, self.numParams, self.paramTypes, self.size, self.max_size, self.address_id]
 
 
 class SymbolTable():
@@ -44,6 +45,7 @@ class SymbolTable():
         column=None,
         value=None,
         scope=None,
+        scope_type=None,
         is_array=False,
         numParams=None,
         paramTypes=None,
@@ -53,8 +55,13 @@ class SymbolTable():
     ):
         if not is_array:
 
-            # if class_type == "Int" and not value:
-            #     value = 0
+            # Default values
+            if str(class_type) == "String" and not value:
+                value = ""
+            elif str(class_type) == "Int" and not value:
+                value = 0
+            elif str(class_type) == "Bool" and not value:
+                value = False
 
             self.records.append(
                 Symbol(
@@ -65,6 +72,7 @@ class SymbolTable():
                     column,
                     value,
                     scope,
+                    scope_type,
                     numParams,
                     paramTypes,
                     size,
@@ -73,11 +81,11 @@ class SymbolTable():
                 )
             )
 
-    def find(self, kind, id, scope=None):
+    def find(self, kind, id, scope=None, scope_type=None):
         for symbol in self.records:
             if symbol.kind == str(kind) and symbol.id == str(id):
                 if scope:
-                    if symbol.scope == scope:
+                    if symbol.scope == scope and symbol.scope_type == scope_type:
                         return symbol
                 else:
                     return symbol

@@ -1,6 +1,6 @@
 class Main inherits IO {
     main(): SELF_TYPE {
- 	    out_string("Hello, World.\n")
+ 	    out_string("Hello, World.")
     };
 };
 class Main {
@@ -8,15 +8,15 @@ class Main {
  	    out_string("this")
     };
 
-    main(hola: String): SELF_TYPE {
+    main(hola: String, hola2: Int, hola3: Bool): SELF_TYPE {
  	    out_string(14)
     };
 
     main2(hola: String): SELF_TYPE {
- 	    out_string(15)
+ 	    out_string(1545646786876876875)
     };
 
     main3(hola: String): SELF_TYPE {
- 	    out_string(false)
+ 	    out_string(true)
     };
 };

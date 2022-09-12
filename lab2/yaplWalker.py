@@ -16,6 +16,10 @@ from build.yaplVisitor import yaplVisitor
 
 # This class defines a custom visitor for a parse tree.
 
+BOOL_MAX_SIZE = 28
+MAX_SIZE = 9123456789012345678
+MAX_SIZE = 1234567890
+
 class yaplWalker(yaplVisitor):
 
     def __init__(self) -> None:
@@ -70,28 +74,28 @@ class yaplWalker(yaplVisitor):
 
         # Defining Int
         self.symbolTable.add(
-            "CLASS",
+            "TYPE_ID",
             "Int",
             "class",
         )
 
         # Defining Bool
         self.symbolTable.add(
-            "CLASS",
+            "TYPE_ID",
             "Bool",
             "class",
         )
 
         # Defining String
         self.symbolTable.add(
-            "CLASS",
+            "TYPE_ID",
             "String",
             "class",
         )
 
         # Defining IO
         self.symbolTable.add(
-            "CLASS",
+            "TYPE_ID",
             "IO",
             "class",
         )
@@ -102,7 +106,8 @@ class yaplWalker(yaplVisitor):
             "Object",
             numParams=1,
             paramTypes=["String"],
-            scope="global - IO"
+            scope="IO",
+            scope_type="global",
         )
 
         self.symbolTable.add(
@@ -111,7 +116,8 @@ class yaplWalker(yaplVisitor):
             "Object",
             numParams=1,
             paramTypes=["String"],
-            scope="global - IO"
+            scope="IO",
+            scope_type="global",
         )
 
         self.symbolTable.add(
@@ -120,7 +126,8 @@ class yaplWalker(yaplVisitor):
             "Object",
             numParams=1,
             paramTypes=["Int"],
-            scope="global - IO"
+            scope="IO",
+            scope_type="global",
         )
 
         self.symbolTable.add(
@@ -129,7 +136,8 @@ class yaplWalker(yaplVisitor):
             "Object",
             numParams=1,
             paramTypes=["Int"],
-            scope="global - IO"
+            scope="IO",
+            scope_type="global",
         )
 
         self.visitChildren(ctx)
@@ -166,7 +174,7 @@ class yaplWalker(yaplVisitor):
                 })
 
         self.symbolTable.add(
-            "CLASS",
+            "TYPE_ID",
             self.current_class,
             ctx.CLASS(),
             line=ctx.CLASS().getPayload().line,
@@ -222,7 +230,8 @@ class yaplWalker(yaplVisitor):
             column=ctx.OBJECT_ID().getPayload().column,
             numParams=len(ctx.formal()),
             paramTypes=[],
-            scope="global - {class_scope}".format(class_scope=self.current_class)
+            scope="{class_scope}".format(class_scope=self.current_class),
+            scope_type="global",
         )
 
         self.visitChildren(ctx)
@@ -237,7 +246,8 @@ class yaplWalker(yaplVisitor):
             ctx.TYPE_ID(),
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
-            scope="global - {class_scope}".format(class_scope=self.current_class)
+            scope="{class_scope}".format(class_scope=self.current_class),
+            scope_type="global",
         )
 
         self.visitChildren(ctx)
@@ -246,17 +256,17 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#formal.
     def visitFormal(self, ctx:yaplParser.FormalContext):
-        global_scope = "global - {class_scope}".format(class_scope=self.current_class)
-        scope = "local - {method_scope}".format(method_scope=self.current_method)
+        global_scope = "{class_scope}".format(class_scope=self.current_class)
+        scope = "{method_scope}".format(method_scope=self.current_method)
 
         # Adding the current formal to the feature which belongs
-        feature_symbol = self.symbolTable.find("OBJECT_ID", self.current_method, global_scope)
+        feature_symbol = self.symbolTable.find("OBJECT_ID", self.current_method, global_scope, "global")
 
         if feature_symbol:
             feature_symbol.paramTypes.append(str(ctx.TYPE_ID()))
 
         # Checking if already exists this formal on the current_scope
-        symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID(), scope)
+        symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID(), scope, "local")
 
         if symbol:
             self.errors.append({
@@ -270,7 +280,8 @@ class yaplWalker(yaplVisitor):
             ctx.TYPE_ID(),
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
-            scope=scope
+            scope=scope,
+            scope_type="local",
         )
 
         self.visitChildren(ctx)
@@ -402,7 +413,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.INT().getPayload().line,
             column=ctx.INT().getPayload().column,
             size=sys.getsizeof(int(ctx.INT().getText())),
-            max_size=100,
+            max_size=MAX_SIZE,
             address_id=id(int(ctx.INT().getText()))
         )
         return self.visitChildren(ctx)
@@ -416,7 +427,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.STRING().getPayload().line,
             column=ctx.STRING().getPayload().column,
             size=sys.getsizeof(str(ctx.STRING().getText())),
-            max_size=100,
+            max_size=MAX_SIZE,
             address_id=id(str(ctx.STRING().getText()))
         )
         return self.visitChildren(ctx)
@@ -430,7 +441,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.TRUE().getPayload().line,
             column=ctx.TRUE().getPayload().column,
             size=sys.getsizeof(bool(ctx.TRUE().getText())),
-            max_size=100,
+            max_size=BOOL_MAX_SIZE,
             address_id=id(bool(ctx.TRUE().getText()))
         )
         return self.visitChildren(ctx)
@@ -444,7 +455,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.FALSE().getPayload().line,
             column=ctx.FALSE().getPayload().column,
             size=sys.getsizeof(bool(ctx.FALSE().getText())),
-            max_size=100,
+            max_size=BOOL_MAX_SIZE,
             address_id=id(bool(ctx.FALSE().getText()))
         )
         return self.visitChildren(ctx)
