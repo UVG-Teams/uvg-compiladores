@@ -35,9 +35,9 @@ misma firma con la que fue declarado en A.
 
 ## Valores default 
 
-- [ ] Los objetos creados a partir de la clase Int, poseen valor default 0. 
-- [ ] Los objetos creados a partir de la clase String, poseen valor default “” {cadena vacía}. 
-- [ ] Los objetos creados a partir de la clase Bool, poseen valor default false. 
+- [x] Los objetos creados a partir de la clase Int, poseen valor default 0. 
+- [x] Los objetos creados a partir de la clase String, poseen valor default “” {cadena vacía}. 
+- [x] Los objetos creados a partir de la clase Bool, poseen valor default false. 
 
 ## Casteo 
 

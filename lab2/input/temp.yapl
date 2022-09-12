@@ -8,7 +8,7 @@ class Main {
  	    out_string("this")
     };
 
-    main(hola: String): SELF_TYPE {
+    main(hola: String, hola2: Int, hola3: Bool): SELF_TYPE {
  	    out_string(14)
     };
 
