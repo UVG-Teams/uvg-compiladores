@@ -1,14 +1,14 @@
-class Main inherits IO {
+class Main {
     main(): SELF_TYPE {
  	    out_string("Hello, World.")
     };
 };
-class Main {
-    main(): SELF_TYPE {
+class Main2 {
+    main6(): SELF_TYPE {
  	    out_string("this")
     };
 
-    main(hola: String, hola2: Int, hola3: Bool): SELF_TYPE {
+    main4(hola: String, hola2: Int, hola3: Bool): SELF_TYPE {
  	    out_string(14)
     };
 
