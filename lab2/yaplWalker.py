@@ -31,6 +31,23 @@ class yaplWalker(yaplVisitor):
     def getSymbolTable(self):
         return  self.symbolTable
 
+    def find_or_create_object_id(self, ctx):
+        if len(ctx.OBJECT_ID()) == 1:
+            symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID()[0])
+
+            if not symbol:
+                self.errors.append({
+                    "msg": "Undefined: {id}".format(id=ctx.OBJECT_ID()[0]),
+                    "payload": ctx.OBJECT_ID()[0].getPayload()
+                })
+
+                self.symbolTable.add(
+                    "OBJECT_ID",
+                    ctx.OBJECT_ID()[0],
+                    line=ctx.OBJECT_ID()[0].getPayload().line,
+                    column=ctx.OBJECT_ID()[0].getPayload().column
+                )
+
     # Visit a parse tree produced by yaplParser#prog.
     def visitProg(self, ctx:yaplParser.ProgContext):
 
@@ -166,9 +183,8 @@ class yaplWalker(yaplVisitor):
         return ctx
 
 
-    # Visit a parse tree produced by yaplParser#feature.
-    def visitFeature(self, ctx:yaplParser.FeatureContext):
-
+    # Visit a parse tree produced by yaplParser#feat_def.
+    def visitFeat_def(self, ctx:yaplParser.Feat_defContext):
         self.current_method = str(ctx.OBJECT_ID())
 
         # Checking the amount of main methods
@@ -192,6 +208,12 @@ class yaplWalker(yaplVisitor):
             scope="global - {class_scope}".format(class_scope=self.current_class)
         )
 
+        self.visitChildren(ctx)
+        return ctx
+
+
+    # Visit a parse tree produced by yaplParser#feat_asgn.
+    def visitFeat_asgn(self, ctx:yaplParser.Feat_asgnContext):
         self.visitChildren(ctx)
         return ctx
 
@@ -229,172 +251,134 @@ class yaplWalker(yaplVisitor):
         return ctx
 
 
-    # Visit a parse tree produced by yaplParser#expr.
-    def visitExpr(self, ctx:yaplParser.ExprContext):
-        if ctx.LET():
-            self.symbolTable.add(
-                "OBJECT_ID",
-                ctx.OBJECT_ID()[0],
-                ctx.TYPE_ID()[0],
-                line=ctx.LET().getPayload().line,
-                column=ctx.LET().getPayload().column
-            )
+    # ========================================================================================
+    # Expressions
+    # ========================================================================================
 
-        if len(ctx.OBJECT_ID()) == 1:
-            symbol = self.symbolTable.find("OBJECT_ID", ctx.OBJECT_ID()[0])
 
-            if not symbol:
-                self.errors.append({
-                    "msg": "Undefined: {id}".format(id=ctx.OBJECT_ID()[0]),
-                    "payload": ctx.OBJECT_ID()[0].getPayload()
-                })
+    # Visit a parse tree produced by yaplParser#expr_asgn.
+    def visitExpr_asgn(self, ctx:yaplParser.Expr_asgnContext):
+        self.find_or_create_object_id(ctx)
+        return self.visitChildren(ctx)
 
-                self.symbolTable.add(
-                    "OBJECT_ID",
-                    ctx.OBJECT_ID()[0],
-                    line=ctx.OBJECT_ID()[0].getPayload().line,
-                    column=ctx.OBJECT_ID()[0].getPayload().column
-                )
 
-        if len(ctx.TYPE_ID()) == 1:
-            self.symbolTable.add(
-                "TYPE_ID",
-                ctx.TYPE_ID()[0],
-                line=ctx.TYPE_ID()[0].getPayload().line,
-                column=ctx.TYPE_ID()[0].getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_parenthesis.
+    def visitExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
+        return self.visitChildren(ctx)
 
-        if ctx.IF():
-            self.symbolTable.add(
-                "IF",
-                ctx.IF(),
-                line=ctx.IF().getPayload().line,
-                column=ctx.IF().getPayload().column
-            )
 
-        if ctx.THEN():
-            self.symbolTable.add(
-                "THEN",
-                ctx.THEN(),
-                line=ctx.THEN().getPayload().line,
-                column=ctx.THEN().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_negado.
+    def visitExpr_negado(self, ctx:yaplParser.Expr_negadoContext):
+        return self.visitChildren(ctx)
 
-        if ctx.ELSE():
-            self.symbolTable.add(
-                "ELSE",
-                ctx.ELSE(),
-                line=ctx.ELSE().getPayload().line,
-                column=ctx.ELSE().getPayload().column
-            )
 
-        if ctx.FI():
-            self.symbolTable.add(
-                "FI",
-                ctx.FI(),
-                line=ctx.FI().getPayload().line,
-                column=ctx.FI().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_false.
+    def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
+        return self.visitChildren(ctx)
 
-        if ctx.WHILE():
-            self.symbolTable.add(
-                "WHILE",
-                ctx.WHILE(),
-                line=ctx.WHILE().getPayload().line,
-                column=ctx.WHILE().getPayload().column
-            )
 
-        if ctx.LOOP():
-            self.symbolTable.add(
-                "LOOP",
-                ctx.LOOP(),
-                line=ctx.LOOP().getPayload().line,
-                column=ctx.LOOP().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_mult.
+    def visitExpr_mult(self, ctx:yaplParser.Expr_multContext):
+        return self.visitChildren(ctx)
 
-        if ctx.POOL():
-            self.symbolTable.add(
-                "POOL",
-                ctx.POOL(),
-                line=ctx.POOL().getPayload().line,
-                column=ctx.POOL().getPayload().column
-            )
 
-        if ctx.IN():
-            self.symbolTable.add(
-                "IN",
-                ctx.IN(),
-                line=ctx.IN().getPayload().line,
-                column=ctx.IN().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_self.
+    def visitExpr_self(self, ctx:yaplParser.Expr_selfContext):
+        return self.visitChildren(ctx)
 
-        if ctx.NEW():
-            self.symbolTable.add(
-                "NEW",
-                ctx.NEW(),
-                line=ctx.NEW().getPayload().line,
-                column=ctx.NEW().getPayload().column
-            )
 
-        if ctx.ISVOID():
-            self.symbolTable.add(
-                "ISVOID",
-                ctx.ISVOID(),
-                line=ctx.ISVOID().getPayload().line,
-                column=ctx.ISVOID().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_instance.
+    def visitExpr_instance(self, ctx:yaplParser.Expr_instanceContext):
+        return self.visitChildren(ctx)
 
-        if ctx.NOT():
-            self.symbolTable.add(
-                "NOT",
-                ctx.NOT(),
-                line=ctx.NOT().getPayload().line,
-                column=ctx.NOT().getPayload().column
-            )
 
-        if ctx.INT():
-            self.symbolTable.add(
-                "INT",
-                ctx.INT(),
-                line=ctx.INT().getPayload().line,
-                column=ctx.INT().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_decl.
+    def visitExpr_decl(self, ctx:yaplParser.Expr_declContext):
 
-        if ctx.STRING():
-            self.symbolTable.add(
-                "STRING",
-                ctx.STRING(),
-                line=ctx.STRING().getPayload().line,
-                column=ctx.STRING().getPayload().column
-            )
+        # self.symbolTable.add(
+        #     "OBJECT_ID",
+        #     ctx.OBJECT_ID()[0],
+        #     ctx.TYPE_ID()[0],
+        #     line=ctx.LET().getPayload().line,
+        #     column=ctx.LET().getPayload().column
+        # )
 
-        if ctx.TRUE():
-            self.symbolTable.add(
-                "TRUE",
-                ctx.TRUE(),
-                line=ctx.TRUE().getPayload().line,
-                column=ctx.TRUE().getPayload().column
-            )
+        return self.visitChildren(ctx)
 
-        if ctx.FALSE():
-            self.symbolTable.add(
-                "FALSE",
-                ctx.FALSE(),
-                line=ctx.FALSE().getPayload().line,
-                column=ctx.FALSE().getPayload().column
-            )
 
-        if ctx.SELF():
-            self.symbolTable.add(
-                "SELF",
-                ctx.SELF(),
-                line=ctx.SELF().getPayload().line,
-                column=ctx.SELF().getPayload().column
-            )
+    # Visit a parse tree produced by yaplParser#expr_isvoid.
+    def visitExpr_isvoid(self, ctx:yaplParser.Expr_isvoidContext):
+        return self.visitChildren(ctx)
 
-        self.visitChildren(ctx)
-        return ctx
 
+    # Visit a parse tree produced by yaplParser#expr_call.
+    def visitExpr_call(self, ctx:yaplParser.Expr_callContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_less_than.
+    def visitExpr_less_than(self, ctx:yaplParser.Expr_less_thanContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_int.
+    def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_class_call.
+    def visitExpr_class_call(self, ctx:yaplParser.Expr_class_callContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_equal.
+    def visitExpr_equal(self, ctx:yaplParser.Expr_equalContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_str.
+    def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_while.
+    def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_brackets.
+    def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_true.
+    def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_negative.
+    def visitExpr_negative(self, ctx:yaplParser.Expr_negativeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_if.
+    def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_not.
+    def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_id.
+    def visitExpr_id(self, ctx:yaplParser.Expr_idContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by yaplParser#expr_suma.
+    def visitExpr_suma(self, ctx:yaplParser.Expr_sumaContext):
+        return self.visitChildren(ctx)
 
 
 del yaplParser

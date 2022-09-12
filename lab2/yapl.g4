@@ -47,8 +47,8 @@ prog: (class_def ';')+;
 
 class_def: CLASS TYPE_ID (INHERITS TYPE_ID)? '{' (feature ';')* '}';
 
-feature: (TYPE_ID | OBJECT_ID) ('(' (formal ( ',' formal)*)? ')')? ':' TYPE_ID '{' expr '}'     # feat_def
-    | (TYPE_ID | OBJECT_ID) ':' TYPE_ID ( '<-' expr )?                                          # feat_asgn
+feature: (TYPE_ID | OBJECT_ID) ('(' (formal ( ',' formal)*)? ')')? ':' TYPE_ID '{' expr '}'                                     # feat_def
+    | (TYPE_ID | OBJECT_ID) ':' TYPE_ID ( '<-' expr )?                                                                          # feat_asgn
 ;
 
 formal: (TYPE_ID | OBJECT_ID) ':' TYPE_ID;
