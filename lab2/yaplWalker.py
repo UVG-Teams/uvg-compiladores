@@ -402,7 +402,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.INT().getPayload().line,
             column=ctx.INT().getPayload().column,
             size=sys.getsizeof(int(ctx.INT().getText())),
-            max_size=100,
+            max_size=9123456789012345678,
             address_id=id(int(ctx.INT().getText()))
         )
         return self.visitChildren(ctx)
@@ -416,7 +416,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.STRING().getPayload().line,
             column=ctx.STRING().getPayload().column,
             size=sys.getsizeof(str(ctx.STRING().getText())),
-            max_size=100,
+            max_size=9123456789012345678,
             address_id=id(str(ctx.STRING().getText()))
         )
         return self.visitChildren(ctx)
@@ -430,7 +430,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.TRUE().getPayload().line,
             column=ctx.TRUE().getPayload().column,
             size=sys.getsizeof(bool(ctx.TRUE().getText())),
-            max_size=100,
+            max_size=28,
             address_id=id(bool(ctx.TRUE().getText()))
         )
         return self.visitChildren(ctx)
@@ -444,7 +444,7 @@ class yaplWalker(yaplVisitor):
             line=ctx.FALSE().getPayload().line,
             column=ctx.FALSE().getPayload().column,
             size=sys.getsizeof(bool(ctx.FALSE().getText())),
-            max_size=100,
+            max_size=28,
             address_id=id(bool(ctx.FALSE().getText()))
         )
         return self.visitChildren(ctx)
