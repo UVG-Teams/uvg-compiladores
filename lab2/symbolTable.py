@@ -60,6 +60,9 @@ class SymbolTable():
     ):
         if not is_array:
 
+            if class_type == "Int" and not value:
+                value = 0
+
             self.records.append(
                 Symbol(
                     kind,
