@@ -9,7 +9,7 @@ Francisco Rosal
 
 class Symbol():
 
-    def __init__(self, kind, id, class_type, line, column, value, scope, numParams, paramTypes, size):
+    def __init__(self, kind, id, class_type, line, column, value, scope, numParams, paramTypes, size, max_size, address_id):
         self.kind = str(kind)
         self.id = str(id)
         self.class_type = str(class_type)
@@ -20,26 +20,14 @@ class Symbol():
         self.numParams = numParams
         self.paramTypes = paramTypes
         self.size = size
+        self.max_size = max_size
+        self.address_id = address_id
 
     def keys(self):
-        return ["kind", "id", "class_type", "line", "column", "value", "scope", "numParams", "paramTypes", "size"]
+        return ["kind", "id", "class_type", "line", "column", "value", "scope", "numParams", "paramTypes", "size", "max_size", "address_id"]
 
     def values(self):
-        return [self.kind, self.id, self.class_type, self.line, self.column, self.value, self.scope, self.numParams, self.paramTypes, self.size]
-
-    def toString(self):
-        return "Id: {id}, Kind: {kind}, Line: {line}, ClassType: {class_type}, Column: {column}, Value: {value}, Scope: {scope}, Number of Parameters: {numParams}, Type of Parameters: {paramTypes}, Size: {size}".format(
-            kind = self.kind,
-            id = self.id,
-            class_type = self.class_type,
-            line = self.line,
-            column = self.column,
-            value = self.value,
-            scope = self.scope,
-            numParams = self.numParams,
-            paramTypes = self.paramTypes,
-            size = self.size,
-        )
+        return [self.kind, self.id, self.class_type, self.line, self.column, self.value, self.scope, self.numParams, self.paramTypes, self.size, self.max_size, self.address_id]
 
 
 class SymbolTable():
@@ -60,6 +48,8 @@ class SymbolTable():
         numParams=None,
         paramTypes=None,
         size=None,
+        max_size=None,
+        address_id=None,
     ):
         if not is_array:
 
@@ -78,6 +68,8 @@ class SymbolTable():
                     numParams,
                     paramTypes,
                     size,
+                    max_size,
+                    address_id,
                 )
             )
 

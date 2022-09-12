@@ -11,4 +11,12 @@ class Main {
     main(hola: String): SELF_TYPE {
  	    out_string(14)
     };
+
+    main2(hola: String): SELF_TYPE {
+ 	    out_string(15)
+    };
+
+    main3(hola: String): SELF_TYPE {
+ 	    out_string(false)
+    };
 };
