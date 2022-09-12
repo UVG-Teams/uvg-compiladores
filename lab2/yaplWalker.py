@@ -7,6 +7,7 @@ Gian Luca Rivera
 Francisco Rosal
 """
 
+import sys
 from antlr4 import *
 from symbolTable import SymbolTable
 from build.yaplParser import yaplParser
@@ -389,21 +390,49 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_int.
     def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
+        self.symbolTable.add(
+            "INT",
+            ctx.INT(),
+            line=ctx.INT().getPayload().line,
+            column=ctx.INT().getPayload().column,
+            size=sys.getsizeof(int(ctx.INT().getText())),
+        )
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
+        self.symbolTable.add(
+            "STRING",
+            ctx.STRING(),
+            line=ctx.STRING().getPayload().line,
+            column=ctx.STRING().getPayload().column,
+            size=sys.getsizeof(str(ctx.STRING().getText())),
+        )
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by yaplParser#expr_true.
     def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
+        self.symbolTable.add(
+            "TRUE",
+            ctx.TRUE(),
+            line=ctx.TRUE().getPayload().line,
+            column=ctx.TRUE().getPayload().column,
+            size=sys.getsizeof(bool(ctx.TRUE().getText())),
+        )
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by yaplParser#expr_false.
     def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
+        self.symbolTable.add(
+            "FALSE",
+            ctx.FALSE(),
+            line=ctx.FALSE().getPayload().line,
+            column=ctx.FALSE().getPayload().column,
+            size=sys.getsizeof(bool(ctx.FALSE().getText())),
+        )
         return self.visitChildren(ctx)
 
 
