@@ -65,6 +65,7 @@ def run():
         f.write(fetched_content)
     run_main.set(True)
     text_area_console.insert(tk.INSERT, "Running ...", "\n")
+    main()
 
 def clear():
     python = sys.executable
@@ -146,7 +147,7 @@ if __name__ == '__main__':
     runbtn = Button(
         window,
         text ='Run',
-        state="disabled",
+        # state="disabled",
         command = run
     )
     clearbtn = Button(
@@ -171,8 +172,8 @@ if __name__ == '__main__':
     text_area_console.grid(column=0, row=166, columnspan=10, pady=(20,0), padx=(0,4))
     text_area_symbolT.grid(column=10, row=166, columnspan=10, pady=(20,0))
 
-    runbtn.wait_variable(run_main)
-    main()
-    text_area_console.insert(tk.INSERT, "\nCool")
+    # runbtn.wait_variable(run_main)
+    # main()
+    # text_area_console.insert(tk.INSERT, "\nCool")
     window.mainloop()
 
