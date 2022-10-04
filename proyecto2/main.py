@@ -60,6 +60,8 @@ def open_file():
         runbtn.config(state="normal")
 
 def run():
+    text_area_console.delete("1.0","end")
+    text_area_symbolT.delete("1.0","end")
     with open('input/temp.yapl', 'w') as f:
         fetched_content = text_area_code.get('1.0', 'end-1c')
         f.write(fetched_content)
@@ -68,8 +70,9 @@ def run():
     main()
 
 def clear():
-    python = sys.executable
-    os.execl(python, python, * sys.argv)
+    # python = sys.executable
+    # os.execl(python, python, * sys.argv)
+   text_area_code.delete("1.0","end")
 
 def main():
     # input = FileStream(argv[1])
