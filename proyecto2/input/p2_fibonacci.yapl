@@ -14,7 +14,11 @@ class Fibonacci {
           	fi
      	);}
      };
-  };
+};
+
+class Fibonacci2 inherits Fibonacci {
+
+};
 
 class Main {
     n: Int <- 5;
