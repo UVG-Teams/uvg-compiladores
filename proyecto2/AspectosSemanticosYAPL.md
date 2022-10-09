@@ -39,10 +39,10 @@ Se  resumen,  algunas  consideraciones  semánticas  a  tratar  dentro  de la  f
 
 ## Expresiones de Asignación 
 
-- [ ] Una asignación tiene la forma <id> <- <expr>  
+- [x] Una asignación tiene la forma <id> <- <expr>  
 - [ ] El tipo estático <expr> debe coincidir con el tipo declarado para el <id>, o ser de un tipo heredado a partir del tipo de <id> 
 - [ ] El valor de <expr> del lado derecho se convierte en el valor del objeto <id> 
-- [ ] El tipo de dato de la asignación es el tipo de dato de <expr> 
+- [x] El tipo de dato de la asignación es el tipo de dato de <expr> 
 - [ ] Si el lado izquierdo de la asignación hace referencia a algún atributo de una clase, este atributo debe de encontrarse definido dentro de la clase. 
 - [ ] Tanto el lado izquierdo como el lado derecho de la asignación permiten identificadores recursivos {i.e. [class1].[class2]....[classn].[atributo]} 
 
@@ -59,7 +59,7 @@ Se  resumen,  algunas  consideraciones  semánticas  a  tratar  dentro  de la  f
 
 - [ ] El tipo de dato estático de la <expr> utilizada en una estructura de control if o while debe ser de tipo Bool. 
 - [ ] El tipo de dato del condicional if es el tipo de dato del bloque que sea un supertipo de ambas ramas del condicional. 
-- [ ] El tipo de dato de la estructura while es Object. 
+- [x] El tipo de dato de la estructura while es Object. 
 
 ## Expresiones 
 

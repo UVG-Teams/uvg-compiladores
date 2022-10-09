@@ -40,7 +40,7 @@ class yaplWalker(yaplVisitor):
     def add_to_symbol_table(
         self,
         id,
-        class_type,
+        data_type,
         line=None,
         column=None,
         value=None,
@@ -56,7 +56,7 @@ class yaplWalker(yaplVisitor):
     ):
         success, msg = self.symbolTable.add(
             id,
-            class_type,
+            data_type,
             line=line,
             column=column,
             value=value,
@@ -118,12 +118,12 @@ class yaplWalker(yaplVisitor):
         # Defining Object
         self.add_to_symbol_table(
             "Object",
-            class_type="class",
+            data_type="class",
         )
 
         self.add_to_symbol_table(
             "abort",
-            class_type="Object",
+            data_type="Object",
             numParams=0,
             paramTypes=[],
             scope="Object",
@@ -132,7 +132,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "type_name",
-            class_type="String",
+            data_type="String",
             numParams=0,
             paramTypes=[],
             scope="Object",
@@ -141,7 +141,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "copy",
-            class_type="SELF_TYPE",
+            data_type="SELF_TYPE",
             numParams=0,
             paramTypes=[],
             scope="Object",
@@ -151,27 +151,27 @@ class yaplWalker(yaplVisitor):
         # Defining Int
         self.add_to_symbol_table(
             "Int",
-            class_type="class",
+            data_type="class",
             inherits="Object",
         )
 
         # Defining Bool
         self.add_to_symbol_table(
             "Bool",
-            class_type="class",
+            data_type="class",
             inherits="Object",
         )
 
         # Defining String
         self.add_to_symbol_table(
             "String",
-            class_type="class",
+            data_type="class",
             inherits="Object",
         )
 
         self.add_to_symbol_table(
             "concat",
-            class_type="String",
+            data_type="String",
             numParams=1,
             paramTypes=["String"],
             scope="String",
@@ -180,7 +180,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "substr",
-            class_type="String",
+            data_type="String",
             numParams=2,
             paramTypes=["Int", "Int"],
             scope="String",
@@ -189,7 +189,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "length",
-            class_type="Int",
+            data_type="Int",
             numParams=0,
             paramTypes=[],
             scope="String",
@@ -199,13 +199,13 @@ class yaplWalker(yaplVisitor):
         # Defining IO
         self.add_to_symbol_table(
             "IO",
-            class_type="class",
+            data_type="class",
             inherits="Object",
         )
 
         self.add_to_symbol_table(
             "in_string",
-            class_type="String",
+            data_type="String",
             numParams=0,
             paramTypes=[],
             scope="IO",
@@ -214,7 +214,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "out_string",
-            class_type="SELF_TYPE",
+            data_type="SELF_TYPE",
             numParams=1,
             paramTypes=["String"],
             scope="IO",
@@ -223,7 +223,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "in_int",
-            class_type="Int",
+            data_type="Int",
             numParams=0,
             paramTypes=[],
             scope="IO",
@@ -232,7 +232,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             "out_int",
-            class_type="SELF_TYPE",
+            data_type="SELF_TYPE",
             numParams=1,
             paramTypes=["Int"],
             scope="IO",
@@ -302,7 +302,7 @@ class yaplWalker(yaplVisitor):
         if ctx.INHERITS() and valide_inheritance:
             self.add_to_symbol_table(
                 self.current_class,
-                class_type=ctx.CLASS(),
+                data_type=ctx.CLASS(),
                 inherits=ctx.TYPE_ID()[1],
                 line=ctx.CLASS().getPayload().line,
                 column=ctx.CLASS().getPayload().column
@@ -310,7 +310,7 @@ class yaplWalker(yaplVisitor):
         else:
             self.add_to_symbol_table(
                 self.current_class,
-                class_type=ctx.CLASS(),
+                data_type=ctx.CLASS(),
                 inherits="Object",
                 line=ctx.CLASS().getPayload().line,
                 column=ctx.CLASS().getPayload().column
@@ -336,7 +336,7 @@ class yaplWalker(yaplVisitor):
 
         symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
-            class_type=ctx.TYPE_ID(),
+            data_type=ctx.TYPE_ID(),
             scope="{class_scope}".format(class_scope=self.current_class),
             scope_type="global"
         )
@@ -349,7 +349,7 @@ class yaplWalker(yaplVisitor):
         else:
             self.add_to_symbol_table(
                 ctx.OBJECT_ID(),
-                class_type=ctx.TYPE_ID(),
+                data_type=ctx.TYPE_ID(),
                 line=ctx.OBJECT_ID().getPayload().line,
                 column=ctx.OBJECT_ID().getPayload().column,
                 numParams=len(ctx.formal()),
@@ -367,7 +367,7 @@ class yaplWalker(yaplVisitor):
 
         symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
-            class_type=ctx.TYPE_ID(),
+            data_type=ctx.TYPE_ID(),
             scope="{class_scope}".format(class_scope=self.current_class),
             scope_type="local"
         )
@@ -380,7 +380,7 @@ class yaplWalker(yaplVisitor):
         else:
             self.add_to_symbol_table(
                 ctx.OBJECT_ID(),
-                class_type=ctx.TYPE_ID(),
+                data_type=ctx.TYPE_ID(),
                 line=ctx.OBJECT_ID().getPayload().line,
                 column=ctx.OBJECT_ID().getPayload().column,
                 scope="{class_scope}".format(class_scope=self.current_class),
@@ -410,7 +410,7 @@ class yaplWalker(yaplVisitor):
         # Checking if already exists this formal on the current_scope
         symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
-            class_type=ctx.TYPE_ID(),
+            data_type=ctx.TYPE_ID(),
             scope=scope,
             scope_type="local"
         )
@@ -423,7 +423,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             ctx.OBJECT_ID(),
-            class_type=ctx.TYPE_ID(),
+            data_type=ctx.TYPE_ID(),
             line=ctx.OBJECT_ID().getPayload().line,
             column=ctx.OBJECT_ID().getPayload().column,
             scope=scope,
@@ -478,7 +478,7 @@ class yaplWalker(yaplVisitor):
 
         self.add_to_symbol_table(
             ctx.OBJECT_ID()[0],
-            class_type=ctx.TYPE_ID()[0],
+            data_type=ctx.TYPE_ID()[0],
             line=ctx.LET().getPayload().line,
             column=ctx.LET().getPayload().column,
             scope="{method_scope}".format(method_scope=self.current_method),

@@ -12,7 +12,7 @@ class Symbol():
     def __init__(
             self,
             id,
-            class_type=None,
+            data_type=None,
             line=None,
             column=None,
             value=None,
@@ -26,7 +26,7 @@ class Symbol():
             address_id=None
         ):
         self.id = str(id)
-        self.class_type = str(class_type)
+        self.data_type = str(data_type)
         self.line = line
         self.column = column
         self.value = value
@@ -40,10 +40,10 @@ class Symbol():
         self.address_id = address_id
 
     def keys(self):
-        return ["id", "class_type", "line", "column", "value", "scope", "scope_type", "inherits", "numParams", "paramTypes", "size", "max_size", "address_id"]
+        return ["id", "data_type", "line", "column", "value", "scope", "scope_type", "inherits", "numParams", "paramTypes", "size", "max_size", "address_id"]
 
     def values(self):
-        return [self.id, self.class_type, self.line, self.column, self.value, self.scope, self.scope_type, self.inherits, self.numParams, self.paramTypes, self.size, self.max_size, self.address_id]
+        return [self.id, self.data_type, self.line, self.column, self.value, self.scope, self.scope_type, self.inherits, self.numParams, self.paramTypes, self.size, self.max_size, self.address_id]
 
 
 class SymbolTable():
@@ -54,7 +54,7 @@ class SymbolTable():
     def add(
         self,
         id,
-        class_type,
+        data_type,
         line=None,
         column=None,
         value=None,
@@ -74,23 +74,23 @@ class SymbolTable():
                 return False, "No es posible usar 'self' como identificador"
 
             # Default values
-            if str(class_type) == "String" and not value:
+            if str(data_type) == "String" and not value:
                 value = ""
-            elif str(class_type) == "Int" and not value:
+            elif str(data_type) == "Int" and not value:
                 value = 0
-            elif str(class_type) == "Bool" and not value:
+            elif str(data_type) == "Bool" and not value:
                 value = False
-            elif str(class_type) == "class" or str(class_type) == "SELF_TYPE":
+            elif str(data_type) == "class" or str(data_type) == "SELF_TYPE":
                 value = "void"
             else:
-                if str(class_type) not in self.get_defined_classes():
-                    return False, "Class type '{class_type}' no definido".format(class_type=str(class_type))
+                if str(data_type) not in self.get_defined_classes():
+                    return False, "Class type '{data_type}' no definido".format(data_type=str(data_type))
                 value = "void"
 
             self.records.append(
                 Symbol(
                     id,
-                    class_type=class_type,
+                    data_type=data_type,
                     line=line,
                     column=column,
                     value=value,
@@ -107,15 +107,15 @@ class SymbolTable():
 
             return True, None
 
-    def find(self, id, class_type=None, scope=None, scope_type=None):
+    def find(self, id, data_type=None, scope=None, scope_type=None):
         for symbol in self.records:
             if symbol.id == str(id):
 
-                if class_type and scope:
-                    if symbol.class_type == str(class_type) and symbol.scope == scope and symbol.scope_type == scope_type:
+                if data_type and scope:
+                    if symbol.data_type == str(data_type) and symbol.scope == scope and symbol.scope_type == scope_type:
                         return symbol
-                elif class_type:
-                    if symbol.class_type == str(class_type):
+                elif data_type:
+                    if symbol.data_type == str(data_type):
                         return symbol
                 elif scope:
                     if symbol.scope == scope and symbol.scope_type == scope_type:
@@ -126,7 +126,7 @@ class SymbolTable():
     def get_defined_classes(self):
         defined_classes = []
         for symbol in self.records:
-            if symbol.class_type == "class":
+            if symbol.data_type == "class":
                 defined_classes.append(symbol.id)
 
         return defined_classes
