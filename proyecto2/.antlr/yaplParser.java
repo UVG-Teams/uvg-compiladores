@@ -723,32 +723,60 @@ public class yaplParser extends Parser {
 				break;
 			case 7:
 				{
-				_localctx = new Expr_bracketsContext(_localctx);
+				_localctx = new Expr_negativeContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(84);
-				match(T__1);
-				setState(88); 
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				do {
-					{
-					{
-					setState(85);
-					expr(0);
-					setState(86);
-					match(T__0);
-					}
-					}
-					setState(90); 
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << T__8) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << WHILE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << LET) | (1L << TYPE_ID) | (1L << OBJECT_ID) | (1L << SELF) | (1L << STRING) | (1L << INT) | (1L << MINUS))) != 0) );
-				setState(92);
-				match(T__2);
+				match(MINUS);
+				setState(85);
+				expr(17);
 				}
 				break;
 			case 8:
+				{
+				_localctx = new Expr_negadoContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(86);
+				match(T__8);
+				setState(87);
+				expr(16);
+				}
+				break;
+			case 9:
+				{
+				_localctx = new Expr_notContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(88);
+				match(NOT);
+				setState(89);
+				expr(15);
+				}
+				break;
+			case 10:
+				{
+				_localctx = new Expr_instanceContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(90);
+				match(NEW);
+				setState(91);
+				match(TYPE_ID);
+				}
+				break;
+			case 11:
+				{
+				_localctx = new Expr_isvoidContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(92);
+				match(ISVOID);
+				setState(93);
+				expr(13);
+				}
+				break;
+			case 12:
 				{
 				_localctx = new Expr_parenthesisContext(_localctx);
 				_ctx = _localctx;
@@ -761,102 +789,74 @@ public class yaplParser extends Parser {
 				match(T__5);
 				}
 				break;
-			case 9:
+			case 13:
 				{
-				_localctx = new Expr_negativeContext(_localctx);
+				_localctx = new Expr_bracketsContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(98);
-				match(MINUS);
-				setState(99);
-				expr(15);
+				match(T__1);
+				setState(102); 
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				do {
+					{
+					{
+					setState(99);
+					expr(0);
+					setState(100);
+					match(T__0);
+					}
+					}
+					setState(104); 
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << T__8) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << WHILE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << LET) | (1L << TYPE_ID) | (1L << OBJECT_ID) | (1L << SELF) | (1L << STRING) | (1L << INT) | (1L << MINUS))) != 0) );
+				setState(106);
+				match(T__2);
 				}
 				break;
-			case 10:
-				{
-				_localctx = new Expr_negadoContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(100);
-				match(T__8);
-				setState(101);
-				expr(14);
-				}
-				break;
-			case 11:
-				{
-				_localctx = new Expr_notContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(102);
-				match(NOT);
-				setState(103);
-				expr(13);
-				}
-				break;
-			case 12:
+			case 14:
 				{
 				_localctx = new Expr_asgnContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(104);
+				setState(108);
 				match(OBJECT_ID);
-				setState(105);
+				setState(109);
 				match(T__7);
-				setState(106);
-				expr(8);
+				setState(110);
+				expr(6);
 				}
 				break;
-			case 13:
+			case 15:
 				{
 				_localctx = new Expr_declContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(107);
+				setState(111);
 				match(LET);
-				setState(108);
+				setState(112);
 				asgn();
-				setState(113);
+				setState(117);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__4) {
 					{
 					{
-					setState(109);
+					setState(113);
 					match(T__4);
-					setState(110);
+					setState(114);
 					asgn();
 					}
 					}
-					setState(115);
+					setState(119);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(116);
-				match(IN);
-				setState(117);
-				expr(7);
-				}
-				break;
-			case 14:
-				{
-				_localctx = new Expr_instanceContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
-				setState(119);
-				match(NEW);
 				setState(120);
-				match(TYPE_ID);
-				}
-				break;
-			case 15:
-				{
-				_localctx = new Expr_isvoidContext(_localctx);
-				_ctx = _localctx;
-				_prevctx = _localctx;
+				match(IN);
 				setState(121);
-				match(ISVOID);
-				setState(122);
 				expr(5);
 				}
 				break;
@@ -955,7 +955,7 @@ public class yaplParser extends Parser {
 						_localctx = new Expr_multContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(152);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(153);
 						_la = _input.LA(1);
 						if ( !(_la==MULT || _la==DIV) ) {
@@ -967,7 +967,7 @@ public class yaplParser extends Parser {
 							consume();
 						}
 						setState(154);
-						expr(13);
+						expr(11);
 						}
 						break;
 					case 2:
@@ -975,7 +975,7 @@ public class yaplParser extends Parser {
 						_localctx = new Expr_sumaContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(155);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
 						setState(156);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
@@ -987,7 +987,7 @@ public class yaplParser extends Parser {
 							consume();
 						}
 						setState(157);
-						expr(12);
+						expr(10);
 						}
 						break;
 					case 3:
@@ -995,7 +995,7 @@ public class yaplParser extends Parser {
 						_localctx = new Expr_less_thanContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(158);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(159);
 						_la = _input.LA(1);
 						if ( !(_la==LT || _la==LE) ) {
@@ -1007,7 +1007,7 @@ public class yaplParser extends Parser {
 							consume();
 						}
 						setState(160);
-						expr(11);
+						expr(9);
 						}
 						break;
 					case 4:
@@ -1015,11 +1015,11 @@ public class yaplParser extends Parser {
 						_localctx = new Expr_equalContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(161);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(162);
 						match(T__9);
 						setState(163);
-						expr(10);
+						expr(8);
 						}
 						break;
 					case 5:
@@ -1106,13 +1106,13 @@ public class yaplParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 12);
-		case 1:
-			return precpred(_ctx, 11);
-		case 2:
 			return precpred(_ctx, 10);
-		case 3:
+		case 1:
 			return precpred(_ctx, 9);
+		case 2:
+			return precpred(_ctx, 8);
+		case 3:
+			return precpred(_ctx, 7);
 		case 4:
 			return precpred(_ctx, 4);
 		}
@@ -1126,9 +1126,9 @@ public class yaplParser extends Parser {
 		"\3\3\3\3\3\4\3\4\3\4\3\4\3\4\7\4,\n\4\f\4\16\4/\13\4\5\4\61\n\4\3\4\5"+
 		"\4\64\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4A\n\4\5\4C\n"+
 		"\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\5\6N\n\6\3\7\3\7\3\7\3\7\3\7\3"+
-		"\7\3\7\3\7\3\7\3\7\3\7\6\7[\n\7\r\7\16\7\\\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7r\n\7\f\7\16\7u\13"+
-		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u0083\n\7\f\7\16"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\6\7i\n\7\r\7\16\7j\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7v\n"+
+		"\7\f\7\16\7y\13\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u0083\n\7\f\7\16"+
 		"\7\u0086\13\7\5\7\u0088\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
 		"\7\3\7\3\7\3\7\3\7\5\7\u0099\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3"+
 		"\7\3\7\3\7\3\7\3\7\3\7\5\7\u00aa\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00b2"+
@@ -1148,40 +1148,40 @@ public class yaplParser extends Parser {
 		"\2@A\3\2\2\2AC\3\2\2\2B&\3\2\2\2B;\3\2\2\2C\7\3\2\2\2DE\7 \2\2EF\7\t\2"+
 		"\2FG\7\37\2\2G\t\3\2\2\2HI\7 \2\2IJ\7\t\2\2JM\7\37\2\2KL\7\n\2\2LN\5\f"+
 		"\7\2MK\3\2\2\2MN\3\2\2\2N\13\3\2\2\2OP\b\7\1\2P\u0099\7!\2\2Q\u0099\7"+
-		"&\2\2R\u0099\7#\2\2S\u0099\7\35\2\2T\u0099\7\21\2\2U\u0099\t\2\2\2VZ\7"+
-		"\4\2\2WX\5\f\7\2XY\7\3\2\2Y[\3\2\2\2ZW\3\2\2\2[\\\3\2\2\2\\Z\3\2\2\2\\"+
-		"]\3\2\2\2]^\3\2\2\2^_\7\5\2\2_\u0099\3\2\2\2`a\7\6\2\2ab\5\f\7\2bc\7\b"+
-		"\2\2c\u0099\3\2\2\2de\7*\2\2e\u0099\5\f\7\21fg\7\13\2\2g\u0099\5\f\7\20"+
-		"hi\7\34\2\2i\u0099\5\f\7\17jk\7 \2\2kl\7\n\2\2l\u0099\5\f\7\nmn\7\36\2"+
-		"\2ns\5\n\6\2op\7\7\2\2pr\5\n\6\2qo\3\2\2\2ru\3\2\2\2sq\3\2\2\2st\3\2\2"+
-		"\2tv\3\2\2\2us\3\2\2\2vw\7\24\2\2wx\5\f\7\tx\u0099\3\2\2\2yz\7\33\2\2"+
-		"z\u0099\7\37\2\2{|\7\26\2\2|\u0099\5\f\7\7}~\7 \2\2~\u0087\7\6\2\2\177"+
-		"\u0084\5\f\7\2\u0080\u0081\7\7\2\2\u0081\u0083\5\f\7\2\u0082\u0080\3\2"+
-		"\2\2\u0083\u0086\3\2\2\2\u0084\u0082\3\2\2\2\u0084\u0085\3\2\2\2\u0085"+
-		"\u0088\3\2\2\2\u0086\u0084\3\2\2\2\u0087\177\3\2\2\2\u0087\u0088\3\2\2"+
-		"\2\u0088\u0089\3\2\2\2\u0089\u0099\7\b\2\2\u008a\u008b\7\23\2\2\u008b"+
-		"\u008c\5\f\7\2\u008c\u008d\7\31\2\2\u008d\u008e\5\f\7\2\u008e\u008f\7"+
-		"\20\2\2\u008f\u0090\5\f\7\2\u0090\u0091\7\22\2\2\u0091\u0099\3\2\2\2\u0092"+
-		"\u0093\7\32\2\2\u0093\u0094\5\f\7\2\u0094\u0095\7\27\2\2\u0095\u0096\5"+
-		"\f\7\2\u0096\u0097\7\30\2\2\u0097\u0099\3\2\2\2\u0098O\3\2\2\2\u0098Q"+
-		"\3\2\2\2\u0098R\3\2\2\2\u0098S\3\2\2\2\u0098T\3\2\2\2\u0098U\3\2\2\2\u0098"+
-		"V\3\2\2\2\u0098`\3\2\2\2\u0098d\3\2\2\2\u0098f\3\2\2\2\u0098h\3\2\2\2"+
-		"\u0098j\3\2\2\2\u0098m\3\2\2\2\u0098y\3\2\2\2\u0098{\3\2\2\2\u0098}\3"+
-		"\2\2\2\u0098\u008a\3\2\2\2\u0098\u0092\3\2\2\2\u0099\u00bb\3\2\2\2\u009a"+
-		"\u009b\f\16\2\2\u009b\u009c\t\3\2\2\u009c\u00ba\5\f\7\17\u009d\u009e\f"+
-		"\r\2\2\u009e\u009f\t\4\2\2\u009f\u00ba\5\f\7\16\u00a0\u00a1\f\f\2\2\u00a1"+
-		"\u00a2\t\5\2\2\u00a2\u00ba\5\f\7\r\u00a3\u00a4\f\13\2\2\u00a4\u00a5\7"+
-		"\f\2\2\u00a5\u00ba\5\f\7\f\u00a6\u00a9\f\6\2\2\u00a7\u00a8\7\r\2\2\u00a8"+
-		"\u00aa\7\37\2\2\u00a9\u00a7\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\u00ab\3"+
-		"\2\2\2\u00ab\u00ac\7\16\2\2\u00ac\u00ad\7 \2\2\u00ad\u00b6\7\6\2\2\u00ae"+
-		"\u00b3\5\f\7\2\u00af\u00b0\7\7\2\2\u00b0\u00b2\5\f\7\2\u00b1\u00af\3\2"+
-		"\2\2\u00b2\u00b5\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4"+
-		"\u00b7\3\2\2\2\u00b5\u00b3\3\2\2\2\u00b6\u00ae\3\2\2\2\u00b6\u00b7\3\2"+
-		"\2\2\u00b7\u00b8\3\2\2\2\u00b8\u00ba\7\b\2\2\u00b9\u009a\3\2\2\2\u00b9"+
-		"\u009d\3\2\2\2\u00b9\u00a0\3\2\2\2\u00b9\u00a3\3\2\2\2\u00b9\u00a6\3\2"+
-		"\2\2\u00ba\u00bd\3\2\2\2\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc"+
-		"\r\3\2\2\2\u00bd\u00bb\3\2\2\2\25\23\31!-\60\63@BM\\s\u0084\u0087\u0098"+
-		"\u00a9\u00b3\u00b6\u00b9\u00bb";
+		"&\2\2R\u0099\7#\2\2S\u0099\7\35\2\2T\u0099\7\21\2\2U\u0099\t\2\2\2VW\7"+
+		"*\2\2W\u0099\5\f\7\23XY\7\13\2\2Y\u0099\5\f\7\22Z[\7\34\2\2[\u0099\5\f"+
+		"\7\21\\]\7\33\2\2]\u0099\7\37\2\2^_\7\26\2\2_\u0099\5\f\7\17`a\7\6\2\2"+
+		"ab\5\f\7\2bc\7\b\2\2c\u0099\3\2\2\2dh\7\4\2\2ef\5\f\7\2fg\7\3\2\2gi\3"+
+		"\2\2\2he\3\2\2\2ij\3\2\2\2jh\3\2\2\2jk\3\2\2\2kl\3\2\2\2lm\7\5\2\2m\u0099"+
+		"\3\2\2\2no\7 \2\2op\7\n\2\2p\u0099\5\f\7\bqr\7\36\2\2rw\5\n\6\2st\7\7"+
+		"\2\2tv\5\n\6\2us\3\2\2\2vy\3\2\2\2wu\3\2\2\2wx\3\2\2\2xz\3\2\2\2yw\3\2"+
+		"\2\2z{\7\24\2\2{|\5\f\7\7|\u0099\3\2\2\2}~\7 \2\2~\u0087\7\6\2\2\177\u0084"+
+		"\5\f\7\2\u0080\u0081\7\7\2\2\u0081\u0083\5\f\7\2\u0082\u0080\3\2\2\2\u0083"+
+		"\u0086\3\2\2\2\u0084\u0082\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0088\3\2"+
+		"\2\2\u0086\u0084\3\2\2\2\u0087\177\3\2\2\2\u0087\u0088\3\2\2\2\u0088\u0089"+
+		"\3\2\2\2\u0089\u0099\7\b\2\2\u008a\u008b\7\23\2\2\u008b\u008c\5\f\7\2"+
+		"\u008c\u008d\7\31\2\2\u008d\u008e\5\f\7\2\u008e\u008f\7\20\2\2\u008f\u0090"+
+		"\5\f\7\2\u0090\u0091\7\22\2\2\u0091\u0099\3\2\2\2\u0092\u0093\7\32\2\2"+
+		"\u0093\u0094\5\f\7\2\u0094\u0095\7\27\2\2\u0095\u0096\5\f\7\2\u0096\u0097"+
+		"\7\30\2\2\u0097\u0099\3\2\2\2\u0098O\3\2\2\2\u0098Q\3\2\2\2\u0098R\3\2"+
+		"\2\2\u0098S\3\2\2\2\u0098T\3\2\2\2\u0098U\3\2\2\2\u0098V\3\2\2\2\u0098"+
+		"X\3\2\2\2\u0098Z\3\2\2\2\u0098\\\3\2\2\2\u0098^\3\2\2\2\u0098`\3\2\2\2"+
+		"\u0098d\3\2\2\2\u0098n\3\2\2\2\u0098q\3\2\2\2\u0098}\3\2\2\2\u0098\u008a"+
+		"\3\2\2\2\u0098\u0092\3\2\2\2\u0099\u00bb\3\2\2\2\u009a\u009b\f\f\2\2\u009b"+
+		"\u009c\t\3\2\2\u009c\u00ba\5\f\7\r\u009d\u009e\f\13\2\2\u009e\u009f\t"+
+		"\4\2\2\u009f\u00ba\5\f\7\f\u00a0\u00a1\f\n\2\2\u00a1\u00a2\t\5\2\2\u00a2"+
+		"\u00ba\5\f\7\13\u00a3\u00a4\f\t\2\2\u00a4\u00a5\7\f\2\2\u00a5\u00ba\5"+
+		"\f\7\n\u00a6\u00a9\f\6\2\2\u00a7\u00a8\7\r\2\2\u00a8\u00aa\7\37\2\2\u00a9"+
+		"\u00a7\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\7\16"+
+		"\2\2\u00ac\u00ad\7 \2\2\u00ad\u00b6\7\6\2\2\u00ae\u00b3\5\f\7\2\u00af"+
+		"\u00b0\7\7\2\2\u00b0\u00b2\5\f\7\2\u00b1\u00af\3\2\2\2\u00b2\u00b5\3\2"+
+		"\2\2\u00b3\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4\u00b7\3\2\2\2\u00b5"+
+		"\u00b3\3\2\2\2\u00b6\u00ae\3\2\2\2\u00b6\u00b7\3\2\2\2\u00b7\u00b8\3\2"+
+		"\2\2\u00b8\u00ba\7\b\2\2\u00b9\u009a\3\2\2\2\u00b9\u009d\3\2\2\2\u00b9"+
+		"\u00a0\3\2\2\2\u00b9\u00a3\3\2\2\2\u00b9\u00a6\3\2\2\2\u00ba\u00bd\3\2"+
+		"\2\2\u00bb\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc\r\3\2\2\2\u00bd\u00bb"+
+		"\3\2\2\2\25\23\31!-\60\63@BMjw\u0084\u0087\u0098\u00a9\u00b3\u00b6\u00b9"+
+		"\u00bb";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

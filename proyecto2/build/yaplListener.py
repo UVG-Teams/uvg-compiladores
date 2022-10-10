@@ -233,21 +233,21 @@ class yaplListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by yaplParser#expr_if.
-    def enterExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        pass
-
-    # Exit a parse tree produced by yaplParser#expr_if.
-    def exitExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        pass
-
-
     # Enter a parse tree produced by yaplParser#expr_not.
     def enterExpr_not(self, ctx:yaplParser.Expr_notContext):
         pass
 
     # Exit a parse tree produced by yaplParser#expr_not.
     def exitExpr_not(self, ctx:yaplParser.Expr_notContext):
+        pass
+
+
+    # Enter a parse tree produced by yaplParser#expr_if.
+    def enterExpr_if(self, ctx:yaplParser.Expr_ifContext):
+        pass
+
+    # Exit a parse tree produced by yaplParser#expr_if.
+    def exitExpr_if(self, ctx:yaplParser.Expr_ifContext):
         pass
 
 

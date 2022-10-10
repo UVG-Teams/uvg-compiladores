@@ -134,13 +134,13 @@ class yaplVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_if.
-    def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
+    # Visit a parse tree produced by yaplParser#expr_not.
+    def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_not.
-    def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
+    # Visit a parse tree produced by yaplParser#expr_if.
+    def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
         return self.visitChildren(ctx)
 
 
