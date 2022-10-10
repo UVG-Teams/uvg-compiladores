@@ -24,10 +24,10 @@ public class yaplParser extends Parser {
 		PLUS=39, MINUS=40, MULT=41, DIV=42, LT=43, LE=44;
 	public static final int
 		RULE_prog = 0, RULE_class_def = 1, RULE_feature = 2, RULE_formal = 3, 
-		RULE_expr = 4;
+		RULE_asgn = 4, RULE_expr = 5;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"prog", "class_def", "feature", "formal", "expr"
+			"prog", "class_def", "feature", "formal", "asgn", "expr"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -123,19 +123,19 @@ public class yaplParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(13); 
+			setState(15); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(10);
+				setState(12);
 				class_def();
-				setState(11);
+				setState(13);
 				match(T__0);
 				}
 				}
-				setState(15); 
+				setState(17); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==CLASS );
@@ -178,41 +178,41 @@ public class yaplParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
+			setState(19);
 			match(CLASS);
-			setState(18);
+			setState(20);
 			match(TYPE_ID);
-			setState(21);
+			setState(23);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			if (_la==INHERITS) {
 				{
-				setState(19);
+				setState(21);
 				match(INHERITS);
-				setState(20);
+				setState(22);
 				match(TYPE_ID);
 				}
 			}
 
-			setState(23);
+			setState(25);
 			match(T__1);
-			setState(29);
+			setState(31);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==OBJECT_ID) {
 				{
 				{
-				setState(24);
+				setState(26);
 				feature();
-				setState(25);
+				setState(27);
 				match(T__0);
 				}
 				}
-				setState(31);
+				setState(33);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(32);
+			setState(34);
 			match(T__2);
 			}
 		}
@@ -266,62 +266,62 @@ public class yaplParser extends Parser {
 		enterRule(_localctx, 4, RULE_feature);
 		int _la;
 		try {
-			setState(62);
+			setState(64);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 			case 1:
 				_localctx = new Feat_defContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(34);
+				setState(36);
 				match(OBJECT_ID);
-				setState(47);
+				setState(49);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__3) {
 					{
-					setState(35);
+					setState(37);
 					match(T__3);
-					setState(44);
+					setState(46);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 					if (_la==OBJECT_ID) {
 						{
-						setState(36);
+						setState(38);
 						formal();
-						setState(41);
+						setState(43);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						while (_la==T__4) {
 							{
 							{
-							setState(37);
+							setState(39);
 							match(T__4);
-							setState(38);
+							setState(40);
 							formal();
 							}
 							}
-							setState(43);
+							setState(45);
 							_errHandler.sync(this);
 							_la = _input.LA(1);
 						}
 						}
 					}
 
-					setState(46);
+					setState(48);
 					match(T__5);
 					}
 				}
 
-				setState(49);
-				match(T__6);
-				setState(50);
-				match(TYPE_ID);
 				setState(51);
-				match(T__1);
+				match(T__6);
 				setState(52);
-				expr(0);
+				match(TYPE_ID);
 				setState(53);
+				match(T__1);
+				setState(54);
+				expr(0);
+				setState(55);
 				match(T__2);
 				}
 				break;
@@ -329,20 +329,20 @@ public class yaplParser extends Parser {
 				_localctx = new Feat_asgnContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(55);
-				match(OBJECT_ID);
-				setState(56);
-				match(T__6);
 				setState(57);
+				match(OBJECT_ID);
+				setState(58);
+				match(T__6);
+				setState(59);
 				match(TYPE_ID);
-				setState(60);
+				setState(62);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if (_la==T__7) {
 					{
-					setState(58);
+					setState(60);
 					match(T__7);
-					setState(59);
+					setState(61);
 					expr(0);
 					}
 				}
@@ -377,12 +377,62 @@ public class yaplParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(64);
-			match(OBJECT_ID);
-			setState(65);
-			match(T__6);
 			setState(66);
+			match(OBJECT_ID);
+			setState(67);
+			match(T__6);
+			setState(68);
 			match(TYPE_ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AsgnContext extends ParserRuleContext {
+		public TerminalNode OBJECT_ID() { return getToken(yaplParser.OBJECT_ID, 0); }
+		public TerminalNode TYPE_ID() { return getToken(yaplParser.TYPE_ID, 0); }
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public AsgnContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_asgn; }
+	}
+
+	public final AsgnContext asgn() throws RecognitionException {
+		AsgnContext _localctx = new AsgnContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_asgn);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(70);
+			match(OBJECT_ID);
+			setState(71);
+			match(T__6);
+			setState(72);
+			match(TYPE_ID);
+			setState(75);
+			_errHandler.sync(this);
+			_la = _input.LA(1);
+			if (_la==T__7) {
+				{
+				setState(73);
+				match(T__7);
+				setState(74);
+				expr(0);
+				}
+			}
+
 			}
 		}
 		catch (RecognitionException re) {
@@ -445,20 +495,15 @@ public class yaplParser extends Parser {
 	}
 	public static class Expr_declContext extends ExprContext {
 		public TerminalNode LET() { return getToken(yaplParser.LET, 0); }
-		public List<TerminalNode> OBJECT_ID() { return getTokens(yaplParser.OBJECT_ID); }
-		public TerminalNode OBJECT_ID(int i) {
-			return getToken(yaplParser.OBJECT_ID, i);
+		public List<AsgnContext> asgn() {
+			return getRuleContexts(AsgnContext.class);
 		}
-		public List<TerminalNode> TYPE_ID() { return getTokens(yaplParser.TYPE_ID); }
-		public TerminalNode TYPE_ID(int i) {
-			return getToken(yaplParser.TYPE_ID, i);
+		public AsgnContext asgn(int i) {
+			return getRuleContext(AsgnContext.class,i);
 		}
 		public TerminalNode IN() { return getToken(yaplParser.IN, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
 		}
 		public Expr_declContext(ExprContext ctx) { copyFrom(ctx); }
 	}
@@ -603,27 +648,27 @@ public class yaplParser extends Parser {
 		int _parentState = getState();
 		ExprContext _localctx = new ExprContext(_ctx, _parentState);
 		ExprContext _prevctx = _localctx;
-		int _startState = 8;
-		enterRecursionRule(_localctx, 8, RULE_expr, _p);
+		int _startState = 10;
+		enterRecursionRule(_localctx, 10, RULE_expr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(152);
+			setState(150);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				{
 				_localctx = new Expr_asgnContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(69);
+				setState(78);
 				match(OBJECT_ID);
-				setState(70);
+				setState(79);
 				match(T__7);
-				setState(71);
+				setState(80);
 				expr(23);
 				}
 				break;
@@ -632,37 +677,37 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_callContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(72);
+				setState(81);
 				match(OBJECT_ID);
-				setState(73);
-				match(T__3);
 				setState(82);
+				match(T__3);
+				setState(91);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << T__10) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << WHILE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << LET) | (1L << TYPE_ID) | (1L << OBJECT_ID) | (1L << SELF) | (1L << STRING) | (1L << INT) | (1L << MINUS))) != 0)) {
 					{
-					setState(74);
+					setState(83);
 					expr(0);
-					setState(79);
+					setState(88);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 					while (_la==T__4) {
 						{
 						{
-						setState(75);
+						setState(84);
 						match(T__4);
-						setState(76);
+						setState(85);
 						expr(0);
 						}
 						}
-						setState(81);
+						setState(90);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 					}
 					}
 				}
 
-				setState(84);
+				setState(93);
 				match(T__5);
 				}
 				break;
@@ -671,19 +716,19 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_ifContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(85);
+				setState(94);
 				match(IF);
-				setState(86);
+				setState(95);
 				expr(0);
-				setState(87);
+				setState(96);
 				match(THEN);
-				setState(88);
+				setState(97);
 				expr(0);
-				setState(89);
+				setState(98);
 				match(ELSE);
-				setState(90);
+				setState(99);
 				expr(0);
-				setState(91);
+				setState(100);
 				match(FI);
 				}
 				break;
@@ -692,15 +737,15 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_whileContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(93);
+				setState(102);
 				match(WHILE);
-				setState(94);
+				setState(103);
 				expr(0);
-				setState(95);
+				setState(104);
 				match(LOOP);
-				setState(96);
+				setState(105);
 				expr(0);
-				setState(97);
+				setState(106);
 				match(POOL);
 				}
 				break;
@@ -709,25 +754,25 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_bracketsContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(99);
+				setState(108);
 				match(T__1);
-				setState(103); 
+				setState(112); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				do {
 					{
 					{
-					setState(100);
+					setState(109);
 					expr(0);
-					setState(101);
+					setState(110);
 					match(T__0);
 					}
 					}
-					setState(105); 
+					setState(114); 
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << T__10) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << WHILE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << LET) | (1L << TYPE_ID) | (1L << OBJECT_ID) | (1L << SELF) | (1L << STRING) | (1L << INT) | (1L << MINUS))) != 0) );
-				setState(107);
+				setState(116);
 				match(T__2);
 				}
 				break;
@@ -736,61 +781,29 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_declContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(109);
+				setState(118);
 				match(LET);
-				setState(110);
-				match(OBJECT_ID);
-				setState(111);
-				match(T__6);
-				setState(112);
-				match(TYPE_ID);
-				setState(115);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-				if (_la==T__7) {
-					{
-					setState(113);
-					match(T__7);
-					setState(114);
-					expr(0);
-					}
-				}
-
-				setState(127);
+				setState(119);
+				asgn();
+				setState(124);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__4) {
 					{
 					{
-					setState(117);
-					match(T__4);
-					setState(118);
-					match(OBJECT_ID);
-					setState(119);
-					match(T__6);
 					setState(120);
-					match(TYPE_ID);
-					setState(123);
-					_errHandler.sync(this);
-					_la = _input.LA(1);
-					if (_la==T__7) {
-						{
-						setState(121);
-						match(T__7);
-						setState(122);
-						expr(0);
-						}
-					}
-
+					match(T__4);
+					setState(121);
+					asgn();
 					}
 					}
-					setState(129);
+					setState(126);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
-				setState(130);
+				setState(127);
 				match(IN);
-				setState(131);
+				setState(128);
 				expr(17);
 				}
 				break;
@@ -799,9 +812,9 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_instanceContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(132);
+				setState(130);
 				match(NEW);
-				setState(133);
+				setState(131);
 				match(TYPE_ID);
 				}
 				break;
@@ -810,9 +823,9 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_isvoidContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(134);
+				setState(132);
 				match(ISVOID);
-				setState(135);
+				setState(133);
 				expr(15);
 				}
 				break;
@@ -821,9 +834,9 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_negativeContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(136);
+				setState(134);
 				match(MINUS);
-				setState(137);
+				setState(135);
 				expr(12);
 				}
 				break;
@@ -832,9 +845,9 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_negadoContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(138);
+				setState(136);
 				match(T__10);
-				setState(139);
+				setState(137);
 				expr(11);
 				}
 				break;
@@ -843,9 +856,9 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_notContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(140);
+				setState(138);
 				match(NOT);
-				setState(141);
+				setState(139);
 				expr(8);
 				}
 				break;
@@ -854,11 +867,11 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_parenthesisContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(142);
+				setState(140);
 				match(T__3);
-				setState(143);
+				setState(141);
 				expr(0);
-				setState(144);
+				setState(142);
 				match(T__5);
 				}
 				break;
@@ -867,7 +880,7 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_idContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(146);
+				setState(144);
 				_la = _input.LA(1);
 				if ( !(_la==TYPE_ID || _la==OBJECT_ID) ) {
 				_errHandler.recoverInline(this);
@@ -884,7 +897,7 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_intContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(147);
+				setState(145);
 				match(INT);
 				}
 				break;
@@ -893,7 +906,7 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_strContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(148);
+				setState(146);
 				match(STRING);
 				}
 				break;
@@ -902,7 +915,7 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_trueContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(149);
+				setState(147);
 				match(TRUE);
 				}
 				break;
@@ -911,7 +924,7 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_falseContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(150);
+				setState(148);
 				match(FALSE);
 				}
 				break;
@@ -920,30 +933,30 @@ public class yaplParser extends Parser {
 				_localctx = new Expr_selfContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(151);
+				setState(149);
 				match(SELF);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(187);
+			setState(185);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(185);
+					setState(183);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 					case 1:
 						{
 						_localctx = new Expr_sumaContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(154);
+						setState(152);
 						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(155);
+						setState(153);
 						_la = _input.LA(1);
 						if ( !(_la==PLUS || _la==MINUS) ) {
 						_errHandler.recoverInline(this);
@@ -953,7 +966,7 @@ public class yaplParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(156);
+						setState(154);
 						expr(15);
 						}
 						break;
@@ -961,9 +974,9 @@ public class yaplParser extends Parser {
 						{
 						_localctx = new Expr_multContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(157);
+						setState(155);
 						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(158);
+						setState(156);
 						_la = _input.LA(1);
 						if ( !(_la==MULT || _la==DIV) ) {
 						_errHandler.recoverInline(this);
@@ -973,7 +986,7 @@ public class yaplParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(159);
+						setState(157);
 						expr(14);
 						}
 						break;
@@ -981,9 +994,9 @@ public class yaplParser extends Parser {
 						{
 						_localctx = new Expr_less_thanContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(160);
+						setState(158);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
-						setState(161);
+						setState(159);
 						_la = _input.LA(1);
 						if ( !(_la==LT || _la==LE) ) {
 						_errHandler.recoverInline(this);
@@ -993,7 +1006,7 @@ public class yaplParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(162);
+						setState(160);
 						expr(11);
 						}
 						break;
@@ -1001,11 +1014,11 @@ public class yaplParser extends Parser {
 						{
 						_localctx = new Expr_equalContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(163);
+						setState(161);
 						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
-						setState(164);
+						setState(162);
 						match(T__11);
-						setState(165);
+						setState(163);
 						expr(10);
 						}
 						break;
@@ -1013,62 +1026,62 @@ public class yaplParser extends Parser {
 						{
 						_localctx = new Expr_class_callContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(166);
+						setState(164);
 						if (!(precpred(_ctx, 22))) throw new FailedPredicateException(this, "precpred(_ctx, 22)");
-						setState(169);
+						setState(167);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if (_la==T__8) {
 							{
-							setState(167);
+							setState(165);
 							match(T__8);
-							setState(168);
+							setState(166);
 							match(TYPE_ID);
 							}
 						}
 
-						setState(171);
+						setState(169);
 						match(T__9);
-						setState(172);
+						setState(170);
 						match(OBJECT_ID);
-						setState(173);
+						setState(171);
 						match(T__3);
-						setState(182);
+						setState(180);
 						_errHandler.sync(this);
 						_la = _input.LA(1);
 						if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << T__3) | (1L << T__10) | (1L << FALSE) | (1L << IF) | (1L << ISVOID) | (1L << WHILE) | (1L << NEW) | (1L << NOT) | (1L << TRUE) | (1L << LET) | (1L << TYPE_ID) | (1L << OBJECT_ID) | (1L << SELF) | (1L << STRING) | (1L << INT) | (1L << MINUS))) != 0)) {
 							{
-							setState(174);
+							setState(172);
 							expr(0);
-							setState(179);
+							setState(177);
 							_errHandler.sync(this);
 							_la = _input.LA(1);
 							while (_la==T__4) {
 								{
 								{
-								setState(175);
+								setState(173);
 								match(T__4);
-								setState(176);
+								setState(174);
 								expr(0);
 								}
 								}
-								setState(181);
+								setState(179);
 								_errHandler.sync(this);
 								_la = _input.LA(1);
 							}
 							}
 						}
 
-						setState(184);
+						setState(182);
 						match(T__5);
 						}
 						break;
 					}
 					} 
 				}
-				setState(189);
+				setState(187);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			}
 			}
 		}
@@ -1085,7 +1098,7 @@ public class yaplParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 4:
+		case 5:
 			return expr_sempred((ExprContext)_localctx, predIndex);
 		}
 		return true;
@@ -1107,68 +1120,67 @@ public class yaplParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.\u00c1\4\2\t\2\4"+
-		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\3\2\3\2\6\2\20\n\2\r\2\16\2\21\3\3"+
-		"\3\3\3\3\3\3\5\3\30\n\3\3\3\3\3\3\3\3\3\7\3\36\n\3\f\3\16\3!\13\3\3\3"+
-		"\3\3\3\4\3\4\3\4\3\4\3\4\7\4*\n\4\f\4\16\4-\13\4\5\4/\n\4\3\4\5\4\62\n"+
-		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4?\n\4\5\4A\n\4\3\5\3"+
-		"\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6P\n\6\f\6\16\6S\13\6"+
-		"\5\6U\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\6\6j\n\6\r\6\16\6k\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5"+
-		"\6v\n\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6~\n\6\7\6\u0080\n\6\f\6\16\6\u0083"+
-		"\13\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\5\6\u009b\n\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6\u00ac\n\6\3\6\3\6\3\6\3\6\3\6\3\6\7\6"+
-		"\u00b4\n\6\f\6\16\6\u00b7\13\6\5\6\u00b9\n\6\3\6\7\6\u00bc\n\6\f\6\16"+
-		"\6\u00bf\13\6\3\6\2\3\n\7\2\4\6\b\n\2\6\3\2\37 \3\2)*\3\2+,\3\2-.\2\u00e2"+
-		"\2\17\3\2\2\2\4\23\3\2\2\2\6@\3\2\2\2\bB\3\2\2\2\n\u009a\3\2\2\2\f\r\5"+
-		"\4\3\2\r\16\7\3\2\2\16\20\3\2\2\2\17\f\3\2\2\2\20\21\3\2\2\2\21\17\3\2"+
-		"\2\2\21\22\3\2\2\2\22\3\3\2\2\2\23\24\7\17\2\2\24\27\7\37\2\2\25\26\7"+
-		"\25\2\2\26\30\7\37\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\31\3\2\2\2\31\37"+
-		"\7\4\2\2\32\33\5\6\4\2\33\34\7\3\2\2\34\36\3\2\2\2\35\32\3\2\2\2\36!\3"+
-		"\2\2\2\37\35\3\2\2\2\37 \3\2\2\2 \"\3\2\2\2!\37\3\2\2\2\"#\7\5\2\2#\5"+
-		"\3\2\2\2$\61\7 \2\2%.\7\6\2\2&+\5\b\5\2\'(\7\7\2\2(*\5\b\5\2)\'\3\2\2"+
-		"\2*-\3\2\2\2+)\3\2\2\2+,\3\2\2\2,/\3\2\2\2-+\3\2\2\2.&\3\2\2\2./\3\2\2"+
-		"\2/\60\3\2\2\2\60\62\7\b\2\2\61%\3\2\2\2\61\62\3\2\2\2\62\63\3\2\2\2\63"+
-		"\64\7\t\2\2\64\65\7\37\2\2\65\66\7\4\2\2\66\67\5\n\6\2\678\7\5\2\28A\3"+
-		"\2\2\29:\7 \2\2:;\7\t\2\2;>\7\37\2\2<=\7\n\2\2=?\5\n\6\2><\3\2\2\2>?\3"+
-		"\2\2\2?A\3\2\2\2@$\3\2\2\2@9\3\2\2\2A\7\3\2\2\2BC\7 \2\2CD\7\t\2\2DE\7"+
-		"\37\2\2E\t\3\2\2\2FG\b\6\1\2GH\7 \2\2HI\7\n\2\2I\u009b\5\n\6\31JK\7 \2"+
-		"\2KT\7\6\2\2LQ\5\n\6\2MN\7\7\2\2NP\5\n\6\2OM\3\2\2\2PS\3\2\2\2QO\3\2\2"+
-		"\2QR\3\2\2\2RU\3\2\2\2SQ\3\2\2\2TL\3\2\2\2TU\3\2\2\2UV\3\2\2\2V\u009b"+
-		"\7\b\2\2WX\7\23\2\2XY\5\n\6\2YZ\7\31\2\2Z[\5\n\6\2[\\\7\20\2\2\\]\5\n"+
-		"\6\2]^\7\22\2\2^\u009b\3\2\2\2_`\7\32\2\2`a\5\n\6\2ab\7\27\2\2bc\5\n\6"+
-		"\2cd\7\30\2\2d\u009b\3\2\2\2ei\7\4\2\2fg\5\n\6\2gh\7\3\2\2hj\3\2\2\2i"+
-		"f\3\2\2\2jk\3\2\2\2ki\3\2\2\2kl\3\2\2\2lm\3\2\2\2mn\7\5\2\2n\u009b\3\2"+
-		"\2\2op\7\36\2\2pq\7 \2\2qr\7\t\2\2ru\7\37\2\2st\7\n\2\2tv\5\n\6\2us\3"+
-		"\2\2\2uv\3\2\2\2v\u0081\3\2\2\2wx\7\7\2\2xy\7 \2\2yz\7\t\2\2z}\7\37\2"+
-		"\2{|\7\n\2\2|~\5\n\6\2}{\3\2\2\2}~\3\2\2\2~\u0080\3\2\2\2\177w\3\2\2\2"+
-		"\u0080\u0083\3\2\2\2\u0081\177\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0084"+
-		"\3\2\2\2\u0083\u0081\3\2\2\2\u0084\u0085\7\24\2\2\u0085\u009b\5\n\6\23"+
-		"\u0086\u0087\7\33\2\2\u0087\u009b\7\37\2\2\u0088\u0089\7\26\2\2\u0089"+
-		"\u009b\5\n\6\21\u008a\u008b\7*\2\2\u008b\u009b\5\n\6\16\u008c\u008d\7"+
-		"\r\2\2\u008d\u009b\5\n\6\r\u008e\u008f\7\34\2\2\u008f\u009b\5\n\6\n\u0090"+
-		"\u0091\7\6\2\2\u0091\u0092\5\n\6\2\u0092\u0093\7\b\2\2\u0093\u009b\3\2"+
-		"\2\2\u0094\u009b\t\2\2\2\u0095\u009b\7&\2\2\u0096\u009b\7#\2\2\u0097\u009b"+
-		"\7\35\2\2\u0098\u009b\7\21\2\2\u0099\u009b\7!\2\2\u009aF\3\2\2\2\u009a"+
-		"J\3\2\2\2\u009aW\3\2\2\2\u009a_\3\2\2\2\u009ae\3\2\2\2\u009ao\3\2\2\2"+
-		"\u009a\u0086\3\2\2\2\u009a\u0088\3\2\2\2\u009a\u008a\3\2\2\2\u009a\u008c"+
-		"\3\2\2\2\u009a\u008e\3\2\2\2\u009a\u0090\3\2\2\2\u009a\u0094\3\2\2\2\u009a"+
-		"\u0095\3\2\2\2\u009a\u0096\3\2\2\2\u009a\u0097\3\2\2\2\u009a\u0098\3\2"+
-		"\2\2\u009a\u0099\3\2\2\2\u009b\u00bd\3\2\2\2\u009c\u009d\f\20\2\2\u009d"+
-		"\u009e\t\3\2\2\u009e\u00bc\5\n\6\21\u009f\u00a0\f\17\2\2\u00a0\u00a1\t"+
-		"\4\2\2\u00a1\u00bc\5\n\6\20\u00a2\u00a3\f\f\2\2\u00a3\u00a4\t\5\2\2\u00a4"+
-		"\u00bc\5\n\6\r\u00a5\u00a6\f\13\2\2\u00a6\u00a7\7\16\2\2\u00a7\u00bc\5"+
-		"\n\6\f\u00a8\u00ab\f\30\2\2\u00a9\u00aa\7\13\2\2\u00aa\u00ac\7\37\2\2"+
-		"\u00ab\u00a9\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad\u00ae"+
-		"\7\f\2\2\u00ae\u00af\7 \2\2\u00af\u00b8\7\6\2\2\u00b0\u00b5\5\n\6\2\u00b1"+
-		"\u00b2\7\7\2\2\u00b2\u00b4\5\n\6\2\u00b3\u00b1\3\2\2\2\u00b4\u00b7\3\2"+
-		"\2\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6\u00b9\3\2\2\2\u00b7"+
-		"\u00b5\3\2\2\2\u00b8\u00b0\3\2\2\2\u00b8\u00b9\3\2\2\2\u00b9\u00ba\3\2"+
-		"\2\2\u00ba\u00bc\7\b\2\2\u00bb\u009c\3\2\2\2\u00bb\u009f\3\2\2\2\u00bb"+
-		"\u00a2\3\2\2\2\u00bb\u00a5\3\2\2\2\u00bb\u00a8\3\2\2\2\u00bc\u00bf\3\2"+
-		"\2\2\u00bd\u00bb\3\2\2\2\u00bd\u00be\3\2\2\2\u00be\13\3\2\2\2\u00bf\u00bd"+
-		"\3\2\2\2\26\21\27\37+.\61>@QTku}\u0081\u009a\u00ab\u00b5\u00b8\u00bb\u00bd";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3.\u00bf\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\6\2\22\n\2\r\2\16\2"+
+		"\23\3\3\3\3\3\3\3\3\5\3\32\n\3\3\3\3\3\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3"+
+		"\3\3\3\3\3\4\3\4\3\4\3\4\3\4\7\4,\n\4\f\4\16\4/\13\4\5\4\61\n\4\3\4\5"+
+		"\4\64\n\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4A\n\4\5\4C\n"+
+		"\4\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\5\6N\n\6\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\7\7Y\n\7\f\7\16\7\\\13\7\5\7^\n\7\3\7\3\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\6\7s\n\7\r\7\16"+
+		"\7t\3\7\3\7\3\7\3\7\3\7\3\7\7\7}\n\7\f\7\16\7\u0080\13\7\3\7\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\5\7\u0099\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
+		"\3\7\3\7\3\7\5\7\u00aa\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00b2\n\7\f\7\16"+
+		"\7\u00b5\13\7\5\7\u00b7\n\7\3\7\7\7\u00ba\n\7\f\7\16\7\u00bd\13\7\3\7"+
+		"\2\3\f\b\2\4\6\b\n\f\2\6\3\2\37 \3\2)*\3\2+,\3\2-.\2\u00de\2\21\3\2\2"+
+		"\2\4\25\3\2\2\2\6B\3\2\2\2\bD\3\2\2\2\nH\3\2\2\2\f\u0098\3\2\2\2\16\17"+
+		"\5\4\3\2\17\20\7\3\2\2\20\22\3\2\2\2\21\16\3\2\2\2\22\23\3\2\2\2\23\21"+
+		"\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\26\7\17\2\2\26\31\7\37\2\2\27\30"+
+		"\7\25\2\2\30\32\7\37\2\2\31\27\3\2\2\2\31\32\3\2\2\2\32\33\3\2\2\2\33"+
+		"!\7\4\2\2\34\35\5\6\4\2\35\36\7\3\2\2\36 \3\2\2\2\37\34\3\2\2\2 #\3\2"+
+		"\2\2!\37\3\2\2\2!\"\3\2\2\2\"$\3\2\2\2#!\3\2\2\2$%\7\5\2\2%\5\3\2\2\2"+
+		"&\63\7 \2\2\'\60\7\6\2\2(-\5\b\5\2)*\7\7\2\2*,\5\b\5\2+)\3\2\2\2,/\3\2"+
+		"\2\2-+\3\2\2\2-.\3\2\2\2.\61\3\2\2\2/-\3\2\2\2\60(\3\2\2\2\60\61\3\2\2"+
+		"\2\61\62\3\2\2\2\62\64\7\b\2\2\63\'\3\2\2\2\63\64\3\2\2\2\64\65\3\2\2"+
+		"\2\65\66\7\t\2\2\66\67\7\37\2\2\678\7\4\2\289\5\f\7\29:\7\5\2\2:C\3\2"+
+		"\2\2;<\7 \2\2<=\7\t\2\2=@\7\37\2\2>?\7\n\2\2?A\5\f\7\2@>\3\2\2\2@A\3\2"+
+		"\2\2AC\3\2\2\2B&\3\2\2\2B;\3\2\2\2C\7\3\2\2\2DE\7 \2\2EF\7\t\2\2FG\7\37"+
+		"\2\2G\t\3\2\2\2HI\7 \2\2IJ\7\t\2\2JM\7\37\2\2KL\7\n\2\2LN\5\f\7\2MK\3"+
+		"\2\2\2MN\3\2\2\2N\13\3\2\2\2OP\b\7\1\2PQ\7 \2\2QR\7\n\2\2R\u0099\5\f\7"+
+		"\31ST\7 \2\2T]\7\6\2\2UZ\5\f\7\2VW\7\7\2\2WY\5\f\7\2XV\3\2\2\2Y\\\3\2"+
+		"\2\2ZX\3\2\2\2Z[\3\2\2\2[^\3\2\2\2\\Z\3\2\2\2]U\3\2\2\2]^\3\2\2\2^_\3"+
+		"\2\2\2_\u0099\7\b\2\2`a\7\23\2\2ab\5\f\7\2bc\7\31\2\2cd\5\f\7\2de\7\20"+
+		"\2\2ef\5\f\7\2fg\7\22\2\2g\u0099\3\2\2\2hi\7\32\2\2ij\5\f\7\2jk\7\27\2"+
+		"\2kl\5\f\7\2lm\7\30\2\2m\u0099\3\2\2\2nr\7\4\2\2op\5\f\7\2pq\7\3\2\2q"+
+		"s\3\2\2\2ro\3\2\2\2st\3\2\2\2tr\3\2\2\2tu\3\2\2\2uv\3\2\2\2vw\7\5\2\2"+
+		"w\u0099\3\2\2\2xy\7\36\2\2y~\5\n\6\2z{\7\7\2\2{}\5\n\6\2|z\3\2\2\2}\u0080"+
+		"\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177\u0081\3\2\2\2\u0080~\3\2\2\2\u0081"+
+		"\u0082\7\24\2\2\u0082\u0083\5\f\7\23\u0083\u0099\3\2\2\2\u0084\u0085\7"+
+		"\33\2\2\u0085\u0099\7\37\2\2\u0086\u0087\7\26\2\2\u0087\u0099\5\f\7\21"+
+		"\u0088\u0089\7*\2\2\u0089\u0099\5\f\7\16\u008a\u008b\7\r\2\2\u008b\u0099"+
+		"\5\f\7\r\u008c\u008d\7\34\2\2\u008d\u0099\5\f\7\n\u008e\u008f\7\6\2\2"+
+		"\u008f\u0090\5\f\7\2\u0090\u0091\7\b\2\2\u0091\u0099\3\2\2\2\u0092\u0099"+
+		"\t\2\2\2\u0093\u0099\7&\2\2\u0094\u0099\7#\2\2\u0095\u0099\7\35\2\2\u0096"+
+		"\u0099\7\21\2\2\u0097\u0099\7!\2\2\u0098O\3\2\2\2\u0098S\3\2\2\2\u0098"+
+		"`\3\2\2\2\u0098h\3\2\2\2\u0098n\3\2\2\2\u0098x\3\2\2\2\u0098\u0084\3\2"+
+		"\2\2\u0098\u0086\3\2\2\2\u0098\u0088\3\2\2\2\u0098\u008a\3\2\2\2\u0098"+
+		"\u008c\3\2\2\2\u0098\u008e\3\2\2\2\u0098\u0092\3\2\2\2\u0098\u0093\3\2"+
+		"\2\2\u0098\u0094\3\2\2\2\u0098\u0095\3\2\2\2\u0098\u0096\3\2\2\2\u0098"+
+		"\u0097\3\2\2\2\u0099\u00bb\3\2\2\2\u009a\u009b\f\20\2\2\u009b\u009c\t"+
+		"\3\2\2\u009c\u00ba\5\f\7\21\u009d\u009e\f\17\2\2\u009e\u009f\t\4\2\2\u009f"+
+		"\u00ba\5\f\7\20\u00a0\u00a1\f\f\2\2\u00a1\u00a2\t\5\2\2\u00a2\u00ba\5"+
+		"\f\7\r\u00a3\u00a4\f\13\2\2\u00a4\u00a5\7\16\2\2\u00a5\u00ba\5\f\7\f\u00a6"+
+		"\u00a9\f\30\2\2\u00a7\u00a8\7\13\2\2\u00a8\u00aa\7\37\2\2\u00a9\u00a7"+
+		"\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\7\f\2\2\u00ac"+
+		"\u00ad\7 \2\2\u00ad\u00b6\7\6\2\2\u00ae\u00b3\5\f\7\2\u00af\u00b0\7\7"+
+		"\2\2\u00b0\u00b2\5\f\7\2\u00b1\u00af\3\2\2\2\u00b2\u00b5\3\2\2\2\u00b3"+
+		"\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4\u00b7\3\2\2\2\u00b5\u00b3\3\2"+
+		"\2\2\u00b6\u00ae\3\2\2\2\u00b6\u00b7\3\2\2\2\u00b7\u00b8\3\2\2\2\u00b8"+
+		"\u00ba\7\b\2\2\u00b9\u009a\3\2\2\2\u00b9\u009d\3\2\2\2\u00b9\u00a0\3\2"+
+		"\2\2\u00b9\u00a3\3\2\2\2\u00b9\u00a6\3\2\2\2\u00ba\u00bd\3\2\2\2\u00bb"+
+		"\u00b9\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc\r\3\2\2\2\u00bd\u00bb\3\2\2\2"+
+		"\25\23\31!-\60\63@BMZ]t~\u0098\u00a9\u00b3\u00b6\u00b9\u00bb";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

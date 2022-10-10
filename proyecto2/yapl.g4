@@ -53,20 +53,21 @@ prog: (class_def ';')+;
 
 class_def: CLASS TYPE_ID (INHERITS TYPE_ID)? '{' (feature ';')* '}';
 
+
 feature: OBJECT_ID ('(' (formal ( ',' formal)*)? ')')? ':' TYPE_ID '{' expr '}'                                                 # feat_def
     | OBJECT_ID ':' TYPE_ID ( '<-' expr )?                                                                                      # feat_asgn
 ;
 
 formal: OBJECT_ID ':' TYPE_ID;
+asgn: OBJECT_ID ':' TYPE_ID ( '<-' expr )?;
 
 expr: OBJECT_ID '<-' expr                                                                                                       # expr_asgn
-    // | expr ('@' TYPE_ID)? '.' OBJECT_ID '(' ( expr (';' expr)* )? ')'
     | expr ('@' TYPE_ID)? '.' OBJECT_ID '(' ( expr (',' expr)* )? ')'                                                           # expr_class_call
     | OBJECT_ID '(' (expr (',' expr)*)? ')'                                                                                     # expr_call
     | IF expr THEN expr ELSE expr FI                                                                                            # expr_if
     | WHILE expr LOOP expr POOL                                                                                                 # expr_while
     | '{' (expr ';')+ '}'                                                                                                       # expr_brackets
-    | LET OBJECT_ID ':' TYPE_ID ('<-' expr)? ( ',' OBJECT_ID ':' TYPE_ID ( '<-' expr )? )* IN expr                              # expr_decl
+    | LET asgn ( ',' asgn )* IN expr                                                                                            # expr_decl
     | NEW TYPE_ID                                                                                                               # expr_instance
     | ISVOID expr                                                                                                               # expr_isvoid
     | expr (PLUS|MINUS) expr                                                                                                    # expr_suma

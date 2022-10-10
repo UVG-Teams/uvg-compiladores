@@ -34,6 +34,11 @@ class yaplVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by yaplParser#asgn.
+    def visitAsgn(self, ctx:yaplParser.AsgnContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by yaplParser#expr_parenthesis.
     def visitExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
         return self.visitChildren(ctx)

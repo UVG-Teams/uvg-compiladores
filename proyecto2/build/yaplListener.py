@@ -53,6 +53,15 @@ class yaplListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by yaplParser#asgn.
+    def enterAsgn(self, ctx:yaplParser.AsgnContext):
+        pass
+
+    # Exit a parse tree produced by yaplParser#asgn.
+    def exitAsgn(self, ctx:yaplParser.AsgnContext):
+        pass
+
+
     # Enter a parse tree produced by yaplParser#expr_parenthesis.
     def enterExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
         pass

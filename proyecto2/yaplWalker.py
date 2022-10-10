@@ -442,6 +442,12 @@ class yaplWalker(yaplVisitor):
         return ctx
 
 
+    # Visit a parse tree produced by yaplParser#asgn.
+    def visitAsgn(self, ctx:yaplParser.AsgnContext):
+        # self.visitChildren(ctx)
+        return ctx
+
+
     # ========================================================================================
     # Expressions
     # ========================================================================================
@@ -449,9 +455,15 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_asgn.
     def visitExpr_asgn(self, ctx:yaplParser.Expr_asgnContext):
+        ref = self.tac.add(
+            o = "<-",
+            x = ctx.OBJECT_ID(),
+            y = self.visit(ctx.expr()),
+        )
+
         # self.find_or_create_object_id(ctx)
-        self.visitChildren(ctx)
-        return ctx
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_class_call.
@@ -464,6 +476,12 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_call.
     def visitExpr_call(self, ctx:yaplParser.Expr_callContext):
+        # ref = self.tac.add(
+        #     o = "call",
+        #     x = ctx.OBJECT_ID(),
+        #     # x = self.visit(ctx.expr()),
+        # )
+
         # self.find_or_create_object_id(ctx)
         self.visitChildren(ctx)
         return ctx
@@ -471,8 +489,27 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_if.
     def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        self.visitChildren(ctx)
-        return ctx
+        condition_ref = self.visit(ctx.expr(0))
+
+        condition_not_ref = self.tac.add(
+            o = "not",
+            x = condition_ref,
+        )
+
+        ref = self.tac.add(
+            o = "goto",
+            x = self.visit(ctx.expr(1)), # then
+            y = condition_ref, # condition
+        )
+
+        self.tac.add(
+            o = "goto",
+            x = self.visit(ctx.expr(2)), # else
+            y = condition_not_ref, # condition
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_while.
@@ -489,18 +526,35 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_decl.
     def visitExpr_decl(self, ctx:yaplParser.Expr_declContext):
-
-        self.add_to_symbol_table(
-            ctx.OBJECT_ID(0),
-            data_type=ctx.TYPE_ID(0),
-            line=ctx.LET().getPayload().line,
-            column=ctx.LET().getPayload().column,
-            scope="{method_scope}".format(method_scope=self.current_method),
-            scope_type="local",
+        ref = self.tac.add(
+            o = ctx.LET(),
+            x = self.visit(ctx.expr()),
         )
 
-        self.visitChildren(ctx)
-        return ctx
+        for node in ctx.asgn():
+            asgn_ctx = self.visit(node)
+
+            value = None
+            if asgn_ctx.expr():
+                value = self.visit(asgn_ctx.expr())
+
+            self.tac.add(
+                o = "<-",
+                x = asgn_ctx.OBJECT_ID(),
+                y = value,
+            )
+
+            self.add_to_symbol_table(
+                asgn_ctx.OBJECT_ID(),
+                data_type=asgn_ctx.TYPE_ID(),
+                line=asgn_ctx.OBJECT_ID().getPayload().line,
+                column=asgn_ctx.OBJECT_ID().getPayload().column,
+                scope="{method_scope}".format(method_scope=self.current_method),
+                scope_type="local",
+            )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_instance.
