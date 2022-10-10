@@ -704,10 +704,10 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_int.
     def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
-        ref = self.tac.add(
-            o = "<-",
-            x = ctx.INT().getText(),
-        )
+        # ref = self.tac.add(
+        #     o = "<-",
+        #     x = ctx.INT().getText(),
+        # )
         # x = 14
         # print(id(x))
         # print(hex(id(x)))
@@ -723,15 +723,15 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(int(ctx.INT().getText()))
         # )
         # self.visitChildren(ctx)
-        return ref
+        return ctx.INT().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
-        ref = self.tac.add(
-            o = "<-",
-            x = ctx.STRING().getText(),
-        )
+        # ref = self.tac.add(
+        #     o = "<-",
+        #     x = ctx.STRING().getText(),
+        # )
         # self.add_to_symbol_table(
         #     ctx.STRING(),
         #     data_type="String",
@@ -742,15 +742,15 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(str(ctx.STRING().getText()))
         # )
         # self.visitChildren(ctx)
-        return ref
+        return ctx.STRING().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_true.
     def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
-        ref = self.tac.add(
-            o = "<-",
-            x = ctx.TRUE().getText(),
-        )
+        # ref = self.tac.add(
+        #     o = "<-",
+        #     x = ctx.TRUE().getText(),
+        # )
         # self.add_to_symbol_table(
         #     ctx.TRUE(),
         #     data_type="Bool",
@@ -761,15 +761,15 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.TRUE().getText()))
         # )
         # self.visitChildren(ctx)
-        return ref
+        return "true"
 
 
     # Visit a parse tree produced by yaplParser#expr_false.
     def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
-        ref = self.tac.add(
-            o = "<-",
-            x = ctx.FALSE().getText(),
-        )
+        # ref = self.tac.add(
+        #     o = "<-",
+        #     x = ctx.FALSE().getText(),
+        # )
         # self.add_to_symbol_table(
         #     ctx.FALSE(),
         #     data_type="Bool",
@@ -780,7 +780,7 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.FALSE().getText()))
         # )
         # self.visitChildren(ctx)
-        return ref
+        return "false"
 
 
     # Visit a parse tree produced by yaplParser#expr_self.
