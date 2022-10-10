@@ -24,44 +24,44 @@ def serializedATN():
         1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,3,4,
         170,8,4,1,4,1,4,1,4,1,4,1,4,1,4,5,4,178,8,4,10,4,12,4,181,9,4,3,
         4,183,8,4,1,4,5,4,186,8,4,10,4,12,4,189,9,4,1,4,0,1,8,5,0,2,4,6,
-        8,0,4,1,0,35,36,1,0,11,12,1,0,13,14,1,0,16,17,224,0,13,1,0,0,0,2,
+        8,0,4,1,0,29,30,1,0,39,40,1,0,41,42,1,0,43,44,224,0,13,1,0,0,0,2,
         17,1,0,0,0,4,62,1,0,0,0,6,64,1,0,0,0,8,152,1,0,0,0,10,11,3,2,1,0,
         11,12,5,1,0,0,12,14,1,0,0,0,13,10,1,0,0,0,14,15,1,0,0,0,15,13,1,
-        0,0,0,15,16,1,0,0,0,16,1,1,0,0,0,17,18,5,19,0,0,18,21,5,35,0,0,19,
-        20,5,25,0,0,20,22,5,35,0,0,21,19,1,0,0,0,21,22,1,0,0,0,22,23,1,0,
+        0,0,0,15,16,1,0,0,0,16,1,1,0,0,0,17,18,5,13,0,0,18,21,5,29,0,0,19,
+        20,5,19,0,0,20,22,5,29,0,0,21,19,1,0,0,0,21,22,1,0,0,0,22,23,1,0,
         0,0,23,29,5,2,0,0,24,25,3,4,2,0,25,26,5,1,0,0,26,28,1,0,0,0,27,24,
         1,0,0,0,28,31,1,0,0,0,29,27,1,0,0,0,29,30,1,0,0,0,30,32,1,0,0,0,
-        31,29,1,0,0,0,32,33,5,3,0,0,33,3,1,0,0,0,34,47,5,36,0,0,35,44,5,
+        31,29,1,0,0,0,32,33,5,3,0,0,33,3,1,0,0,0,34,47,5,30,0,0,35,44,5,
         4,0,0,36,41,3,6,3,0,37,38,5,5,0,0,38,40,3,6,3,0,39,37,1,0,0,0,40,
         43,1,0,0,0,41,39,1,0,0,0,41,42,1,0,0,0,42,45,1,0,0,0,43,41,1,0,0,
         0,44,36,1,0,0,0,44,45,1,0,0,0,45,46,1,0,0,0,46,48,5,6,0,0,47,35,
-        1,0,0,0,47,48,1,0,0,0,48,49,1,0,0,0,49,50,5,7,0,0,50,51,5,35,0,0,
+        1,0,0,0,47,48,1,0,0,0,48,49,1,0,0,0,49,50,5,7,0,0,50,51,5,29,0,0,
         51,52,5,2,0,0,52,53,3,8,4,0,53,54,5,3,0,0,54,63,1,0,0,0,55,56,5,
-        36,0,0,56,57,5,7,0,0,57,60,5,35,0,0,58,59,5,8,0,0,59,61,3,8,4,0,
+        30,0,0,56,57,5,7,0,0,57,60,5,29,0,0,58,59,5,8,0,0,59,61,3,8,4,0,
         60,58,1,0,0,0,60,61,1,0,0,0,61,63,1,0,0,0,62,34,1,0,0,0,62,55,1,
-        0,0,0,63,5,1,0,0,0,64,65,5,36,0,0,65,66,5,7,0,0,66,67,5,35,0,0,67,
-        7,1,0,0,0,68,69,6,4,-1,0,69,70,5,36,0,0,70,71,5,8,0,0,71,153,3,8,
-        4,23,72,73,5,36,0,0,73,82,5,4,0,0,74,79,3,8,4,0,75,76,5,5,0,0,76,
+        0,0,0,63,5,1,0,0,0,64,65,5,30,0,0,65,66,5,7,0,0,66,67,5,29,0,0,67,
+        7,1,0,0,0,68,69,6,4,-1,0,69,70,5,30,0,0,70,71,5,8,0,0,71,153,3,8,
+        4,23,72,73,5,30,0,0,73,82,5,4,0,0,74,79,3,8,4,0,75,76,5,5,0,0,76,
         78,3,8,4,0,77,75,1,0,0,0,78,81,1,0,0,0,79,77,1,0,0,0,79,80,1,0,0,
         0,80,83,1,0,0,0,81,79,1,0,0,0,82,74,1,0,0,0,82,83,1,0,0,0,83,84,
-        1,0,0,0,84,153,5,6,0,0,85,86,5,23,0,0,86,87,3,8,4,0,87,88,5,29,0,
-        0,88,89,3,8,4,0,89,90,5,20,0,0,90,91,3,8,4,0,91,92,5,22,0,0,92,153,
-        1,0,0,0,93,94,5,30,0,0,94,95,3,8,4,0,95,96,5,27,0,0,96,97,3,8,4,
-        0,97,98,5,28,0,0,98,153,1,0,0,0,99,103,5,2,0,0,100,101,3,8,4,0,101,
+        1,0,0,0,84,153,5,6,0,0,85,86,5,17,0,0,86,87,3,8,4,0,87,88,5,23,0,
+        0,88,89,3,8,4,0,89,90,5,14,0,0,90,91,3,8,4,0,91,92,5,16,0,0,92,153,
+        1,0,0,0,93,94,5,24,0,0,94,95,3,8,4,0,95,96,5,21,0,0,96,97,3,8,4,
+        0,97,98,5,22,0,0,98,153,1,0,0,0,99,103,5,2,0,0,100,101,3,8,4,0,101,
         102,5,1,0,0,102,104,1,0,0,0,103,100,1,0,0,0,104,105,1,0,0,0,105,
         103,1,0,0,0,105,106,1,0,0,0,106,107,1,0,0,0,107,108,5,3,0,0,108,
-        153,1,0,0,0,109,110,5,34,0,0,110,111,5,36,0,0,111,112,5,7,0,0,112,
-        115,5,35,0,0,113,114,5,8,0,0,114,116,3,8,4,0,115,113,1,0,0,0,115,
-        116,1,0,0,0,116,127,1,0,0,0,117,118,5,5,0,0,118,119,5,36,0,0,119,
-        120,5,7,0,0,120,123,5,35,0,0,121,122,5,8,0,0,122,124,3,8,4,0,123,
+        153,1,0,0,0,109,110,5,28,0,0,110,111,5,30,0,0,111,112,5,7,0,0,112,
+        115,5,29,0,0,113,114,5,8,0,0,114,116,3,8,4,0,115,113,1,0,0,0,115,
+        116,1,0,0,0,116,127,1,0,0,0,117,118,5,5,0,0,118,119,5,30,0,0,119,
+        120,5,7,0,0,120,123,5,29,0,0,121,122,5,8,0,0,122,124,3,8,4,0,123,
         121,1,0,0,0,123,124,1,0,0,0,124,126,1,0,0,0,125,117,1,0,0,0,126,
         129,1,0,0,0,127,125,1,0,0,0,127,128,1,0,0,0,128,130,1,0,0,0,129,
-        127,1,0,0,0,130,131,5,24,0,0,131,153,3,8,4,17,132,133,5,31,0,0,133,
-        153,5,35,0,0,134,135,5,26,0,0,135,153,3,8,4,15,136,137,5,12,0,0,
-        137,153,3,8,4,12,138,139,5,15,0,0,139,153,3,8,4,11,140,141,5,32,
+        127,1,0,0,0,130,131,5,18,0,0,131,153,3,8,4,17,132,133,5,25,0,0,133,
+        153,5,29,0,0,134,135,5,20,0,0,135,153,3,8,4,15,136,137,5,40,0,0,
+        137,153,3,8,4,12,138,139,5,11,0,0,139,153,3,8,4,11,140,141,5,26,
         0,0,141,153,3,8,4,8,142,143,5,4,0,0,143,144,3,8,4,0,144,145,5,6,
-        0,0,145,153,1,0,0,0,146,153,7,0,0,0,147,153,5,42,0,0,148,153,5,39,
-        0,0,149,153,5,33,0,0,150,153,5,21,0,0,151,153,5,37,0,0,152,68,1,
+        0,0,145,153,1,0,0,0,146,153,7,0,0,0,147,153,5,36,0,0,148,153,5,33,
+        0,0,149,153,5,27,0,0,150,153,5,15,0,0,151,153,5,31,0,0,152,68,1,
         0,0,0,152,72,1,0,0,0,152,85,1,0,0,0,152,93,1,0,0,0,152,99,1,0,0,
         0,152,109,1,0,0,0,152,132,1,0,0,0,152,134,1,0,0,0,152,136,1,0,0,
         0,152,138,1,0,0,0,152,140,1,0,0,0,152,142,1,0,0,0,152,146,1,0,0,
@@ -69,9 +69,9 @@ def serializedATN():
         0,152,151,1,0,0,0,153,187,1,0,0,0,154,155,10,14,0,0,155,156,7,1,
         0,0,156,186,3,8,4,15,157,158,10,13,0,0,158,159,7,2,0,0,159,186,3,
         8,4,14,160,161,10,10,0,0,161,162,7,3,0,0,162,186,3,8,4,11,163,164,
-        10,9,0,0,164,165,5,18,0,0,165,186,3,8,4,10,166,169,10,22,0,0,167,
-        168,5,9,0,0,168,170,5,35,0,0,169,167,1,0,0,0,169,170,1,0,0,0,170,
-        171,1,0,0,0,171,172,5,10,0,0,172,173,5,36,0,0,173,182,5,4,0,0,174,
+        10,9,0,0,164,165,5,12,0,0,165,186,3,8,4,10,166,169,10,22,0,0,167,
+        168,5,9,0,0,168,170,5,29,0,0,169,167,1,0,0,0,169,170,1,0,0,0,170,
+        171,1,0,0,0,171,172,5,10,0,0,172,173,5,30,0,0,173,182,5,4,0,0,174,
         179,3,8,4,0,175,176,5,5,0,0,176,178,3,8,4,0,177,175,1,0,0,0,178,
         181,1,0,0,0,179,177,1,0,0,0,179,180,1,0,0,0,180,183,1,0,0,0,181,
         179,1,0,0,0,182,174,1,0,0,0,182,183,1,0,0,0,183,184,1,0,0,0,184,
@@ -92,22 +92,24 @@ class yaplParser ( Parser ):
     sharedContextCache = PredictionContextCache()
 
     literalNames = [ "<INVALID>", "';'", "'{'", "'}'", "'('", "','", "')'", 
-                     "':'", "'<-'", "'@'", "'.'", "'+'", "'-'", "'*'", "'/'", 
-                     "'~'", "'<'", "'<='", "'='", "<INVALID>", "<INVALID>", 
-                     "'false'", "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "':'", "'<-'", "'@'", "'.'", "'~'", "'='", "<INVALID>", 
+                     "<INVALID>", "'false'", "<INVALID>", "<INVALID>", "<INVALID>", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                     "<INVALID>", "<INVALID>", "<INVALID>", "'true'", "'let'", 
-                     "<INVALID>", "<INVALID>", "'self'", "'SELF_TYPE'" ]
+                     "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "'true'", "'let'", "<INVALID>", "<INVALID>", "'self'", 
+                     "'SELF_TYPE'", "<INVALID>", "<INVALID>", "<INVALID>", 
+                     "<INVALID>", "<INVALID>", "<INVALID>", "'+'", "'-'", 
+                     "'*'", "'/'", "'<'", "'<='" ]
 
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "CLASS", "ELSE", 
-                      "FALSE", "FI", "IF", "IN", "INHERITS", "ISVOID", "LOOP", 
-                      "POOL", "THEN", "WHILE", "NEW", "NOT", "TRUE", "LET", 
-                      "TYPE_ID", "OBJECT_ID", "SELF", "SELF_TYPE", "STRING", 
-                      "WHITESPACE", "NEWLINE", "INT", "COMMENT", "COMMENT_BLOCK" ]
+                      "<INVALID>", "CLASS", "ELSE", "FALSE", "FI", "IF", 
+                      "IN", "INHERITS", "ISVOID", "LOOP", "POOL", "THEN", 
+                      "WHILE", "NEW", "NOT", "TRUE", "LET", "TYPE_ID", "OBJECT_ID", 
+                      "SELF", "SELF_TYPE", "STRING", "WHITESPACE", "NEWLINE", 
+                      "INT", "COMMENT", "COMMENT_BLOCK", "PLUS", "MINUS", 
+                      "MULT", "DIV", "LT", "LE" ]
 
     RULE_prog = 0
     RULE_class_def = 1
@@ -130,38 +132,38 @@ class yaplParser ( Parser ):
     T__9=10
     T__10=11
     T__11=12
-    T__12=13
-    T__13=14
-    T__14=15
-    T__15=16
-    T__16=17
-    T__17=18
-    CLASS=19
-    ELSE=20
-    FALSE=21
-    FI=22
-    IF=23
-    IN=24
-    INHERITS=25
-    ISVOID=26
-    LOOP=27
-    POOL=28
-    THEN=29
-    WHILE=30
-    NEW=31
-    NOT=32
-    TRUE=33
-    LET=34
-    TYPE_ID=35
-    OBJECT_ID=36
-    SELF=37
-    SELF_TYPE=38
-    STRING=39
-    WHITESPACE=40
-    NEWLINE=41
-    INT=42
-    COMMENT=43
-    COMMENT_BLOCK=44
+    CLASS=13
+    ELSE=14
+    FALSE=15
+    FI=16
+    IF=17
+    IN=18
+    INHERITS=19
+    ISVOID=20
+    LOOP=21
+    POOL=22
+    THEN=23
+    WHILE=24
+    NEW=25
+    NOT=26
+    TRUE=27
+    LET=28
+    TYPE_ID=29
+    OBJECT_ID=30
+    SELF=31
+    SELF_TYPE=32
+    STRING=33
+    WHITESPACE=34
+    NEWLINE=35
+    INT=36
+    COMMENT=37
+    COMMENT_BLOCK=38
+    PLUS=39
+    MINUS=40
+    MULT=41
+    DIV=42
+    LT=43
+    LE=44
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -653,6 +655,10 @@ class yaplParser ( Parser ):
             else:
                 return self.getTypedRuleContext(yaplParser.ExprContext,i)
 
+        def MULT(self):
+            return self.getToken(yaplParser.MULT, 0)
+        def DIV(self):
+            return self.getToken(yaplParser.DIV, 0)
 
         def enterRule(self, listener:ParseTreeListener):
             if hasattr( listener, "enterExpr_mult" ):
@@ -830,6 +836,10 @@ class yaplParser ( Parser ):
             else:
                 return self.getTypedRuleContext(yaplParser.ExprContext,i)
 
+        def LT(self):
+            return self.getToken(yaplParser.LT, 0)
+        def LE(self):
+            return self.getToken(yaplParser.LE, 0)
 
         def enterRule(self, listener:ParseTreeListener):
             if hasattr( listener, "enterExpr_less_than" ):
@@ -1073,6 +1083,8 @@ class yaplParser ( Parser ):
             super().__init__(parser)
             self.copyFrom(ctx)
 
+        def MINUS(self):
+            return self.getToken(yaplParser.MINUS, 0)
         def expr(self):
             return self.getTypedRuleContext(yaplParser.ExprContext,0)
 
@@ -1193,6 +1205,10 @@ class yaplParser ( Parser ):
             else:
                 return self.getTypedRuleContext(yaplParser.ExprContext,i)
 
+        def PLUS(self):
+            return self.getToken(yaplParser.PLUS, 0)
+        def MINUS(self):
+            return self.getToken(yaplParser.MINUS, 0)
 
         def enterRule(self, listener:ParseTreeListener):
             if hasattr( listener, "enterExpr_suma" ):
@@ -1247,7 +1263,7 @@ class yaplParser ( Parser ):
                 self.state = 82
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << yaplParser.T__1) | (1 << yaplParser.T__3) | (1 << yaplParser.T__11) | (1 << yaplParser.T__14) | (1 << yaplParser.FALSE) | (1 << yaplParser.IF) | (1 << yaplParser.ISVOID) | (1 << yaplParser.WHILE) | (1 << yaplParser.NEW) | (1 << yaplParser.NOT) | (1 << yaplParser.TRUE) | (1 << yaplParser.LET) | (1 << yaplParser.TYPE_ID) | (1 << yaplParser.OBJECT_ID) | (1 << yaplParser.SELF) | (1 << yaplParser.STRING) | (1 << yaplParser.INT))) != 0):
+                if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << yaplParser.T__1) | (1 << yaplParser.T__3) | (1 << yaplParser.T__10) | (1 << yaplParser.FALSE) | (1 << yaplParser.IF) | (1 << yaplParser.ISVOID) | (1 << yaplParser.WHILE) | (1 << yaplParser.NEW) | (1 << yaplParser.NOT) | (1 << yaplParser.TRUE) | (1 << yaplParser.LET) | (1 << yaplParser.TYPE_ID) | (1 << yaplParser.OBJECT_ID) | (1 << yaplParser.SELF) | (1 << yaplParser.STRING) | (1 << yaplParser.INT) | (1 << yaplParser.MINUS))) != 0):
                     self.state = 74
                     self.expr(0)
                     self.state = 79
@@ -1321,7 +1337,7 @@ class yaplParser ( Parser ):
                     self.state = 105 
                     self._errHandler.sync(self)
                     _la = self._input.LA(1)
-                    if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << yaplParser.T__1) | (1 << yaplParser.T__3) | (1 << yaplParser.T__11) | (1 << yaplParser.T__14) | (1 << yaplParser.FALSE) | (1 << yaplParser.IF) | (1 << yaplParser.ISVOID) | (1 << yaplParser.WHILE) | (1 << yaplParser.NEW) | (1 << yaplParser.NOT) | (1 << yaplParser.TRUE) | (1 << yaplParser.LET) | (1 << yaplParser.TYPE_ID) | (1 << yaplParser.OBJECT_ID) | (1 << yaplParser.SELF) | (1 << yaplParser.STRING) | (1 << yaplParser.INT))) != 0)):
+                    if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << yaplParser.T__1) | (1 << yaplParser.T__3) | (1 << yaplParser.T__10) | (1 << yaplParser.FALSE) | (1 << yaplParser.IF) | (1 << yaplParser.ISVOID) | (1 << yaplParser.WHILE) | (1 << yaplParser.NEW) | (1 << yaplParser.NOT) | (1 << yaplParser.TRUE) | (1 << yaplParser.LET) | (1 << yaplParser.TYPE_ID) | (1 << yaplParser.OBJECT_ID) | (1 << yaplParser.SELF) | (1 << yaplParser.STRING) | (1 << yaplParser.INT) | (1 << yaplParser.MINUS))) != 0)):
                         break
 
                 self.state = 107
@@ -1407,7 +1423,7 @@ class yaplParser ( Parser ):
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 136
-                self.match(yaplParser.T__11)
+                self.match(yaplParser.MINUS)
                 self.state = 137
                 self.expr(12)
                 pass
@@ -1417,7 +1433,7 @@ class yaplParser ( Parser ):
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 138
-                self.match(yaplParser.T__14)
+                self.match(yaplParser.T__10)
                 self.state = 139
                 self.expr(11)
                 pass
@@ -1519,7 +1535,7 @@ class yaplParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 14)")
                         self.state = 155
                         _la = self._input.LA(1)
-                        if not(_la==yaplParser.T__10 or _la==yaplParser.T__11):
+                        if not(_la==yaplParser.PLUS or _la==yaplParser.MINUS):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -1537,7 +1553,7 @@ class yaplParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 13)")
                         self.state = 158
                         _la = self._input.LA(1)
-                        if not(_la==yaplParser.T__12 or _la==yaplParser.T__13):
+                        if not(_la==yaplParser.MULT or _la==yaplParser.DIV):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -1555,7 +1571,7 @@ class yaplParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 10)")
                         self.state = 161
                         _la = self._input.LA(1)
-                        if not(_la==yaplParser.T__15 or _la==yaplParser.T__16):
+                        if not(_la==yaplParser.LT or _la==yaplParser.LE):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -1572,7 +1588,7 @@ class yaplParser ( Parser ):
                             from antlr4.error.Errors import FailedPredicateException
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 9)")
                         self.state = 164
-                        self.match(yaplParser.T__17)
+                        self.match(yaplParser.T__11)
                         self.state = 165
                         self.expr(10)
                         pass
@@ -1603,7 +1619,7 @@ class yaplParser ( Parser ):
                         self.state = 182
                         self._errHandler.sync(self)
                         _la = self._input.LA(1)
-                        if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << yaplParser.T__1) | (1 << yaplParser.T__3) | (1 << yaplParser.T__11) | (1 << yaplParser.T__14) | (1 << yaplParser.FALSE) | (1 << yaplParser.IF) | (1 << yaplParser.ISVOID) | (1 << yaplParser.WHILE) | (1 << yaplParser.NEW) | (1 << yaplParser.NOT) | (1 << yaplParser.TRUE) | (1 << yaplParser.LET) | (1 << yaplParser.TYPE_ID) | (1 << yaplParser.OBJECT_ID) | (1 << yaplParser.SELF) | (1 << yaplParser.STRING) | (1 << yaplParser.INT))) != 0):
+                        if (((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << yaplParser.T__1) | (1 << yaplParser.T__3) | (1 << yaplParser.T__10) | (1 << yaplParser.FALSE) | (1 << yaplParser.IF) | (1 << yaplParser.ISVOID) | (1 << yaplParser.WHILE) | (1 << yaplParser.NEW) | (1 << yaplParser.NOT) | (1 << yaplParser.TRUE) | (1 << yaplParser.LET) | (1 << yaplParser.TYPE_ID) | (1 << yaplParser.OBJECT_ID) | (1 << yaplParser.SELF) | (1 << yaplParser.STRING) | (1 << yaplParser.INT) | (1 << yaplParser.MINUS))) != 0):
                             self.state = 174
                             self.expr(0)
                             self.state = 179

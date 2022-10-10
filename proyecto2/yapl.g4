@@ -38,6 +38,12 @@ NEWLINE: [\r\n]+ -> skip;
 INT: [0-9]+;
 COMMENT: '--' .*? NEWLINE -> skip;
 COMMENT_BLOCK: '(*' .*? '*)' -> skip;
+PLUS: '+';
+MINUS: '-';
+MULT: '*';
+DIV: '/';
+LT: '<';
+LE: '<=';
 // ERROR: .;
 
 
@@ -63,11 +69,11 @@ expr: OBJECT_ID '<-' expr                                                       
     | LET OBJECT_ID ':' TYPE_ID ('<-' expr)? ( ',' OBJECT_ID ':' TYPE_ID ( '<-' expr )? )* IN expr                              # expr_decl
     | NEW TYPE_ID                                                                                                               # expr_instance
     | ISVOID expr                                                                                                               # expr_isvoid
-    | expr ('+'|'-') expr                                                                                                       # expr_suma
-    | expr ('*'|'/') expr                                                                                                       # expr_mult
+    | expr (PLUS|MINUS) expr                                                                                                    # expr_suma
+    | expr (MULT|DIV) expr                                                                                                      # expr_mult
     | '-' expr                                                                                                                  # expr_negative
     | '~' expr                                                                                                                  # expr_negado
-    | expr ('<'|'<=') expr                                                                                                      # expr_less_than
+    | expr (LT|LE) expr                                                                                                         # expr_less_than
     | expr '=' expr                                                                                                             # expr_equal
     | NOT expr                                                                                                                  # expr_not
     | '(' expr ')'                                                                                                              # expr_parenthesis

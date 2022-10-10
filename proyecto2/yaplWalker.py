@@ -505,25 +505,33 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_instance.
     def visitExpr_instance(self, ctx:yaplParser.Expr_instanceContext):
+        ref = self.tac.add(
+            o = ctx.NEW(),
+            x = ctx.TYPE_ID(),
+        )
+
         # self.find_or_create_type_id(ctx)
-        self.visitChildren(ctx)
-        return ctx
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_isvoid.
     def visitExpr_isvoid(self, ctx:yaplParser.Expr_isvoidContext):
-        self.visitChildren(ctx)
-        return ctx
+        ref = self.tac.add(
+            o = ctx.ISVOID(),
+            x = self.visit(ctx.expr()),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_suma.
     def visitExpr_suma(self, ctx:yaplParser.Expr_sumaContext):
-        # print(ctx.expr())
-        # for node in ctx.expr():
-        #     print(self.visit(node))
+        symbol = ctx.PLUS() if ctx.PLUS() else ctx.MINUS()
 
         ref = self.tac.add(
-            o = "+",
+            o = symbol,
             x = self.visit(ctx.expr(0)),
             y = self.visit(ctx.expr(1)),
         )
@@ -534,26 +542,52 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_mult.
     def visitExpr_mult(self, ctx:yaplParser.Expr_multContext):
-        self.visitChildren(ctx)
-        return ctx
+        symbol = ctx.MULT() if ctx.MULT() else ctx.DIV()
+
+        ref = self.tac.add(
+            o = symbol,
+            x = self.visit(ctx.expr(0)),
+            y = self.visit(ctx.expr(1)),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_negative.
     def visitExpr_negative(self, ctx:yaplParser.Expr_negativeContext):
-        self.visitChildren(ctx)
-        return ctx
+        ref = self.tac.add(
+            o = "-",
+            x = self.visit(ctx.expr()),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_negado.
     def visitExpr_negado(self, ctx:yaplParser.Expr_negadoContext):
-        self.visitChildren(ctx)
-        return ctx
+        ref = self.tac.add(
+            o = "~",
+            x = self.visit(ctx.expr()),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_less_than.
     def visitExpr_less_than(self, ctx:yaplParser.Expr_less_thanContext):
-        self.visitChildren(ctx)
-        return ctx
+        symbol = ctx.LT() if ctx.LT() else ctx.LE()
+
+        ref = self.tac.add(
+            o = symbol,
+            x = self.visit(ctx.expr(0)),
+            y = self.visit(ctx.expr(1)),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_equal.
@@ -654,7 +688,7 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.TRUE().getText()))
         # )
         # self.visitChildren(ctx)
-        return ctx.TRUE().getText()
+        return "true"
 
 
     # Visit a parse tree produced by yaplParser#expr_false.
@@ -669,13 +703,13 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.FALSE().getText()))
         # )
         # self.visitChildren(ctx)
-        return ctx.FALSE().getText()
+        return "false"
 
 
     # Visit a parse tree produced by yaplParser#expr_self.
     def visitExpr_self(self, ctx:yaplParser.Expr_selfContext):
         # self.visitChildren(ctx)
-        return ctx.SELF().getText()
+        return "self"
 
 
 del yaplParser
