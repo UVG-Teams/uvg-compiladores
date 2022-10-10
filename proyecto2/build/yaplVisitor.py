@@ -114,13 +114,13 @@ class yaplVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_while.
-    def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
+    # Visit a parse tree produced by yaplParser#expr_brackets.
+    def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_brackets.
-    def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
+    # Visit a parse tree produced by yaplParser#expr_while.
+    def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
         return self.visitChildren(ctx)
 
 

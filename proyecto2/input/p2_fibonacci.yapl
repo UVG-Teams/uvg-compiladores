@@ -36,9 +36,9 @@ class Main {
 
     main() : SELF_TYPE {
         {
-            n = 5 + 6;
-            s = (true);
-            t = not s;
+            n <- 5 + 6;
+            s <- (true);
+            t <- not s;
             myfibonacci <- new Fibonacci;
             out_int(myfibonacci.fibonacci(n));
         }

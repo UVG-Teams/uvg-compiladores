@@ -197,21 +197,21 @@ class yaplListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by yaplParser#expr_while.
-    def enterExpr_while(self, ctx:yaplParser.Expr_whileContext):
-        pass
-
-    # Exit a parse tree produced by yaplParser#expr_while.
-    def exitExpr_while(self, ctx:yaplParser.Expr_whileContext):
-        pass
-
-
     # Enter a parse tree produced by yaplParser#expr_brackets.
     def enterExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
         pass
 
     # Exit a parse tree produced by yaplParser#expr_brackets.
     def exitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
+        pass
+
+
+    # Enter a parse tree produced by yaplParser#expr_while.
+    def enterExpr_while(self, ctx:yaplParser.Expr_whileContext):
+        pass
+
+    # Exit a parse tree produced by yaplParser#expr_while.
+    def exitExpr_while(self, ctx:yaplParser.Expr_whileContext):
         pass
 
 

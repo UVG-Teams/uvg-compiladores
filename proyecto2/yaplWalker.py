@@ -677,7 +677,7 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_parenthesis.
     def visitExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
         ref = self.tac.add(
-            o = "=",
+            o = "<-",
             x = self.visit(ctx.expr())
         )
 
@@ -705,7 +705,7 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_int.
     def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
         ref = self.tac.add(
-            o = "=",
+            o = "<-",
             x = ctx.INT().getText(),
         )
         # x = 14
@@ -729,7 +729,7 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
         ref = self.tac.add(
-            o = "=",
+            o = "<-",
             x = ctx.STRING().getText(),
         )
         # self.add_to_symbol_table(
@@ -748,7 +748,7 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_true.
     def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
         ref = self.tac.add(
-            o = "=",
+            o = "<-",
             x = ctx.TRUE().getText(),
         )
         # self.add_to_symbol_table(
@@ -767,7 +767,7 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_false.
     def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
         ref = self.tac.add(
-            o = "=",
+            o = "<-",
             x = ctx.FALSE().getText(),
         )
         # self.add_to_symbol_table(

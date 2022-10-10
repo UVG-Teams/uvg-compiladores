@@ -75,13 +75,11 @@ class ThreeAddressCode():
                 x = terceto.x
                 y = terceto.y
 
-                if o == "=" and not y:
+                if o == "<-" and not y:
                     # Save value in memory
                     f.write("{r} := {x}\n".format(r=r, x=x))
-                elif o == "=" and y:
-                    # Assign value to variable
-                    # Comparing values
-                    f.write("{r} := {x} = {y}\n".format(r=r, x=x, y=y))
+                elif o == "<-" and y:
+                    f.write("{r} := {x} <- {y}\n".format(r=r, x=x, y=y))
                 elif o == "goto" and not y:
                     # Goto
                     f.write("{r} := goto {x}\n".format(r=r, x=x))
