@@ -831,48 +831,48 @@ public class yaplParser extends Parser {
 				break;
 			case 9:
 				{
-				_localctx = new Expr_negativeContext(_localctx);
+				_localctx = new Expr_parenthesisContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(134);
-				match(MINUS);
+				match(T__3);
 				setState(135);
-				expr(12);
+				expr(0);
+				setState(136);
+				match(T__5);
 				}
 				break;
 			case 10:
 				{
-				_localctx = new Expr_negadoContext(_localctx);
+				_localctx = new Expr_negativeContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(136);
-				match(T__10);
-				setState(137);
-				expr(11);
+				setState(138);
+				match(MINUS);
+				setState(139);
+				expr(13);
 				}
 				break;
 			case 11:
 				{
-				_localctx = new Expr_notContext(_localctx);
+				_localctx = new Expr_negadoContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(138);
-				match(NOT);
-				setState(139);
-				expr(8);
+				setState(140);
+				match(T__10);
+				setState(141);
+				expr(12);
 				}
 				break;
 			case 12:
 				{
-				_localctx = new Expr_parenthesisContext(_localctx);
+				_localctx = new Expr_notContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(140);
-				match(T__3);
-				setState(141);
-				expr(0);
 				setState(142);
-				match(T__5);
+				match(NOT);
+				setState(143);
+				expr(11);
 				}
 				break;
 			case 13:
@@ -952,31 +952,11 @@ public class yaplParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 					case 1:
 						{
-						_localctx = new Expr_sumaContext(new ExprContext(_parentctx, _parentState));
-						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(152);
-						if (!(precpred(_ctx, 14))) throw new FailedPredicateException(this, "precpred(_ctx, 14)");
-						setState(153);
-						_la = _input.LA(1);
-						if ( !(_la==PLUS || _la==MINUS) ) {
-						_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
-						setState(154);
-						expr(15);
-						}
-						break;
-					case 2:
-						{
 						_localctx = new Expr_multContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(155);
-						if (!(precpred(_ctx, 13))) throw new FailedPredicateException(this, "precpred(_ctx, 13)");
-						setState(156);
+						setState(152);
+						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						setState(153);
 						_la = _input.LA(1);
 						if ( !(_la==MULT || _la==DIV) ) {
 						_errHandler.recoverInline(this);
@@ -986,8 +966,28 @@ public class yaplParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
+						setState(154);
+						expr(11);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new Expr_sumaContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(155);
+						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						setState(156);
+						_la = _input.LA(1);
+						if ( !(_la==PLUS || _la==MINUS) ) {
+						_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
 						setState(157);
-						expr(14);
+						expr(10);
 						}
 						break;
 					case 3:
@@ -995,7 +995,7 @@ public class yaplParser extends Parser {
 						_localctx = new Expr_less_thanContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(158);
-						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
+						if (!(precpred(_ctx, 8))) throw new FailedPredicateException(this, "precpred(_ctx, 8)");
 						setState(159);
 						_la = _input.LA(1);
 						if ( !(_la==LT || _la==LE) ) {
@@ -1007,7 +1007,7 @@ public class yaplParser extends Parser {
 							consume();
 						}
 						setState(160);
-						expr(11);
+						expr(9);
 						}
 						break;
 					case 4:
@@ -1015,11 +1015,11 @@ public class yaplParser extends Parser {
 						_localctx = new Expr_equalContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(161);
-						if (!(precpred(_ctx, 9))) throw new FailedPredicateException(this, "precpred(_ctx, 9)");
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(162);
 						match(T__11);
 						setState(163);
-						expr(10);
+						expr(8);
 						}
 						break;
 					case 5:
@@ -1106,13 +1106,13 @@ public class yaplParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 14);
-		case 1:
-			return precpred(_ctx, 13);
-		case 2:
 			return precpred(_ctx, 10);
-		case 3:
+		case 1:
 			return precpred(_ctx, 9);
+		case 2:
+			return precpred(_ctx, 8);
+		case 3:
+			return precpred(_ctx, 7);
 		case 4:
 			return precpred(_ctx, 22);
 		}
@@ -1133,7 +1133,7 @@ public class yaplParser extends Parser {
 		"\3\7\3\7\5\7\u0099\n\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7"+
 		"\3\7\3\7\3\7\5\7\u00aa\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7\u00b2\n\7\f\7\16"+
 		"\7\u00b5\13\7\5\7\u00b7\n\7\3\7\7\7\u00ba\n\7\f\7\16\7\u00bd\13\7\3\7"+
-		"\2\3\f\b\2\4\6\b\n\f\2\6\3\2\37 \3\2)*\3\2+,\3\2-.\2\u00de\2\21\3\2\2"+
+		"\2\3\f\b\2\4\6\b\n\f\2\6\3\2\37 \3\2+,\3\2)*\3\2-.\2\u00de\2\21\3\2\2"+
 		"\2\4\25\3\2\2\2\6B\3\2\2\2\bD\3\2\2\2\nH\3\2\2\2\f\u0098\3\2\2\2\16\17"+
 		"\5\4\3\2\17\20\7\3\2\2\20\22\3\2\2\2\21\16\3\2\2\2\22\23\3\2\2\2\23\21"+
 		"\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\26\7\17\2\2\26\31\7\37\2\2\27\30"+
@@ -1158,19 +1158,19 @@ public class yaplParser extends Parser {
 		"\3\2\2\2~|\3\2\2\2~\177\3\2\2\2\177\u0081\3\2\2\2\u0080~\3\2\2\2\u0081"+
 		"\u0082\7\24\2\2\u0082\u0083\5\f\7\23\u0083\u0099\3\2\2\2\u0084\u0085\7"+
 		"\33\2\2\u0085\u0099\7\37\2\2\u0086\u0087\7\26\2\2\u0087\u0099\5\f\7\21"+
-		"\u0088\u0089\7*\2\2\u0089\u0099\5\f\7\16\u008a\u008b\7\r\2\2\u008b\u0099"+
-		"\5\f\7\r\u008c\u008d\7\34\2\2\u008d\u0099\5\f\7\n\u008e\u008f\7\6\2\2"+
-		"\u008f\u0090\5\f\7\2\u0090\u0091\7\b\2\2\u0091\u0099\3\2\2\2\u0092\u0099"+
-		"\t\2\2\2\u0093\u0099\7&\2\2\u0094\u0099\7#\2\2\u0095\u0099\7\35\2\2\u0096"+
+		"\u0088\u0089\7\6\2\2\u0089\u008a\5\f\7\2\u008a\u008b\7\b\2\2\u008b\u0099"+
+		"\3\2\2\2\u008c\u008d\7*\2\2\u008d\u0099\5\f\7\17\u008e\u008f\7\r\2\2\u008f"+
+		"\u0099\5\f\7\16\u0090\u0091\7\34\2\2\u0091\u0099\5\f\7\r\u0092\u0099\t"+
+		"\2\2\2\u0093\u0099\7&\2\2\u0094\u0099\7#\2\2\u0095\u0099\7\35\2\2\u0096"+
 		"\u0099\7\21\2\2\u0097\u0099\7!\2\2\u0098O\3\2\2\2\u0098S\3\2\2\2\u0098"+
 		"`\3\2\2\2\u0098h\3\2\2\2\u0098n\3\2\2\2\u0098x\3\2\2\2\u0098\u0084\3\2"+
-		"\2\2\u0098\u0086\3\2\2\2\u0098\u0088\3\2\2\2\u0098\u008a\3\2\2\2\u0098"+
-		"\u008c\3\2\2\2\u0098\u008e\3\2\2\2\u0098\u0092\3\2\2\2\u0098\u0093\3\2"+
+		"\2\2\u0098\u0086\3\2\2\2\u0098\u0088\3\2\2\2\u0098\u008c\3\2\2\2\u0098"+
+		"\u008e\3\2\2\2\u0098\u0090\3\2\2\2\u0098\u0092\3\2\2\2\u0098\u0093\3\2"+
 		"\2\2\u0098\u0094\3\2\2\2\u0098\u0095\3\2\2\2\u0098\u0096\3\2\2\2\u0098"+
-		"\u0097\3\2\2\2\u0099\u00bb\3\2\2\2\u009a\u009b\f\20\2\2\u009b\u009c\t"+
-		"\3\2\2\u009c\u00ba\5\f\7\21\u009d\u009e\f\17\2\2\u009e\u009f\t\4\2\2\u009f"+
-		"\u00ba\5\f\7\20\u00a0\u00a1\f\f\2\2\u00a1\u00a2\t\5\2\2\u00a2\u00ba\5"+
-		"\f\7\r\u00a3\u00a4\f\13\2\2\u00a4\u00a5\7\16\2\2\u00a5\u00ba\5\f\7\f\u00a6"+
+		"\u0097\3\2\2\2\u0099\u00bb\3\2\2\2\u009a\u009b\f\f\2\2\u009b\u009c\t\3"+
+		"\2\2\u009c\u00ba\5\f\7\r\u009d\u009e\f\13\2\2\u009e\u009f\t\4\2\2\u009f"+
+		"\u00ba\5\f\7\f\u00a0\u00a1\f\n\2\2\u00a1\u00a2\t\5\2\2\u00a2\u00ba\5\f"+
+		"\7\13\u00a3\u00a4\f\t\2\2\u00a4\u00a5\7\16\2\2\u00a5\u00ba\5\f\7\n\u00a6"+
 		"\u00a9\f\30\2\2\u00a7\u00a8\7\13\2\2\u00a8\u00aa\7\37\2\2\u00a9\u00a7"+
 		"\3\2\2\2\u00a9\u00aa\3\2\2\2\u00aa\u00ab\3\2\2\2\u00ab\u00ac\7\f\2\2\u00ac"+
 		"\u00ad\7 \2\2\u00ad\u00b6\7\6\2\2\u00ae\u00b3\5\f\7\2\u00af\u00b0\7\7"+

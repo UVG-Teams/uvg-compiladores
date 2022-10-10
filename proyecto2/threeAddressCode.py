@@ -59,8 +59,8 @@ class ThreeAddressCode():
         self.tercetos.append(terceto)
 
         if not r:
-            # ctaci - Compiler Three Address Code Index
-            r = "ctaci{i}".format(i=self.tercetos.index(terceto))
+            # Compiler Three Address Code Index
+            r = "_{i}".format(i=self.tercetos.index(terceto))
 
         cuarteto = Cuarteto(o, x, y, r)
         self.cuartetos.append(cuarteto)

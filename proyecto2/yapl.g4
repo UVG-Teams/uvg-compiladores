@@ -70,14 +70,14 @@ expr: OBJECT_ID '<-' expr                                                       
     | LET asgn ( ',' asgn )* IN expr                                                                                            # expr_decl
     | NEW TYPE_ID                                                                                                               # expr_instance
     | ISVOID expr                                                                                                               # expr_isvoid
-    | expr (PLUS|MINUS) expr                                                                                                    # expr_suma
-    | expr (MULT|DIV) expr                                                                                                      # expr_mult
+    | '(' expr ')'                                                                                                              # expr_parenthesis
     | '-' expr                                                                                                                  # expr_negative
     | '~' expr                                                                                                                  # expr_negado
+    | NOT expr                                                                                                                  # expr_not
+    | expr (MULT|DIV) expr                                                                                                      # expr_mult
+    | expr (PLUS|MINUS) expr                                                                                                    # expr_suma
     | expr (LT|LE) expr                                                                                                         # expr_less_than
     | expr '=' expr                                                                                                             # expr_equal
-    | NOT expr                                                                                                                  # expr_not
-    | '(' expr ')'                                                                                                              # expr_parenthesis
     | (TYPE_ID | OBJECT_ID)                                                                                                     # expr_id
     | INT                                                                                                                       # expr_int
     | STRING                                                                                                                    # expr_str

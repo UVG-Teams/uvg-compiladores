@@ -476,15 +476,22 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_call.
     def visitExpr_call(self, ctx:yaplParser.Expr_callContext):
-        # ref = self.tac.add(
-        #     o = "call",
-        #     x = ctx.OBJECT_ID(),
-        #     # x = self.visit(ctx.expr()),
-        # )
+        # TODO: Check if the method exists
+        # TODO: Check if the method has the same amount of params
+        # TODO: Check if the method has the same types of params
+        # TODO: Check if the method has the same return type
+        # TODO: Check if the method has the same scope
+        # TODO: Check if the method has the same scope_type
+        # TODO: Check if the method belongs to the same class
+        ref = self.tac.add(
+            o = "call",
+            x = ctx.OBJECT_ID(),
+            # y = self.visit(ctx.expr()),
+        )
 
         # self.find_or_create_object_id(ctx)
         self.visitChildren(ctx)
-        return ctx
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_if.
@@ -697,6 +704,10 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_int.
     def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
+        ref = self.tac.add(
+            o = "=",
+            x = ctx.INT().getText(),
+        )
         # x = 14
         # print(id(x))
         # print(hex(id(x)))
@@ -712,11 +723,15 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(int(ctx.INT().getText()))
         # )
         # self.visitChildren(ctx)
-        return ctx.INT().getText()
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
+        ref = self.tac.add(
+            o = "=",
+            x = ctx.STRING().getText(),
+        )
         # self.add_to_symbol_table(
         #     ctx.STRING(),
         #     data_type="String",
@@ -727,11 +742,15 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(str(ctx.STRING().getText()))
         # )
         # self.visitChildren(ctx)
-        return ctx.STRING().getText()
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_true.
     def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
+        ref = self.tac.add(
+            o = "=",
+            x = ctx.TRUE().getText(),
+        )
         # self.add_to_symbol_table(
         #     ctx.TRUE(),
         #     data_type="Bool",
@@ -742,11 +761,15 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.TRUE().getText()))
         # )
         # self.visitChildren(ctx)
-        return "true"
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_false.
     def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
+        ref = self.tac.add(
+            o = "=",
+            x = ctx.FALSE().getText(),
+        )
         # self.add_to_symbol_table(
         #     ctx.FALSE(),
         #     data_type="Bool",
@@ -757,7 +780,7 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.FALSE().getText()))
         # )
         # self.visitChildren(ctx)
-        return "false"
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_self.
