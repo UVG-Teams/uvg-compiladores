@@ -11,6 +11,7 @@ import sys
 import ctypes
 from antlr4 import *
 from symbolTable import SymbolTable
+from threeAddressCode import ThreeAddressCode
 from build.yaplParser import yaplParser
 from build.yaplVisitor import yaplVisitor
 
@@ -36,6 +37,13 @@ class yaplWalker(yaplVisitor):
 
     def getSymbolTable(self):
         return  self.symbolTable
+
+    def init3AddressCode(self):
+        # Three Address Code
+        self.tac = ThreeAddressCode()
+
+    def getTAC(self):
+        return  self.tac
 
     def add_to_symbol_table(
         self,
@@ -245,7 +253,7 @@ class yaplWalker(yaplVisitor):
         if self.main_class_count != 1:
             self.errors.append({
                 "msg": "Solo una clase Main debe existir",
-                # "payload": ctx.TYPE_ID()[0].getPayload()
+                # "payload": ctx.TYPE_ID(0).getPayload()
             })
 
         # Checking the amount of main methods
@@ -261,7 +269,7 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#class_def.
     def visitClass_def(self, ctx:yaplParser.Class_defContext):
 
-        self.current_class = str(ctx.TYPE_ID()[0])
+        self.current_class = str(ctx.TYPE_ID(0))
 
         # Checking Main Class errors
         if self.current_class == "Main":
@@ -269,41 +277,41 @@ class yaplWalker(yaplVisitor):
             if len(ctx.TYPE_ID()) > 1:
                 self.errors.append({
                     "msg": "Clase Main no debe heredar de ninguna",
-                    "payload": ctx.TYPE_ID()[1].getPayload()
+                    "payload": ctx.TYPE_ID(1).getPayload()
                 })
 
         # Class inheritance validations
         valide_inheritance = True
         if ctx.INHERITS():
             # Inherit from a basic type is not possible
-            if str(ctx.TYPE_ID()[1]) in self.basic_types:
+            if str(ctx.TYPE_ID(1)) in self.basic_types:
                 valide_inheritance = False
                 self.errors.append({
                     "msg": "No se puede heredar de un tipo basico",
-                    "payload": ctx.TYPE_ID()[1].getPayload()
+                    "payload": ctx.TYPE_ID(1).getPayload()
                 })
 
             # Recursive inheritance is not possible
-            if self.current_class == str(ctx.TYPE_ID()[1]):
+            if self.current_class == str(ctx.TYPE_ID(1)):
                 valide_inheritance = False
                 self.errors.append({
                     "msg": "No se puede heredar recursivamente",
-                    "payload": ctx.TYPE_ID()[1].getPayload()
+                    "payload": ctx.TYPE_ID(1).getPayload()
                 })
 
             # Multiple inheritance is not possible
-            if len(ctx.TYPE_ID()) >= 3 and ctx.TYPE_ID()[2]:
+            if len(ctx.TYPE_ID()) >= 3 and ctx.TYPE_ID(2):
                 valide_inheritance = False
                 self.errors.append({
                     "msg": "No se puede tener multiple herencia",
-                    "payload": ctx.TYPE_ID()[2].getPayload()
+                    "payload": ctx.TYPE_ID(2).getPayload()
                 })
 
         if ctx.INHERITS() and valide_inheritance:
             self.add_to_symbol_table(
                 self.current_class,
                 data_type=ctx.CLASS(),
-                inherits=ctx.TYPE_ID()[1],
+                inherits=ctx.TYPE_ID(1),
                 line=ctx.CLASS().getPayload().line,
                 column=ctx.CLASS().getPayload().column
             )
@@ -442,108 +450,161 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_asgn.
     def visitExpr_asgn(self, ctx:yaplParser.Expr_asgnContext):
         # self.find_or_create_object_id(ctx)
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_class_call.
     def visitExpr_class_call(self, ctx:yaplParser.Expr_class_callContext):
         # self.find_or_create_type_id(ctx)
         # self.find_or_create_object_id(ctx)
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_call.
     def visitExpr_call(self, ctx:yaplParser.Expr_callContext):
         # self.find_or_create_object_id(ctx)
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_if.
     def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_while.
     def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_brackets.
     def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_decl.
     def visitExpr_decl(self, ctx:yaplParser.Expr_declContext):
 
         self.add_to_symbol_table(
-            ctx.OBJECT_ID()[0],
-            data_type=ctx.TYPE_ID()[0],
+            ctx.OBJECT_ID(0),
+            data_type=ctx.TYPE_ID(0),
             line=ctx.LET().getPayload().line,
             column=ctx.LET().getPayload().column,
             scope="{method_scope}".format(method_scope=self.current_method),
             scope_type="local",
         )
 
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_instance.
     def visitExpr_instance(self, ctx:yaplParser.Expr_instanceContext):
         # self.find_or_create_type_id(ctx)
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_isvoid.
     def visitExpr_isvoid(self, ctx:yaplParser.Expr_isvoidContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_suma.
     def visitExpr_suma(self, ctx:yaplParser.Expr_sumaContext):
-        return self.visitChildren(ctx)
+        # print(ctx.expr())
+        # for node in ctx.expr():
+        #     print(self.visit(node))
+
+        ref = self.tac.add(
+            o = "+",
+            x = self.visit(ctx.expr(0)),
+            y = self.visit(ctx.expr(1)),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_mult.
     def visitExpr_mult(self, ctx:yaplParser.Expr_multContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_negative.
     def visitExpr_negative(self, ctx:yaplParser.Expr_negativeContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_negado.
     def visitExpr_negado(self, ctx:yaplParser.Expr_negadoContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_less_than.
     def visitExpr_less_than(self, ctx:yaplParser.Expr_less_thanContext):
-        return self.visitChildren(ctx)
+        self.visitChildren(ctx)
+        return ctx
 
 
     # Visit a parse tree produced by yaplParser#expr_equal.
     def visitExpr_equal(self, ctx:yaplParser.Expr_equalContext):
-        return self.visitChildren(ctx)
+        ref = self.tac.add(
+            o = "=",
+            x = self.visit(ctx.expr(0)),
+            y = self.visit(ctx.expr(1)),
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_not.
     def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
-        return self.visitChildren(ctx)
+        ref = self.tac.add(
+            o = ctx.NOT().getText(),
+            x = self.visit(ctx.expr())
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_parenthesis.
     def visitExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
-        return self.visitChildren(ctx)
+        ref = self.tac.add(
+            o = "=",
+            x = self.visit(ctx.expr())
+        )
+
+        # self.visitChildren(ctx)
+        return ref
 
 
     # Visit a parse tree produced by yaplParser#expr_id.
     def visitExpr_id(self, ctx:yaplParser.Expr_idContext):
         # self.find_or_create_type_id(ctx)
         # self.find_or_create_object_id(ctx)
-        return self.visitChildren(ctx)
+
+        id = None
+        if ctx.TYPE_ID():
+            id = ctx.TYPE_ID().getText()
+        elif ctx.OBJECT_ID():
+            id = ctx.OBJECT_ID().getText()
+
+        # ref = self.tac.add(o="=", x=id)
+        # self.visitChildren(ctx)
+        # return ref
+        return id
 
 
     # Visit a parse tree produced by yaplParser#expr_int.
@@ -555,57 +616,66 @@ class yaplWalker(yaplVisitor):
 
         # self.add_to_symbol_table(
         #     ctx.INT(),
+        #     data_type="Int",
         #     line=ctx.INT().getPayload().line,
         #     column=ctx.INT().getPayload().column,
         #     size=sys.getsizeof(int(ctx.INT().getText())),
         #     max_size=MAX_SIZE,
         #     address_id=id(int(ctx.INT().getText()))
         # )
-        return self.visitChildren(ctx)
+        # self.visitChildren(ctx)
+        return ctx.INT().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
         # self.add_to_symbol_table(
         #     ctx.STRING(),
+        #     data_type="String",
         #     line=ctx.STRING().getPayload().line,
         #     column=ctx.STRING().getPayload().column,
         #     size=sys.getsizeof(str(ctx.STRING().getText())),
         #     max_size=MAX_SIZE,
         #     address_id=id(str(ctx.STRING().getText()))
         # )
-        return self.visitChildren(ctx)
+        # self.visitChildren(ctx)
+        return ctx.STRING().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_true.
     def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
         # self.add_to_symbol_table(
         #     ctx.TRUE(),
+        #     data_type="Bool",
         #     line=ctx.TRUE().getPayload().line,
         #     column=ctx.TRUE().getPayload().column,
         #     size=sys.getsizeof(bool(ctx.TRUE().getText())),
         #     max_size=BOOL_MAX_SIZE,
         #     address_id=id(bool(ctx.TRUE().getText()))
         # )
-        return self.visitChildren(ctx)
+        # self.visitChildren(ctx)
+        return ctx.TRUE().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_false.
     def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
         # self.add_to_symbol_table(
         #     ctx.FALSE(),
+        #     data_type="Bool",
         #     line=ctx.FALSE().getPayload().line,
         #     column=ctx.FALSE().getPayload().column,
         #     size=sys.getsizeof(bool(ctx.FALSE().getText())),
         #     max_size=BOOL_MAX_SIZE,
         #     address_id=id(bool(ctx.FALSE().getText()))
         # )
-        return self.visitChildren(ctx)
+        # self.visitChildren(ctx)
+        return ctx.FALSE().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_self.
     def visitExpr_self(self, ctx:yaplParser.Expr_selfContext):
-        return self.visitChildren(ctx)
+        # self.visitChildren(ctx)
+        return ctx.SELF().getText()
 
 
 del yaplParser
