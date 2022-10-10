@@ -26,15 +26,19 @@ class Silly {
 class Sally inherits Silly { };
 
 class Main {
-    n: Int <- 5;
+    n: Int <- 3;
     s: Bool;
+    t: Bool;
     myfibonacci: Fibonacci;
-    x : Sally <- (new Sally).copy();
+    -- x : Sally <- (new Sally).copy();
 
     -- main() : Sally { x };
 
     main() : SELF_TYPE {
         {
+            n <- 5 + 6;
+            z <- (true);
+            t <- not s;
             myfibonacci <- new Fibonacci;
             out_int(myfibonacci.fibonacci(n));
         }

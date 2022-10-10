@@ -34,6 +34,11 @@ class yaplVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by yaplParser#asgn.
+    def visitAsgn(self, ctx:yaplParser.AsgnContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by yaplParser#expr_parenthesis.
     def visitExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
         return self.visitChildren(ctx)
@@ -109,13 +114,13 @@ class yaplVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_while.
-    def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
+    # Visit a parse tree produced by yaplParser#expr_brackets.
+    def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_brackets.
-    def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
+    # Visit a parse tree produced by yaplParser#expr_while.
+    def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
         return self.visitChildren(ctx)
 
 
@@ -129,13 +134,13 @@ class yaplVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_if.
-    def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
+    # Visit a parse tree produced by yaplParser#expr_not.
+    def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by yaplParser#expr_not.
-    def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
+    # Visit a parse tree produced by yaplParser#expr_if.
+    def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
         return self.visitChildren(ctx)
 
 

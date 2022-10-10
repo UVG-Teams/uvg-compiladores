@@ -53,6 +53,15 @@ class yaplListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by yaplParser#asgn.
+    def enterAsgn(self, ctx:yaplParser.AsgnContext):
+        pass
+
+    # Exit a parse tree produced by yaplParser#asgn.
+    def exitAsgn(self, ctx:yaplParser.AsgnContext):
+        pass
+
+
     # Enter a parse tree produced by yaplParser#expr_parenthesis.
     def enterExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
         pass
@@ -188,21 +197,21 @@ class yaplListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by yaplParser#expr_while.
-    def enterExpr_while(self, ctx:yaplParser.Expr_whileContext):
-        pass
-
-    # Exit a parse tree produced by yaplParser#expr_while.
-    def exitExpr_while(self, ctx:yaplParser.Expr_whileContext):
-        pass
-
-
     # Enter a parse tree produced by yaplParser#expr_brackets.
     def enterExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
         pass
 
     # Exit a parse tree produced by yaplParser#expr_brackets.
     def exitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
+        pass
+
+
+    # Enter a parse tree produced by yaplParser#expr_while.
+    def enterExpr_while(self, ctx:yaplParser.Expr_whileContext):
+        pass
+
+    # Exit a parse tree produced by yaplParser#expr_while.
+    def exitExpr_while(self, ctx:yaplParser.Expr_whileContext):
         pass
 
 
@@ -224,21 +233,21 @@ class yaplListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by yaplParser#expr_if.
-    def enterExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        pass
-
-    # Exit a parse tree produced by yaplParser#expr_if.
-    def exitExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        pass
-
-
     # Enter a parse tree produced by yaplParser#expr_not.
     def enterExpr_not(self, ctx:yaplParser.Expr_notContext):
         pass
 
     # Exit a parse tree produced by yaplParser#expr_not.
     def exitExpr_not(self, ctx:yaplParser.Expr_notContext):
+        pass
+
+
+    # Enter a parse tree produced by yaplParser#expr_if.
+    def enterExpr_if(self, ctx:yaplParser.Expr_ifContext):
+        pass
+
+    # Exit a parse tree produced by yaplParser#expr_if.
+    def exitExpr_if(self, ctx:yaplParser.Expr_ifContext):
         pass
 
 
