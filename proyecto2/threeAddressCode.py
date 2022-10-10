@@ -66,3 +66,29 @@ class ThreeAddressCode():
         self.cuartetos.append(cuarteto)
 
         return r
+
+    def generate_code(self):
+        with open("output/code.tac", "w") as f:
+            for terceto in self.tercetos:
+                r = "_{i}".format(i=self.tercetos.index(terceto))
+                o = terceto.o
+                x = terceto.x
+                y = terceto.y
+
+                if o == "=" and not y:
+                    f.write("{r} = {x}\n".format(r = r, x = x))
+                elif o == "=" and y:
+                    f.write("{x} = {y}\n".format(x = x, y = y))
+                elif not y:
+                    f.write("{r} = {o} {x}\n".format(
+                        r = r,
+                        x = x,
+                        o = o,
+                    ))
+                else:
+                    f.write("{r} = {x} {o} {y}\n".format(
+                        r = r,
+                        x = x,
+                        o = o,
+                        y = y,
+                    ))

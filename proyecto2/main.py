@@ -81,9 +81,9 @@ def main():
     stream = CommonTokenStream(lexer)
     stream.fill()
 
-    print("Tokens:")
-    for token in stream.tokens:
-        print(token)
+    # print("Tokens:")
+    # for token in stream.tokens:
+    #     print(token)
 
     parser = yaplParser(stream)
     parser.removeErrorListeners()
@@ -127,6 +127,8 @@ def main():
         threeACRepresentation.add_row(record.values())
     print("Total 3AC:", cont)
     print(threeACRepresentation)
+
+    walker.getTAC().generate_code()
 
     text_area_symbolT.insert(tk.INSERT, symbolTableRepresentation)
 

@@ -12,6 +12,7 @@ class Main {
             d = "HOLA";
             e = true;
             f = false;
+            g = not false;
             b1 = x + x < y;
             out_int(a);
             out_int(b);

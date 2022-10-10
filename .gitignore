@@ -18,4 +18,6 @@ __pycache__/
 */venv/
 
 proyecto1/input/temp.yapl
+proyecto2/output/*
+!proyecto2/output/.gitkeep
 .DS_Store
