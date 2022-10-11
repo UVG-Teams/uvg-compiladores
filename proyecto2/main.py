@@ -50,6 +50,7 @@ def open_file():
     file_path = askopenfile(initialdir = "./input", mode='r', filetypes=[('YAPL Files', '*yapl'), ("all files", "*.*")])
     if file_path is not None:
         # pass
+        clear()
         filename_splited = file_path.name.split("/")
         filename_splited = filename_splited[len(filename_splited)-1]
         hola = filename_splited[len(filename_splited)-2]
