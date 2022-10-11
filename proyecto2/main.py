@@ -9,6 +9,7 @@ Francisco Rosal
 
 import sys
 import os
+import time
 from antlr4 import *
 from build.yaplLexer import yaplLexer
 from build.yaplParser import yaplParser
@@ -72,7 +73,9 @@ def run():
 def clear():
     # python = sys.executable
     # os.execl(python, python, * sys.argv)
-   text_area_code.delete("1.0","end")
+    text_area_code.delete("1.0","end")
+    text_area_console.delete("1.0","end")
+    text_area_symbolT.delete("1.0","end")
 
 def main():
     # input = FileStream(argv[1])
