@@ -85,9 +85,9 @@ def main():
     stream = CommonTokenStream(lexer)
     stream.fill()
 
-    print("Tokens:")
-    for token in stream.tokens:
-        print(token)
+    # print("Tokens:")
+    # for token in stream.tokens:
+    #     print(token)
 
     parser = yaplParser(stream)
     parser.removeErrorListeners()
@@ -99,18 +99,42 @@ def main():
 
     walker = yaplWalker()
     walker.initSymbolTable()
+    walker.init3AddressCode()
     walker.visit(tree)
 
-    cont = 0
     print("\nSymbol Table:")
-    myTable = PrettyTable()
+    cont = 0
+    symbolTableRepresentation = PrettyTable()
     for record in walker.symbolTable.records:
         cont = cont + 1
-        # print("Symbol", record.toString())
-        myTable.field_names = record.keys()
-        myTable.add_row(record.values())
-    print(myTable)
-    text_area_symbolT.insert(tk.INSERT, myTable)
+        symbolTableRepresentation.field_names = record.keys()
+        symbolTableRepresentation.add_row(record.values())
+    print("Total symbols:", cont)
+    print(symbolTableRepresentation)
+
+    print("\3 Address Code:")
+    cont = 0
+    threeACRepresentation = PrettyTable()
+    for record in walker.getTAC().tercetos:
+        cont = cont + 1
+        threeACRepresentation.field_names = record.keys()
+        threeACRepresentation.add_row(record.values())
+    print("Total 3AC:", cont)
+    print(threeACRepresentation)
+
+    print("\3 Address Code:")
+    cont = 0
+    threeACRepresentation = PrettyTable()
+    for record in walker.getTAC().cuartetos:
+        cont = cont + 1
+        threeACRepresentation.field_names = record.keys()
+        threeACRepresentation.add_row(record.values())
+    print("Total 3AC:", cont)
+    print(threeACRepresentation)
+
+    walker.getTAC().generate_code()
+
+    text_area_symbolT.insert(tk.INSERT, symbolTableRepresentation)
 
 
     if len(walker.errors) >= 1:

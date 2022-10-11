@@ -38,6 +38,12 @@ NEWLINE: [\r\n]+ -> skip;
 INT: [0-9]+;
 COMMENT: '--' .*? NEWLINE -> skip;
 COMMENT_BLOCK: '(*' .*? '*)' -> skip;
+PLUS: '+';
+MINUS: '-';
+MULT: '*';
+DIV: '/';
+LT: '<';
+LE: '<=';
 // ERROR: .;
 
 
@@ -47,34 +53,36 @@ prog: (class_def ';')+;
 
 class_def: CLASS TYPE_ID (INHERITS TYPE_ID)? '{' (feature ';')* '}';
 
+
 feature: OBJECT_ID ('(' (formal ( ',' formal)*)? ')')? ':' TYPE_ID '{' expr '}'                                                 # feat_def
     | OBJECT_ID ':' TYPE_ID ( '<-' expr )?                                                                                      # feat_asgn
 ;
 
 formal: OBJECT_ID ':' TYPE_ID;
+asgn: OBJECT_ID ':' TYPE_ID ( '<-' expr )?;
 
-expr: OBJECT_ID '<-' expr                                                                                                       # expr_asgn
-    // | expr ('@' TYPE_ID)? '.' OBJECT_ID '(' ( expr (';' expr)* )? ')'
-    | expr ('@' TYPE_ID)? '.' OBJECT_ID '(' ( expr (',' expr)* )? ')'                                                           # expr_class_call
-    | OBJECT_ID '(' (expr (',' expr)*)? ')'                                                                                     # expr_call
-    | IF expr THEN expr ELSE expr FI                                                                                            # expr_if
-    | WHILE expr LOOP expr POOL                                                                                                 # expr_while
-    | '{' (expr ';')+ '}'                                                                                                       # expr_brackets
-    | LET OBJECT_ID ':' TYPE_ID ('<-' expr)? ( ',' OBJECT_ID ':' TYPE_ID ( '<-' expr )? )* IN expr                              # expr_decl
-    | NEW TYPE_ID                                                                                                               # expr_instance
-    | ISVOID expr                                                                                                               # expr_isvoid
-    | expr ('+'|'-') expr                                                                                                       # expr_suma
-    | expr ('*'|'/') expr                                                                                                       # expr_mult
-    | '-' expr                                                                                                                  # expr_negative
-    | '~' expr                                                                                                                  # expr_negado
-    | expr ('<'|'<=') expr                                                                                                      # expr_less_than
-    | expr '=' expr                                                                                                             # expr_equal
-    | NOT expr                                                                                                                  # expr_not
-    | '(' expr ')'                                                                                                              # expr_parenthesis
-    | (TYPE_ID | OBJECT_ID)                                                                                                     # expr_id
+expr:
+    SELF                                                                                                                        # expr_self
     | INT                                                                                                                       # expr_int
     | STRING                                                                                                                    # expr_str
     | TRUE                                                                                                                      # expr_true
     | FALSE                                                                                                                     # expr_false
-    | SELF                                                                                                                      # expr_self
+    | (TYPE_ID | OBJECT_ID)                                                                                                     # expr_id
+    | '-' expr                                                                                                                  # expr_negative
+    | '~' expr                                                                                                                  # expr_negado
+    | NOT expr                                                                                                                  # expr_not
+    | NEW TYPE_ID                                                                                                               # expr_instance
+    | ISVOID expr                                                                                                               # expr_isvoid
+    | '(' expr ')'                                                                                                              # expr_parenthesis
+    | '{' (expr ';')+ '}'                                                                                                       # expr_brackets
+    | expr (MULT|DIV) expr                                                                                                      # expr_mult
+    | expr (PLUS|MINUS) expr                                                                                                    # expr_suma
+    | expr (LT|LE) expr                                                                                                         # expr_less_than
+    | expr '=' expr                                                                                                             # expr_equal
+    | OBJECT_ID '<-' expr                                                                                                       # expr_asgn
+    | LET asgn ( ',' asgn )* IN expr                                                                                            # expr_decl
+    | expr ('@' TYPE_ID)? '.' OBJECT_ID '(' ( expr (',' expr)* )? ')'                                                           # expr_class_call
+    | OBJECT_ID '(' (expr (',' expr)*)? ')'                                                                                     # expr_call
+    | IF expr THEN expr ELSE expr FI                                                                                            # expr_if
+    | WHILE expr LOOP expr POOL                                                                                                 # expr_while
 ;
