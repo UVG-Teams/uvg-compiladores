@@ -22,6 +22,9 @@ from tkinter.ttk import *
 from tkinter.filedialog import askopenfile
 from prettytable import PrettyTable
 
+ANSI_RESET = "\u001B[0m"
+ANSI_RED = "\u001B[31m"
+
 input = ""
 # Class that writes line number in text widget
 class LineNumbers(tk.Text):
@@ -84,7 +87,8 @@ def main():
 
     lexer = yaplLexer(input)
     lexer.removeErrorListeners()
-    lexer.addErrorListener(yaplErrorListener())
+    lexer_error_listener = yaplErrorListener()
+    lexer.addErrorListener(lexer_error_listener)
 
     stream = CommonTokenStream(lexer)
     stream.fill()
@@ -95,7 +99,8 @@ def main():
 
     parser = yaplParser(stream)
     parser.removeErrorListeners()
-    parser.addErrorListener(yaplErrorListener())
+    parser_error_listener = yaplErrorListener()
+    parser.addErrorListener(parser_error_listener)
 
     tree = parser.prog()
     print("\nParse Tree:")
@@ -141,9 +146,26 @@ def main():
     text_area_symbolT.insert(tk.INSERT, symbolTableRepresentation)
 
 
+    if len(lexer_error_listener.errors) >= 1:
+        print("\n" + ANSI_RED)
+        print("----------------------------- LEXICAL ERRORS -----------------------------")
+        for error in lexer_error_listener.errors:
+            print("Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+        print("--------------------------------------------------------------------------")
+        print("\n" + ANSI_RESET)
+
+    if len(parser_error_listener.errors) >= 1:
+        print("\n" + ANSI_RED)
+        print("----------------------------- SYNTAX ERRORS ------------------------------")
+        for error in parser_error_listener.errors:
+            print("Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+        print("--------------------------------------------------------------------------")
+        print("\n" + ANSI_RESET)
+
+
     if len(walker.errors) >= 1:
-        print("\n" + yaplErrorListener.ANSI_RED)
-        print("----------------------------- ERROR -----------------------------")
+        print("\n" + ANSI_RED)
+        print("----------------------------- SEMANTIC ERRORS ----------------------------")
         for error in walker.errors:
             if "payload" in error:
                 print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
@@ -155,9 +177,8 @@ def main():
                 text_area_console.insert(tk.INSERT, "\n")
                 text_area_console.insert(tk.INSERT, "Error: " + error["msg"])
                 text_area_console.tag_config('error', foreground="red")
-
-        print("-----------------------------------------------------------------")
-        print("\n" + yaplErrorListener.ANSI_RESET)
+        print("--------------------------------------------------------------------------")
+        print("\n" + ANSI_RESET)
 
 
 
