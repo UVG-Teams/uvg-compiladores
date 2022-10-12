@@ -1,22 +1,10 @@
 class Main {
-    main(): SELF_TYPE {
- 	    out_string("Hello, World.")
-    };
-};
-class Main2 {
-    main6(): SELF_TYPE {
- 	    out_string("this")
-    };
-
-    main4(hola: String, hola2: Int, hola3: Bool): SELF_TYPE {
- 	    out_string(14)
-    };
-
-    main2(hola: String): SELF_TYPE {
- 	    out_string(1545646786876876875)
-    };
-
-    main3(hola: String): SELF_TYPE {
- 	    out_string(true)
-    };
+  variable1: IO <- new IO;
+  variable2: String;
+  main(): Object {
+    {
+      variable2 <- variable1.in_string();
+      variable1.out_string("\n").out_string("Hola mundo, tu mensaje es: ").out_string(variable2);
+    }
+  };
 };
