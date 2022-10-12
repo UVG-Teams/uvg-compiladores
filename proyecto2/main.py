@@ -81,6 +81,13 @@ def clear():
     text_area_console.delete("1.0","end")
     text_area_symbolT.delete("1.0","end")
 
+def tac():
+    # with open('output/code.tac', 'w') as f:
+    #     fetched_content = text_area_tac.get('1.0', 'end-1c')
+    #     f.write(fetched_content)
+    input = FileStream('output/code.tac')
+    text_area_tac.insert(tk.INSERT, input, "\n")
+
 def main():
     # input = FileStream(argv[1])
     input = FileStream('input/temp.yapl')
@@ -179,6 +186,8 @@ def main():
                 text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
+
+    tac()
 
 
 
