@@ -152,7 +152,9 @@ def main():
 
     walker.getTAC().generate_code()
 
+    # ! AQUI
     text_area_symbolT.insert(tk.INSERT, symbolTableRepresentation)
+    # tree = Treeview(window, columns=('id', 'data_type', 'line', 'column'), show='headings')
 
 
     if len(lexer_error_listener.errors) >= 1:
@@ -229,8 +231,12 @@ if __name__ == '__main__':
     text_area_code = tk.Text(window, width=135, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
     text_area_tac = tk.Text(window, width=62, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
     text_area_console = tk.Text(window, width=102, height=16, font=("Times New Roman", 15), foreground="green", highlightthickness=0)
-    text_area_symbolT = tk.Text(window, width=98, height=16, font=("Times New Roman", 15), foreground="skyblue", highlightthickness=0)
+    text_area_symbolT = tk.Text(window, width=98, height=19, font=("Courier", 14), foreground="skyblue", highlightthickness=0, wrap=NONE)
     l = LineNumbers(window, text_area_code, width=2, height=38, font=("Times New Roman", 15), foreground="gray", highlightthickness=0)
+    # h = Scrollbar(window, orient='horizontal', command=text_area_symbolT.xview)
+    # h.grid(row=166, column=10, sticky=tk.NS)
+
+    # text_area_symbolT['xscrollcommand'] = h.set
 
     # Add elements to UI
     adharbtn.grid(row=0, column=0, padx=(0, 200))
@@ -240,10 +246,10 @@ if __name__ == '__main__':
     text_area_code.grid(column=0, row=1, columnspan=12, rowspan=60, padx=(43.2, 0))
     text_area_tac.grid(column=12, row=1, columnspan=6, rowspan=60, padx=(30, 0))
     l.grid(column=0, row=1, padx=(0, 279))
+    # h.grid(column=10, row=166, padx=(0, 279))
     text_area_console.grid(column=0, row=166, columnspan=10, pady=(20,0), padx=(0,1))
-    # text_area_console.grid(column=0, row=166, columnspan=12, pady=(20,0))
-    # text_area_symbolT.grid(column=10, row=166, columnspan=10, pady=(20,0))
     text_area_symbolT.grid(column=10, row=166, columnspan=10, pady=(20,0))
+    # tree.grid(column=10, row=166, columnspan=10, pady=(20,0))
 
     # runbtn.wait_variable(run_main)
     # main()
