@@ -160,6 +160,9 @@ def main():
         print("----------------------------- LEXICAL ERRORS -----------------------------")
         for error in lexer_error_listener.errors:
             print("Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+            text_area_console.insert(tk.INSERT, "\n")
+            text_area_console.insert(tk.INSERT, "Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
+            text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
 
@@ -168,6 +171,9 @@ def main():
         print("----------------------------- SYNTAX ERRORS ------------------------------")
         for error in parser_error_listener.errors:
             print("Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+            text_area_console.insert(tk.INSERT, "\n")
+            text_area_console.insert(tk.INSERT, "Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
+            text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
 
@@ -184,7 +190,7 @@ def main():
             else:
                 print("Error: " + error["msg"])
                 text_area_console.insert(tk.INSERT, "\n")
-                text_area_console.insert(tk.INSERT, "Error: " + error["msg"])
+                text_area_console.insert(tk.INSERT, "Error: " + error["msg"], 'error')
                 text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
