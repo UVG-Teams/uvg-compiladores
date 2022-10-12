@@ -23,6 +23,3 @@ _21 := true
 _22 := z <- _21
 _23 := not s
 _24 := t <- _23
-_25 := new Fibonacci
-_26 := myfibonacci <- _25
-_27 := call out_int
