@@ -67,6 +67,7 @@ def open_file():
 def run():
     text_area_console.delete("1.0","end")
     text_area_symbolT.delete("1.0","end")
+    text_area_tac.delete("1.0","end")
     with open('input/temp.yapl', 'w') as f:
         fetched_content = text_area_code.get('1.0', 'end-1c')
         f.write(fetched_content)
@@ -80,6 +81,7 @@ def clear():
     text_area_code.delete("1.0","end")
     text_area_console.delete("1.0","end")
     text_area_symbolT.delete("1.0","end")
+    text_area_tac.delete("1.0","end")
 
 def tac():
     # with open('output/code.tac', 'w') as f:
