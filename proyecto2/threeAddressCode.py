@@ -9,19 +9,6 @@ Francisco Rosal
 
 class Terceto():
 
-    def __init__(self, o=None, x=None, y=None):
-        self.o = o
-        self.x = x
-        self.y = y
-
-    def keys(self):
-        return ["o", "x", "y"]
-
-    def values(self):
-        return [self.o, self.x, self.y]
-
-class Cuarteto():
-
     def __init__(self, o=None, x=None, y=None, r=None):
         self.o = o
         self.x = x
@@ -29,17 +16,18 @@ class Cuarteto():
         self.r = r
 
     def keys(self):
-        return ["o", "x", "y", "r"]
+        return ["r", "o", "x", "y"]
 
     def values(self):
-        return [self.o, self.x, self.y, self.r]
+        y = self.y if self.y != None else ""
+
+        return [self.r, self.o, self.x, y]
 
 
 class ThreeAddressCode():
 
     def __init__(self):
         self.tercetos = []
-        self.cuartetos = []
 
     def add(self, o=None, x=None, y=None, r=None):
 
@@ -55,22 +43,19 @@ class ThreeAddressCode():
         if type(r) not in [type(None), int, str]:
             r = str(r)
 
-        terceto = Terceto(o, x, y)
-        self.tercetos.append(terceto)
-
         if not r:
             # Compiler Three Address Code Index
-            r = "_{i}".format(i=self.tercetos.index(terceto))
+            r = "_{i}".format(i=len(self.tercetos))
 
-        cuarteto = Cuarteto(o, x, y, r)
-        self.cuartetos.append(cuarteto)
+        terceto = Terceto(o, x, y, r)
+        self.tercetos.append(terceto)
 
         return r
 
     def generate_code(self):
         with open("output/code.tac", "w") as f:
             for terceto in self.tercetos:
-                r = "_{i}".format(i=self.tercetos.index(terceto))
+                r = terceto.r
                 o = terceto.o
                 x = terceto.x
                 y = terceto.y
