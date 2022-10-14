@@ -10,10 +10,10 @@ l_1 := _r5 <- 1 # f
 	_r9 <- n - 2
 	_r10 <- _r6 + _r8
 l_2 := _r11 <- _r10 # f
-l_3 := _r12 <- goto l_1 if _r3
-	_r13 <- goto l_2 if _r4
-l_4 := _r14 <- goto l_0 if _r0
-	_r15 <- goto l_3 if _r1
+l_3 := goto l_1 if _r3
+	goto l_2 if _r4
+l_4 := goto l_0 if _r0
+	goto l_3 if _r1
 	_r16 <- let l_4
 	_r17 <- f
 l_5 := _r18 <- _r16
