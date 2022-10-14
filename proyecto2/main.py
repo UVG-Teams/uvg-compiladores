@@ -151,9 +151,11 @@ def main():
         print("\n" + ANSI_RED)
         print("----------------------------- LEXICAL ERRORS -----------------------------")
         for error in lexer_error_listener.errors:
-            print("Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+            print("LexicalError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+            # if ("missing '{'" in error["msg"]):
+            #     print("Did you mean ")
             text_area_console.insert(tk.INSERT, "\n")
-            text_area_console.insert(tk.INSERT, "Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
+            text_area_console.insert(tk.INSERT, "LexicalError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
             text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
@@ -162,9 +164,9 @@ def main():
         print("\n" + ANSI_RED)
         print("----------------------------- SYNTAX ERRORS ------------------------------")
         for error in parser_error_listener.errors:
-            print("Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
+            print("SyntaxError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
             text_area_console.insert(tk.INSERT, "\n")
-            text_area_console.insert(tk.INSERT, "Error: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
+            text_area_console.insert(tk.INSERT, "SyntaxError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
             text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
@@ -175,14 +177,14 @@ def main():
         print("----------------------------- SEMANTIC ERRORS ----------------------------")
         for error in walker.errors:
             if "payload" in error:
-                print("Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
+                print("SemanticError: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
                 text_area_console.insert(tk.INSERT, "\n")
-                text_area_console.insert(tk.INSERT, "Error: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
+                text_area_console.insert(tk.INSERT, "SemanticError: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
                 text_area_console.tag_config('error', foreground="red")
             else:
-                print("Error: " + error["msg"])
+                print("SemanticError: " + error["msg"])
                 text_area_console.insert(tk.INSERT, "\n")
-                text_area_console.insert(tk.INSERT, "Error: " + error["msg"], 'error')
+                text_area_console.insert(tk.INSERT, "SemanticError: " + error["msg"], 'error')
                 text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
