@@ -57,6 +57,9 @@ class Symbol():
 
         return [self.id, self.data_type, line, column, value, scope, scope_type, inherits, numParams, paramTypes, size, max_size, address_id]
 
+    def __str__(self):
+        return str(self.values())
+
 
 class SymbolTable():
 
