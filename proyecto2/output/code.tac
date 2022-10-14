@@ -16,15 +16,19 @@ l_4 := _r14 <- goto l_0 if _r0
 	_r15 <- goto l_3 if _r1
 	_r16 <- let l_4
 	_r17 <- f
-	_r18 <- _r16
-	_r19 <- 5 + 6
-	_r20 <- _r19 # n
-	_r21 <- 5 + 6
-	_r22 <- _r21 # n
-	_r23 <- true
-	_r24 <- _r23 # s
-	_r25 <- not s
-	_r26 <- _r25 # t
-	_r27 <- new Fibonacci
-	_r28 <- _r27 # myfibonacci
-	_r29 <- call out_int
+l_5 := _r18 <- _r16
+	_r19 <- goto (fibonacci) l_5
+	_r20 <- 5 + 6
+l_6 := _r21 <- _r20 # n
+	_r22 <- goto (fibonacci) l_6
+	_r23 <- goto (copy) self
+	_r24 <- 5 + 6
+l_7 := _r25 <- _r24 # n
+	_r26 <- true
+	_r27 <- _r26 # s
+	_r28 <- not s
+	_r29 <- _r28 # t
+	_r30 <- new Fibonacci
+	_r31 <- _r30 # myfibonacci
+	_r32 <- call out_int
+	_r33 <- goto (main) l_7

@@ -383,7 +383,21 @@ class yaplWalker(yaplVisitor):
         if success:
             self.current_method_uuid = symbol.uuid
 
-        self.visitChildren(ctx)
+        expr_terceto, expr_ref = self.visit(ctx.expr())
+
+        if expr_terceto:
+            expr_terceto.l = self.new_label()
+
+            terceto, ref = self.tac.add(
+                o = "goto ({f})".format(f=ctx.OBJECT_ID()),
+                x = expr_terceto.l,
+            )
+        else:
+            terceto, ref = self.tac.add(
+                o = "goto ({f})".format(f=ctx.OBJECT_ID()),
+                x = expr_ref,
+            )
+
         return ctx
 
 
@@ -463,7 +477,6 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#asgn.
     def visitAsgn(self, ctx:yaplParser.AsgnContext):
-        # self.visitChildren(ctx)
         return ctx
 
 
@@ -484,7 +497,6 @@ class yaplWalker(yaplVisitor):
             y = expr_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -542,7 +554,6 @@ class yaplWalker(yaplVisitor):
             y = condition_not_ref, # condition
         )
 
-        # self.visitChildren(ctx)
         return if_terceto, if_ref
 
 
@@ -554,8 +565,14 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_brackets.
     def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
-        self.visitChildren(ctx)
-        return ctx
+
+        for node in ctx.expr():
+            if node == ctx.expr(0):
+                expr_terceto_0, expr_ref_0 = self.visit(ctx.expr(0))
+            else:
+                expr_terceto, expr_ref = self.visit(node)
+
+        return expr_terceto_0, expr_ref_0
 
 
     # Visit a parse tree produced by yaplParser#expr_decl.
@@ -590,7 +607,6 @@ class yaplWalker(yaplVisitor):
                 scope_type="local",
             )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -602,7 +618,6 @@ class yaplWalker(yaplVisitor):
         )
 
         # self.find_type_id(ctx)
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -615,7 +630,6 @@ class yaplWalker(yaplVisitor):
             x = expr_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -632,7 +646,6 @@ class yaplWalker(yaplVisitor):
             y = expr2_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -649,7 +662,6 @@ class yaplWalker(yaplVisitor):
             y = expr2_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -662,7 +674,6 @@ class yaplWalker(yaplVisitor):
             x = expr_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -675,7 +686,6 @@ class yaplWalker(yaplVisitor):
             x = expr_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -692,7 +702,6 @@ class yaplWalker(yaplVisitor):
             y = expr2_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -707,7 +716,6 @@ class yaplWalker(yaplVisitor):
             y = expr2_ref,
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -720,7 +728,6 @@ class yaplWalker(yaplVisitor):
             x = expr_ref
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -733,7 +740,6 @@ class yaplWalker(yaplVisitor):
             x = expr_ref
         )
 
-        # self.visitChildren(ctx)
         return terceto, ref
 
 
@@ -749,7 +755,6 @@ class yaplWalker(yaplVisitor):
             id = ctx.OBJECT_ID().getText()
 
         # terceto, ref = self.tac.add(o="=", x=id)
-        # self.visitChildren(ctx)
         # return terceto, ref
         return None, id
 
@@ -774,7 +779,6 @@ class yaplWalker(yaplVisitor):
         #     max_size=MAX_SIZE,
         #     address_id=id(int(ctx.INT().getText()))
         # )
-        # self.visitChildren(ctx)
         return None, ctx.INT().getText()
 
 
@@ -793,7 +797,6 @@ class yaplWalker(yaplVisitor):
         #     max_size=MAX_SIZE,
         #     address_id=id(str(ctx.STRING().getText()))
         # )
-        # self.visitChildren(ctx)
         return None, ctx.STRING().getText()
 
 
@@ -812,7 +815,6 @@ class yaplWalker(yaplVisitor):
         #     max_size=BOOL_MAX_SIZE,
         #     address_id=id(bool(ctx.TRUE().getText()))
         # )
-        # self.visitChildren(ctx)
         return None, "true"
 
 
@@ -831,13 +833,11 @@ class yaplWalker(yaplVisitor):
         #     max_size=BOOL_MAX_SIZE,
         #     address_id=id(bool(ctx.FALSE().getText()))
         # )
-        # self.visitChildren(ctx)
         return None, "false"
 
 
     # Visit a parse tree produced by yaplParser#expr_self.
     def visitExpr_self(self, ctx:yaplParser.Expr_selfContext):
-        # self.visitChildren(ctx)
         return None, "self"
 
 
