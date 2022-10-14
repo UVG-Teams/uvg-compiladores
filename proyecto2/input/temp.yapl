@@ -2,7 +2,7 @@ class Fibonacci {
 
     fibonacci(n: Int) : Int {
         {(
-            let f : Int in
+            let f: Int in
             if n = 1 then
                 f <- 1
             else
@@ -13,11 +13,17 @@ class Fibonacci {
                 fi
             fi
         );}
-
+    };
 
 };
 
-class Fibonacci2 inherits Fibonacci {};
+class Fibonacci2 inherits Fibonacci {
+    fibonacci(n: Int) : Int {
+        {
+            n <- 5 + 6;
+        }
+    };
+};
 
 class Silly {
     copy() : SELF_TYPE { self };
@@ -26,7 +32,7 @@ class Silly {
 class Sally inherits Silly { };
 
 class Main {
-    n: Int <- 3;
+    n: Int <- 5;
     s: Bool;
     t: Bool;
     myfibonacci: Fibonacci;
@@ -37,9 +43,8 @@ class Main {
     main() : SELF_TYPE {
         {
             n <- 5 + 6;
-            z <- (true);
+            s <- (true);
             t <- not s;
-            _;
             myfibonacci <- new Fibonacci;
             out_int(myfibonacci.fibonacci(n));
         }
