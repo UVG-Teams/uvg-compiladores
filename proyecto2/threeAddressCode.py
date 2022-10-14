@@ -9,19 +9,20 @@ Francisco Rosal
 
 class Terceto():
 
-    def __init__(self, o=None, x=None, y=None, l=None):
+    def __init__(self, o=None, x=None, y=None, r=None, l=None):
         self.o = o
         self.x = x
         self.y = y
+        self.r = r
         self.l = l
 
     def keys(self):
-        return ["l", "o", "x", "y"]
+        return ["l", "r", "o", "x", "y"]
 
     def values(self):
         y = self.y if self.y != None else ""
 
-        return [self.l, self.o, self.x, y]
+        return [self.l, self.r, self.o, self.x, y]
 
 
 class ThreeAddressCode():
@@ -29,7 +30,7 @@ class ThreeAddressCode():
     def __init__(self):
         self.tercetos = []
 
-    def add(self, o=None, x=None, y=None, l=None):
+    def add(self, o=None, x=None, y=None, r=None, l=None):
 
         if type(o) not in [type(None), int, str]:
             o = str(o)
@@ -40,47 +41,57 @@ class ThreeAddressCode():
         if type(y) not in [type(None), int, str]:
             y = str(y)
 
+        if type(r) not in [type(None), int, str]:
+            r = str(r)
+
         if type(l) not in [type(None), int, str]:
             l = str(l)
 
-        if not l:
-            # Compiler Three Address Code Index
-            l = "_{i}".format(i=len(self.tercetos))
+        if not r:
+            # Compiler Three Address Code Reference
+            r = "_r{i}".format(i=len(self.tercetos))
 
-        terceto = Terceto(o, x, y, l)
+        if not l:
+            # Compiler Three Address Code Label
+            l = "l_{i}".format(i=len(self.tercetos))
+
+        terceto = Terceto(o, x, y, r, l)
         self.tercetos.append(terceto)
 
-        return l
+        return l, r
 
     def generate_code(self):
         with open("output/code.tac", "w") as f:
             for terceto in self.tercetos:
                 l = terceto.l
+                r = terceto.r
                 o = terceto.o
                 x = terceto.x
                 y = terceto.y
 
                 if o == "<-" and not y:
                     # Save value in memory
-                    f.write("{l} := {x}\n".format(l=l, x=x))
+                    f.write("{l} := {r} <- {x}\n".format(l=l, r=r, x=x))
                 elif o == "<-" and y:
-                    f.write("{l} := {x} <- {y}\n".format(l=l, x=x, y=y))
+                    f.write("{l} := {r} <- {y} # {x}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "goto" and not y:
                     # Goto
-                    f.write("{l} := goto {x}\n".format(l=l, x=x))
+                    f.write("{l} := {r} <- goto {x}\n".format(l=l, r=r, x=x))
                 elif o == "goto" and y:
                     # Conditional goto
-                    f.write("{l} := goto {x} if {y}\n".format(l=l, x=x, y=y))
+                    f.write("{l} := {r} <- goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
                 elif not y:
                     # Unary operation
-                    f.write("{l} := {o} {x}\n".format(
+                    f.write("{l} := {r} <- {o} {x}\n".format(
                         l=l,
+                        r=r,
                         x=x,
                         o=o,
                     ))
                 else:
-                    f.write("{l} := {x} {o} {y}\n".format(
+                    f.write("{l} := {r} <- {x} {o} {y}\n".format(
                         l=l,
+                        r=r,
                         x=x,
                         o=o,
                         y=y,

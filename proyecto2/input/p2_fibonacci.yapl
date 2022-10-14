@@ -2,7 +2,7 @@ class Fibonacci {
 
     fibonacci(n: Int) : Int {
         {(
-            let f : Int in
+            let f: Int in
             if n = 1 then
                 f <- 1
             else
@@ -17,7 +17,13 @@ class Fibonacci {
 
 };
 
-class Fibonacci2 inherits Fibonacci {};
+class Fibonacci2 inherits Fibonacci {
+    fibonacci(n: Int) : Int {
+        {
+            n <- 5 + 6;
+        }
+    };
+};
 
 class Silly {
     copy() : SELF_TYPE { self };

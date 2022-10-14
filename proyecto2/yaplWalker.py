@@ -434,6 +434,8 @@ class yaplWalker(yaplVisitor):
             scope_type="local",
         )
 
+        # label, ref = self.tac.add() TODO
+
         self.visitChildren(ctx)
         return ctx
 
@@ -453,14 +455,16 @@ class yaplWalker(yaplVisitor):
     def visitExpr_asgn(self, ctx:yaplParser.Expr_asgnContext):
         # self.find_object_id(ctx)
 
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = "<-",
             x = ctx.OBJECT_ID(),
-            y = self.visit(ctx.expr()),
+            y = expr_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_class_call.
@@ -480,7 +484,7 @@ class yaplWalker(yaplVisitor):
         # TODO: Check if the method has the same scope
         # TODO: Check if the method has the same scope_type
         # TODO: Check if the method belongs to the same class
-        ref = self.tac.add(
+        label, ref = self.tac.add(
             o = "call",
             x = ctx.OBJECT_ID(),
             # y = self.visit(ctx.expr()),
@@ -488,32 +492,35 @@ class yaplWalker(yaplVisitor):
 
         # self.find_object_id(ctx)
         self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_if.
     def visitExpr_if(self, ctx:yaplParser.Expr_ifContext):
-        condition_ref = self.visit(ctx.expr(0))
+        condition_label, condition_ref = self.visit(ctx.expr(0))
 
-        condition_not_ref = self.tac.add(
+        condition_not_label, condition_not_ref = self.tac.add(
             o = "not",
             x = condition_ref,
         )
 
-        ref = self.tac.add(
+        expr1_label, expr1_ref = self.visit(ctx.expr(1)) # then
+        expr2_label, expr2_ref = self.visit(ctx.expr(2)) # else
+
+        if_label, if_ref = self.tac.add(
             o = "goto",
-            x = self.visit(ctx.expr(1)), # then
+            x = expr1_label, # then
             y = condition_ref, # condition
         )
 
-        self.tac.add(
+        else_label, else_ref = self.tac.add(
             o = "goto",
-            x = self.visit(ctx.expr(2)), # else
+            x = expr2_label, # else
             y = condition_not_ref, # condition
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return if_label, if_ref
 
 
     # Visit a parse tree produced by yaplParser#expr_while.
@@ -530,9 +537,11 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_decl.
     def visitExpr_decl(self, ctx:yaplParser.Expr_declContext):
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = ctx.LET(),
-            x = self.visit(ctx.expr()),
+            x = expr_ref,
         )
 
         for node in ctx.asgn():
@@ -540,7 +549,7 @@ class yaplWalker(yaplVisitor):
 
             value = None
             if asgn_ctx.expr():
-                value = self.visit(asgn_ctx.expr())
+                value = self.visit(asgn_ctx.expr()) # TODO
 
             self.tac.add(
                 o = "<-",
@@ -558,128 +567,150 @@ class yaplWalker(yaplVisitor):
             )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_instance.
     def visitExpr_instance(self, ctx:yaplParser.Expr_instanceContext):
-        ref = self.tac.add(
+        label, ref = self.tac.add(
             o = ctx.NEW(),
             x = ctx.TYPE_ID(),
         )
 
         # self.find_type_id(ctx)
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_isvoid.
     def visitExpr_isvoid(self, ctx:yaplParser.Expr_isvoidContext):
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = ctx.ISVOID(),
-            x = self.visit(ctx.expr()),
+            x = expr_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_suma.
     def visitExpr_suma(self, ctx:yaplParser.Expr_sumaContext):
         symbol = ctx.PLUS() if ctx.PLUS() else ctx.MINUS()
 
-        ref = self.tac.add(
+        expr1_label, expr1_ref = self.visit(ctx.expr(0))
+        expr2_label, expr2_ref = self.visit(ctx.expr(1))
+
+        label, ref = self.tac.add(
             o = symbol,
-            x = self.visit(ctx.expr(0)),
-            y = self.visit(ctx.expr(1)),
+            x = expr1_ref,
+            y = expr2_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_mult.
     def visitExpr_mult(self, ctx:yaplParser.Expr_multContext):
         symbol = ctx.MULT() if ctx.MULT() else ctx.DIV()
 
-        ref = self.tac.add(
+        expr1_label, expr1_ref = self.visit(ctx.expr(0))
+        expr2_label, expr2_ref = self.visit(ctx.expr(1))
+
+        label, ref = self.tac.add(
             o = symbol,
-            x = self.visit(ctx.expr(0)),
-            y = self.visit(ctx.expr(1)),
+            x = expr1_ref,
+            y = expr2_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_negative.
     def visitExpr_negative(self, ctx:yaplParser.Expr_negativeContext):
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = "-",
-            x = self.visit(ctx.expr()),
+            x = expr_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_negado.
     def visitExpr_negado(self, ctx:yaplParser.Expr_negadoContext):
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = "~",
-            x = self.visit(ctx.expr()),
+            x = expr_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_less_than.
     def visitExpr_less_than(self, ctx:yaplParser.Expr_less_thanContext):
         symbol = ctx.LT() if ctx.LT() else ctx.LE()
 
-        ref = self.tac.add(
+        expr1_label, expr1_ref = self.visit(ctx.expr(0))
+        expr2_label, expr2_ref = self.visit(ctx.expr(1))
+
+        label, ref = self.tac.add(
             o = symbol,
-            x = self.visit(ctx.expr(0)),
-            y = self.visit(ctx.expr(1)),
+            x = expr1_ref,
+            y = expr2_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_equal.
     def visitExpr_equal(self, ctx:yaplParser.Expr_equalContext):
-        ref = self.tac.add(
+        expr1_label, expr1_ref = self.visit(ctx.expr(0))
+        expr2_label, expr2_ref = self.visit(ctx.expr(1))
+
+        label, ref = self.tac.add(
             o = "=",
-            x = self.visit(ctx.expr(0)),
-            y = self.visit(ctx.expr(1)),
+            x = expr1_ref,
+            y = expr2_ref,
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_not.
     def visitExpr_not(self, ctx:yaplParser.Expr_notContext):
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = ctx.NOT().getText(),
-            x = self.visit(ctx.expr())
+            x = expr_ref
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_parenthesis.
     def visitExpr_parenthesis(self, ctx:yaplParser.Expr_parenthesisContext):
-        ref = self.tac.add(
+        expr_label, expr_ref = self.visit(ctx.expr())
+
+        label, ref = self.tac.add(
             o = "<-",
-            x = self.visit(ctx.expr())
+            x = expr_ref
         )
 
         # self.visitChildren(ctx)
-        return ref
+        return label, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_id.
@@ -693,15 +724,15 @@ class yaplWalker(yaplVisitor):
         elif ctx.OBJECT_ID():
             id = ctx.OBJECT_ID().getText()
 
-        # ref = self.tac.add(o="=", x=id)
+        # label, ref = self.tac.add(o="=", x=id)
         # self.visitChildren(ctx)
-        # return ref
-        return id
+        # return label, ref
+        return None, id
 
 
     # Visit a parse tree produced by yaplParser#expr_int.
     def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
-        # ref = self.tac.add(
+        # label, ref = self.tac.add(
         #     o = "<-",
         #     x = ctx.INT().getText(),
         # )
@@ -720,12 +751,12 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(int(ctx.INT().getText()))
         # )
         # self.visitChildren(ctx)
-        return ctx.INT().getText()
+        return None, ctx.INT().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
-        # ref = self.tac.add(
+        # label, ref = self.tac.add(
         #     o = "<-",
         #     x = ctx.STRING().getText(),
         # )
@@ -739,12 +770,12 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(str(ctx.STRING().getText()))
         # )
         # self.visitChildren(ctx)
-        return ctx.STRING().getText()
+        return None, ctx.STRING().getText()
 
 
     # Visit a parse tree produced by yaplParser#expr_true.
     def visitExpr_true(self, ctx:yaplParser.Expr_trueContext):
-        # ref = self.tac.add(
+        # label, ref = self.tac.add(
         #     o = "<-",
         #     x = ctx.TRUE().getText(),
         # )
@@ -758,12 +789,12 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.TRUE().getText()))
         # )
         # self.visitChildren(ctx)
-        return "true"
+        return None, "true"
 
 
     # Visit a parse tree produced by yaplParser#expr_false.
     def visitExpr_false(self, ctx:yaplParser.Expr_falseContext):
-        # ref = self.tac.add(
+        # label, ref = self.tac.add(
         #     o = "<-",
         #     x = ctx.FALSE().getText(),
         # )
@@ -777,13 +808,13 @@ class yaplWalker(yaplVisitor):
         #     address_id=id(bool(ctx.FALSE().getText()))
         # )
         # self.visitChildren(ctx)
-        return "false"
+        return None, "false"
 
 
     # Visit a parse tree produced by yaplParser#expr_self.
     def visitExpr_self(self, ctx:yaplParser.Expr_selfContext):
         # self.visitChildren(ctx)
-        return "self"
+        return None, "self"
 
 
 del yaplParser
