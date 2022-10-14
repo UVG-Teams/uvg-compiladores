@@ -4,11 +4,11 @@ l_0 := _r2 <- 1 # f
 	_r3 <- n = 2
 	_r4 <- not _r3
 l_1 := _r5 <- 1 # f
-	_r6 <- call fibonacci
-	_r7 <- n - 1
-	_r8 <- call fibonacci
-	_r9 <- n - 2
-	_r10 <- _r6 + _r8
+	_r6 <- n - 1
+	_r7 <- goto fibonacci (_r6)
+	_r8 <- n - 2
+	_r9 <- goto fibonacci (_r8)
+	_r10 <- _r7 + _r9
 l_2 := _r11 <- _r10 # f
 l_3 := goto l_1 if _r3
 	goto l_2 if _r4
@@ -30,5 +30,6 @@ l_7 := _r25 <- _r24 # n
 	_r29 <- _r28 # t
 	_r30 <- new Fibonacci
 	_r31 <- _r30 # myfibonacci
-	_r32 <- call out_int
-	_r33 <- goto (main) l_7
+	_r32 <- goto myfibonacci.fibonacci (n)
+	_r33 <- goto out_int (_r32)
+	_r34 <- goto (main) l_7

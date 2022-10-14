@@ -77,6 +77,9 @@ class ThreeAddressCode():
                     f.write(instruction + "{r} <- {x}\n".format(l=l, r=r, x=x))
                 elif o == "<-" and y:
                     f.write(instruction + "{r} <- {y} # {x}\n".format(l=l, r=r, x=x, y=y))
+                elif o == "call":
+                    # Goto
+                    f.write(instruction + "{r} <- goto {x} ({y})\n".format(l=l, r=r, x=x, y=y))
                 elif o == "goto" and not y:
                     # Goto
                     f.write(instruction + "goto {x}\n".format(l=l, r=r, x=x))

@@ -504,8 +504,22 @@ class yaplWalker(yaplVisitor):
     def visitExpr_class_call(self, ctx:yaplParser.Expr_class_callContext):
         # self.find_type_id(ctx)
         # self.find_object_id(ctx)
-        self.visitChildren(ctx)
-        return ctx
+
+        for node in ctx.expr():
+            if node == ctx.expr(0):
+                expr_terceto_0, expr_ref_0 = self.visit(ctx.expr(0))
+            if node == ctx.expr(1):
+                expr_terceto_1, expr_ref_1 = self.visit(ctx.expr(1))
+            else:
+                expr_terceto, expr_ref = self.visit(node)
+
+        terceto, ref = self.tac.add(
+            o = "call",
+            x = str(expr_ref_0) + "." + str(ctx.OBJECT_ID()),
+            y = expr_ref_1,
+        )
+
+        return terceto, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_call.
@@ -517,14 +531,20 @@ class yaplWalker(yaplVisitor):
         # TODO: Check if the method has the same scope
         # TODO: Check if the method has the same scope_type
         # TODO: Check if the method belongs to the same class
+
+        for node in ctx.expr():
+            if node == ctx.expr(0):
+                expr_terceto_0, expr_ref_0 = self.visit(ctx.expr(0))
+            else:
+                expr_terceto, expr_ref = self.visit(node)
+
         terceto, ref = self.tac.add(
             o = "call",
             x = ctx.OBJECT_ID(),
-            # y = self.visit(ctx.expr()),
+            y = expr_ref_0,
         )
 
         # self.find_object_id(ctx)
-        self.visitChildren(ctx)
         return terceto, ref
 
 
