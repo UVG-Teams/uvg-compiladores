@@ -1,30 +1,30 @@
-l_0 := _r0 <- n = 1
-l_1 := _r1 <- not _r0
-l_2 := _r2 <- 1 # f
-l_3 := _r3 <- n = 2
-l_4 := _r4 <- not _r3
-l_5 := _r5 <- 1 # f
-l_6 := _r6 <- call fibonacci
-l_7 := _r7 <- n - 1
-l_8 := _r8 <- call fibonacci
-l_9 := _r9 <- n - 2
-l_10 := _r10 <- _r6 + _r8
-l_11 := _r11 <- _r10 # f
-l_12 := _r12 <- goto l_5 if _r3
-l_13 := _r13 <- goto l_11 if _r4
-l_14 := _r14 <- goto l_2 if _r0
-l_15 := _r15 <- goto l_12 if _r1
-l_16 := _r16 <- let _r14
-l_17 := _r17 <- f
-l_18 := _r18 <- _r16
-l_19 := _r19 <- 5 + 6
-l_20 := _r20 <- _r19 # n
-l_21 := _r21 <- 5 + 6
-l_22 := _r22 <- _r21 # n
-l_23 := _r23 <- true
-l_24 := _r24 <- _r23 # s
-l_25 := _r25 <- not s
-l_26 := _r26 <- _r25 # t
-l_27 := _r27 <- new Fibonacci
-l_28 := _r28 <- _r27 # myfibonacci
-l_29 := _r29 <- call out_int
+	_r0 <- n = 1
+	_r1 <- not _r0
+l_0 := _r2 <- 1 # f
+	_r3 <- n = 2
+	_r4 <- not _r3
+l_1 := _r5 <- 1 # f
+	_r6 <- call fibonacci
+	_r7 <- n - 1
+	_r8 <- call fibonacci
+	_r9 <- n - 2
+	_r10 <- _r6 + _r8
+l_2 := _r11 <- _r10 # f
+l_3 := _r12 <- goto l_1 if _r3
+	_r13 <- goto l_2 if _r4
+	_r14 <- goto l_0 if _r0
+	_r15 <- goto l_3 if _r1
+	_r16 <- let _r14
+	_r17 <- f
+	_r18 <- _r16
+	_r19 <- 5 + 6
+	_r20 <- _r19 # n
+	_r21 <- 5 + 6
+	_r22 <- _r21 # n
+	_r23 <- true
+	_r24 <- _r23 # s
+	_r25 <- not s
+	_r26 <- _r25 # t
+	_r27 <- new Fibonacci
+	_r28 <- _r27 # myfibonacci
+	_r29 <- call out_int

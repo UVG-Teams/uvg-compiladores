@@ -20,9 +20,10 @@ class Terceto():
         return ["l", "r", "o", "x", "y"]
 
     def values(self):
+        l = self.l if self.l != None else ""
         y = self.y if self.y != None else ""
 
-        return [self.l, self.r, self.o, self.x, y]
+        return [l, self.r, self.o, self.x, y]
 
 
 class ThreeAddressCode():
@@ -51,14 +52,14 @@ class ThreeAddressCode():
             # Compiler Three Address Code Reference
             r = "_r{i}".format(i=len(self.tercetos))
 
-        if not l:
-            # Compiler Three Address Code Label
-            l = "l_{i}".format(i=len(self.tercetos))
+        # if not l:
+        #     # Compiler Three Address Code Label
+        #     l = "l_{i}".format(i=len(self.tercetos))
 
         terceto = Terceto(o, x, y, r, l)
         self.tercetos.append(terceto)
 
-        return l, r
+        return terceto, r
 
     def generate_code(self):
         with open("output/code.tac", "w") as f:
@@ -69,27 +70,29 @@ class ThreeAddressCode():
                 x = terceto.x
                 y = terceto.y
 
+                instruction = "{l} := ".format(l=l) if l else "\t"
+
                 if o == "<-" and not y:
                     # Save value in memory
-                    f.write("{l} := {r} <- {x}\n".format(l=l, r=r, x=x))
+                    f.write(instruction + "{r} <- {x}\n".format(l=l, r=r, x=x))
                 elif o == "<-" and y:
-                    f.write("{l} := {r} <- {y} # {x}\n".format(l=l, r=r, x=x, y=y))
+                    f.write(instruction + "{r} <- {y} # {x}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "goto" and not y:
                     # Goto
-                    f.write("{l} := {r} <- goto {x}\n".format(l=l, r=r, x=x))
+                    f.write(instruction + "{r} <- goto {x}\n".format(l=l, r=r, x=x))
                 elif o == "goto" and y:
                     # Conditional goto
-                    f.write("{l} := {r} <- goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
+                    f.write(instruction + "{r} <- goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
                 elif not y:
                     # Unary operation
-                    f.write("{l} := {r} <- {o} {x}\n".format(
+                    f.write(instruction + "{r} <- {o} {x}\n".format(
                         l=l,
                         r=r,
                         x=x,
                         o=o,
                     ))
                 else:
-                    f.write("{l} := {r} <- {x} {o} {y}\n".format(
+                    f.write(instruction + "{r} <- {x} {o} {y}\n".format(
                         l=l,
                         r=r,
                         x=x,
