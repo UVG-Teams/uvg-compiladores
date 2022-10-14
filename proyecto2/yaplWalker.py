@@ -17,10 +17,6 @@ from build.yaplVisitor import yaplVisitor
 
 # This class defines a custom visitor for a parse tree.
 
-BOOL_MAX_SIZE = 28
-MAX_SIZE = 9123456789012345678
-MAX_SIZE = 1234567890
-
 class yaplWalker(yaplVisitor):
 
     def __init__(self) -> None:
@@ -487,7 +483,23 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_asgn.
     def visitExpr_asgn(self, ctx:yaplParser.Expr_asgnContext):
-        # self.find_object_id(ctx)
+        class_scope = "{class_scope}".format(class_scope=self.current_class_uuid)
+        method_scope = "{method_scope}".format(method_scope=self.current_method_uuid)
+
+        # Checking if already exists this formal on the current_scope
+        method_scope_symbol = self.symbolTable.find(
+            ctx.OBJECT_ID(),
+            scope=method_scope,
+            scope_type="local"
+        )
+
+        class_scope_symbol = self.symbolTable.find(
+            ctx.OBJECT_ID(),
+            scope=class_scope,
+            scope_type="local"
+        )
+
+        symbol = method_scope_symbol or class_scope_symbol
 
         expr_terceto, expr_ref = self.visit(ctx.expr())
 
@@ -496,6 +508,9 @@ class yaplWalker(yaplVisitor):
             x = ctx.OBJECT_ID(),
             y = expr_ref,
         )
+
+        if symbol:
+            symbol.address_id = ref
 
         return terceto, ref
 
