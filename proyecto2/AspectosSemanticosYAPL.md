@@ -20,7 +20,7 @@ Se  resumen,  algunas  consideraciones  semánticas  a  tratar  dentro  de la  f
 - [x] Un método dentro de una clase puede ser llamado de forma recursiva. 
 - [x] Existen dos ámbitos dentro de una clase, el ámbito Global y el ámbito Local.  Un ámbito Global es el definido dentro de la sección del cuerpo de la clase, mientras que un ámbito Local se crea con las instrucciones Let o dentro de la definición de un método, dentro de la clase. 
 - [x] Todos los atributos y métodos dentro de una clase poseen acceso público. 
-- [ ] Los identificadores de un ámbito local ocultan la definición de identificadores en el ámbito global. 
+- [x] Los identificadores de un ámbito local ocultan la definición de identificadores en el ámbito global. 
 - [x] Ningún identificador puede ser definido más de una vez dentro de un mismo ámbito. 
 - [ ] Si B hereda de A y B sobrescribe un método de A, este método debe de poseer la misma firma con la que fue declarado en A. 
 - [x] No es posible la herencia múltiple de clases y herencia recursiva. 

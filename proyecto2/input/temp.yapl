@@ -17,7 +17,9 @@ class Fibonacci {
 
 };
 
-class Fibonacci2 inherits Fibonacci {};
+class Fibonacci2 inherits Fibonacci {
+    fibonacci(n: Int) : Int {};
+};
 
 class Silly {
     copy() : SELF_TYPE { self };

@@ -32,7 +32,7 @@ class Symbol():
         self.value = value
         self.scope = scope
         self.scope_type = scope_type
-        self.inherits = str(inherits)
+        self.inherits = str(inherits) if inherits else None
         self.numParams = numParams
         self.paramTypes = paramTypes
         self.size = size
@@ -43,7 +43,19 @@ class Symbol():
         return ["id", "data_type", "line", "column", "value", "scope", "scope_type", "inherits", "numParams", "paramTypes", "size", "max_size", "address_id"]
 
     def values(self):
-        return [self.id, self.data_type, self.line, self.column, self.value, self.scope, self.scope_type, self.inherits, self.numParams, self.paramTypes, self.size, self.max_size, self.address_id]
+        line = self.line if self.line != None else ""
+        column = self.column if self.column != None else ""
+        value = self.value if self.value != None else ""
+        scope = self.scope if self.scope != None else ""
+        scope_type = self.scope_type if self.scope_type != None else ""
+        inherits = self.inherits if self.inherits != None else ""
+        numParams = self.numParams if self.numParams != None else ""
+        paramTypes = self.paramTypes if self.paramTypes != None else ""
+        size = self.size if self.size != None else ""
+        max_size = self.max_size if self.max_size != None else ""
+        address_id = self.address_id if self.address_id != None else ""
+
+        return [self.id, self.data_type, line, column, value, scope, scope_type, inherits, numParams, paramTypes, size, max_size, address_id]
 
 
 class SymbolTable():
