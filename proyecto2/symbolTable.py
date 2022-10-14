@@ -9,6 +9,10 @@ Francisco Rosal
 
 import uuid
 
+BOOL_MAX_SIZE = 1
+INT_MAX_SIZE = 64
+STR_MAX_SIZE_PER_CHAR = 8
+
 class Symbol():
 
     def __init__(
@@ -104,6 +108,19 @@ class SymbolTable():
                 if str(data_type) not in self.get_defined_classes():
                     return False, "Class type '{data_type}' no definido".format(data_type=str(data_type))
                 value = "void"
+
+            if str(data_type) == "String":
+                size = STR_MAX_SIZE_PER_CHAR * len(value)
+                max_size = STR_MAX_SIZE_PER_CHAR * len(value)
+                max_size = max_size if max_size > 0 else STR_MAX_SIZE_PER_CHAR
+            elif str(data_type) == "Int":
+                size = value.bit_length()
+                max_size = INT_MAX_SIZE
+            elif str(data_type) == "Bool":
+                size = value.bit_length()
+                max_size = BOOL_MAX_SIZE
+            else:
+                max_size = None
 
             symbol = Symbol(
                 id,

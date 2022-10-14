@@ -50,7 +50,7 @@ class ThreeAddressCode():
 
         if not r:
             # Compiler Three Address Code Reference
-            r = "_r{i}".format(i=len(self.tercetos))
+            r = "_t{i}".format(i=len(self.tercetos))
 
         # if not l:
         #     # Compiler Three Address Code Label
@@ -76,7 +76,7 @@ class ThreeAddressCode():
                     # Save value in memory
                     f.write(instruction + "{r} <- {x}\n".format(l=l, r=r, x=x))
                 elif o == "<-" and y:
-                    f.write(instruction + "{r} <- {y} # {x}\n".format(l=l, r=r, x=x, y=y))
+                    f.write(instruction + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "call":
                     # Goto
                     f.write(instruction + "{r} <- goto {x} ({y})\n".format(l=l, r=r, x=x, y=y))
