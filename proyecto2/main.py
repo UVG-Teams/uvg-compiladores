@@ -32,7 +32,7 @@ class LineNumbers(tk.Text):
         super().__init__(master, **kwargs)
 
         self.text_widget = text_widget
-        self.text_widget.bind('<KeyPress>', self.on_key_press)
+        self.text_widget.bind('<FocusIn>', self.on_key_press)
 
         self.insert(1.0, '1')
         self.configure(state='disabled')
@@ -63,6 +63,7 @@ def open_file():
         content = file_path.read()
         text_area_code.insert(tk.INSERT, content, "\n")
         runbtn.config(state="normal")
+        text_area_code.focus_set()
 
 def run():
     text_area_console.delete("1.0","end")
