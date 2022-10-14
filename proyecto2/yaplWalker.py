@@ -28,8 +28,10 @@ class yaplWalker(yaplVisitor):
         self.errors = []
         self.main_class_count = 0
         self.main_method_count = 0
-        self.current_class = None
-        self.current_method = None
+        self.current_class_name = None
+        self.current_class_uuid = None
+        self.current_method_name = None
+        self.current_method_uuid = None
         super().__init__()
 
     def initSymbolTable(self):
@@ -84,6 +86,8 @@ class yaplWalker(yaplVisitor):
                 "msg": msg,
             })
 
+        return success, msg
+
     def find_type_id(self, ctx):
         if not ctx.TYPE_ID():
             return None
@@ -120,7 +124,7 @@ class yaplWalker(yaplVisitor):
     def visitProg(self, ctx:yaplParser.ProgContext):
 
         # Defining Object
-        self.add_to_symbol_table(
+        success, object_symbol = self.add_to_symbol_table(
             "Object",
             data_type="class",
         )
@@ -130,7 +134,7 @@ class yaplWalker(yaplVisitor):
             data_type="Object",
             numParams=0,
             paramTypes=[],
-            scope="Object",
+            scope=object_symbol.uuid,
             scope_type="global",
         )
 
@@ -139,7 +143,7 @@ class yaplWalker(yaplVisitor):
             data_type="String",
             numParams=0,
             paramTypes=[],
-            scope="Object",
+            scope=object_symbol.uuid,
             scope_type="global",
         )
 
@@ -148,7 +152,7 @@ class yaplWalker(yaplVisitor):
             data_type="SELF_TYPE",
             numParams=0,
             paramTypes=[],
-            scope="Object",
+            scope=object_symbol.uuid,
             scope_type="global",
         )
 
@@ -167,7 +171,7 @@ class yaplWalker(yaplVisitor):
         )
 
         # Defining String
-        self.add_to_symbol_table(
+        success, string_symbol = self.add_to_symbol_table(
             "String",
             data_type="class",
             inherits="Object",
@@ -178,7 +182,7 @@ class yaplWalker(yaplVisitor):
             data_type="String",
             numParams=1,
             paramTypes=["String"],
-            scope="String",
+            scope=string_symbol.uuid,
             scope_type="global",
         )
 
@@ -187,7 +191,7 @@ class yaplWalker(yaplVisitor):
             data_type="String",
             numParams=2,
             paramTypes=["Int", "Int"],
-            scope="String",
+            scope=string_symbol.uuid,
             scope_type="global",
         )
 
@@ -196,12 +200,12 @@ class yaplWalker(yaplVisitor):
             data_type="Int",
             numParams=0,
             paramTypes=[],
-            scope="String",
+            scope=string_symbol.uuid,
             scope_type="global",
         )
 
         # Defining IO
-        self.add_to_symbol_table(
+        success, io_symbol = self.add_to_symbol_table(
             "IO",
             data_type="class",
             inherits="Object",
@@ -212,7 +216,7 @@ class yaplWalker(yaplVisitor):
             data_type="String",
             numParams=0,
             paramTypes=[],
-            scope="IO",
+            scope=io_symbol.uuid,
             scope_type="global",
         )
 
@@ -221,7 +225,7 @@ class yaplWalker(yaplVisitor):
             data_type="SELF_TYPE",
             numParams=1,
             paramTypes=["String"],
-            scope="IO",
+            scope=io_symbol.uuid,
             scope_type="global",
         )
 
@@ -230,7 +234,7 @@ class yaplWalker(yaplVisitor):
             data_type="Int",
             numParams=0,
             paramTypes=[],
-            scope="IO",
+            scope=io_symbol.uuid,
             scope_type="global",
         )
 
@@ -239,7 +243,7 @@ class yaplWalker(yaplVisitor):
             data_type="SELF_TYPE",
             numParams=1,
             paramTypes=["Int"],
-            scope="IO",
+            scope=io_symbol.uuid,
             scope_type="global",
         )
 
@@ -265,10 +269,10 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#class_def.
     def visitClass_def(self, ctx:yaplParser.Class_defContext):
 
-        self.current_class = str(ctx.TYPE_ID(0))
+        self.current_class_name = str(ctx.TYPE_ID(0))
 
         # Checking Main Class errors
-        if self.current_class == "Main":
+        if self.current_class_name == "Main":
             self.main_class_count += 1
             if len(ctx.TYPE_ID()) > 1:
                 self.errors.append({
@@ -288,7 +292,7 @@ class yaplWalker(yaplVisitor):
                 })
 
             # Recursive inheritance is not possible
-            if self.current_class == str(ctx.TYPE_ID(1)):
+            if self.current_class_name == str(ctx.TYPE_ID(1)):
                 valide_inheritance = False
                 self.errors.append({
                     "msg": "No se puede heredar recursivamente",
@@ -304,21 +308,24 @@ class yaplWalker(yaplVisitor):
                 })
 
         if ctx.INHERITS() and valide_inheritance:
-            self.add_to_symbol_table(
-                self.current_class,
+            success, symbol = self.add_to_symbol_table(
+                self.current_class_name,
                 data_type=ctx.CLASS(),
                 inherits=ctx.TYPE_ID(1),
                 line=ctx.CLASS().getPayload().line,
                 column=ctx.CLASS().getPayload().column
             )
         else:
-            self.add_to_symbol_table(
-                self.current_class,
+            success, symbol = self.add_to_symbol_table(
+                self.current_class_name,
                 data_type=ctx.CLASS(),
                 inherits="Object",
                 line=ctx.CLASS().getPayload().line,
                 column=ctx.CLASS().getPayload().column
             )
+
+        if success:
+            self.current_class_uuid = symbol.uuid
 
         self.visitChildren(ctx)
         return ctx
@@ -326,7 +333,7 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#feat_def.
     def visitFeat_def(self, ctx:yaplParser.Feat_defContext):
-        self.current_method = str(ctx.OBJECT_ID())
+        self.current_method_name = str(ctx.OBJECT_ID())
 
         # Checking the amount of main methods
         if str(ctx.OBJECT_ID()) == "main":
@@ -341,7 +348,7 @@ class yaplWalker(yaplVisitor):
         symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
             data_type=ctx.TYPE_ID(),
-            scope="{class_scope}".format(class_scope=self.current_class),
+            scope="{class_scope}".format(class_scope=self.current_class_uuid),
             scope_type="global"
         )
 
@@ -351,16 +358,19 @@ class yaplWalker(yaplVisitor):
                 "payload": ctx.OBJECT_ID().getPayload()
             })
         else:
-            self.add_to_symbol_table(
+            success, symbol = self.add_to_symbol_table(
                 ctx.OBJECT_ID(),
                 data_type=ctx.TYPE_ID(),
                 line=ctx.OBJECT_ID().getPayload().line,
                 column=ctx.OBJECT_ID().getPayload().column,
                 numParams=len(ctx.formal()),
                 paramTypes=[],
-                scope="{class_scope}".format(class_scope=self.current_class),
+                scope="{class_scope}".format(class_scope=self.current_class_uuid),
                 scope_type="global",
             )
+        
+        if success:
+            self.current_method_uuid = symbol.uuid
 
         self.visitChildren(ctx)
         return ctx
@@ -372,7 +382,7 @@ class yaplWalker(yaplVisitor):
         symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
             data_type=ctx.TYPE_ID(),
-            scope="{class_scope}".format(class_scope=self.current_class),
+            scope="{class_scope}".format(class_scope=self.current_class_uuid),
             scope_type="local"
         )
 
@@ -387,7 +397,7 @@ class yaplWalker(yaplVisitor):
                 data_type=ctx.TYPE_ID(),
                 line=ctx.OBJECT_ID().getPayload().line,
                 column=ctx.OBJECT_ID().getPayload().column,
-                scope="{class_scope}".format(class_scope=self.current_class),
+                scope="{class_scope}".format(class_scope=self.current_class_uuid),
                 scope_type="local",
             )
 
@@ -397,12 +407,12 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#formal.
     def visitFormal(self, ctx:yaplParser.FormalContext):
-        global_scope = "{class_scope}".format(class_scope=self.current_class)
-        scope = "{method_scope}".format(method_scope=self.current_method)
+        global_scope = "{class_scope}".format(class_scope=self.current_class_uuid)
+        scope = "{method_scope}".format(method_scope=self.current_method_uuid)
 
         # Adding the current formal to the feature which belongs
         feature_symbol = self.symbolTable.find(
-            self.current_method,
+            self.current_method_name,
             scope=global_scope,
             scope_type="global"
         )
@@ -562,7 +572,7 @@ class yaplWalker(yaplVisitor):
                 data_type=asgn_ctx.TYPE_ID(),
                 line=asgn_ctx.OBJECT_ID().getPayload().line,
                 column=asgn_ctx.OBJECT_ID().getPayload().column,
-                scope="{method_scope}".format(method_scope=self.current_method),
+                scope="{method_scope}".format(method_scope=self.current_method_uuid),
                 scope_type="local",
             )
 

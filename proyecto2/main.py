@@ -140,16 +140,6 @@ def main():
     print("Total 3AC:", cont)
     print(threeACRepresentation)
 
-    print("\3 Address Code:")
-    cont = 0
-    threeACRepresentation = PrettyTable()
-    for record in walker.getTAC().cuartetos:
-        cont = cont + 1
-        threeACRepresentation.field_names = record.keys()
-        threeACRepresentation.add_row(record.values())
-    print("Total 3AC:", cont)
-    print(threeACRepresentation)
-
     walker.getTAC().generate_code()
 
     # ! AQUI

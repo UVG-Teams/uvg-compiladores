@@ -7,6 +7,8 @@ Gian Luca Rivera
 Francisco Rosal
 """
 
+import uuid
+
 class Symbol():
 
     def __init__(
@@ -25,6 +27,7 @@ class Symbol():
             max_size=None,
             address_id=None
         ):
+        self.uuid = str(uuid.uuid4()) + "-" + str(id)
         self.id = str(id)
         self.data_type = str(data_type)
         self.line = line
@@ -40,7 +43,7 @@ class Symbol():
         self.address_id = address_id
 
     def keys(self):
-        return ["id", "data_type", "line", "column", "value", "scope", "scope_type", "inherits", "numParams", "paramTypes", "size", "max_size", "address_id"]
+        return ["uuid", "id", "data_type", "line", "column", "value", "scope", "scope_type", "inherits", "numParams", "paramTypes", "size", "max_size", "address_id"]
 
     def values(self):
         line = self.line if self.line != None else ""
@@ -55,7 +58,7 @@ class Symbol():
         max_size = self.max_size if self.max_size != None else ""
         address_id = self.address_id if self.address_id != None else ""
 
-        return [self.id, self.data_type, line, column, value, scope, scope_type, inherits, numParams, paramTypes, size, max_size, address_id]
+        return [self.uuid, self.id, self.data_type, line, column, value, scope, scope_type, inherits, numParams, paramTypes, size, max_size, address_id]
 
     def __str__(self):
         return str(self.values())
@@ -102,25 +105,25 @@ class SymbolTable():
                     return False, "Class type '{data_type}' no definido".format(data_type=str(data_type))
                 value = "void"
 
-            self.records.append(
-                Symbol(
-                    id,
-                    data_type=data_type,
-                    line=line,
-                    column=column,
-                    value=value,
-                    scope=scope,
-                    scope_type=scope_type,
-                    inherits=inherits,
-                    numParams=numParams,
-                    paramTypes=paramTypes,
-                    size=size,
-                    max_size=max_size,
-                    address_id=address_id,
-                )
+            symbol = Symbol(
+                id,
+                data_type=data_type,
+                line=line,
+                column=column,
+                value=value,
+                scope=scope,
+                scope_type=scope_type,
+                inherits=inherits,
+                numParams=numParams,
+                paramTypes=paramTypes,
+                size=size,
+                max_size=max_size,
+                address_id=address_id,
             )
 
-            return True, None
+            self.records.append(symbol)
+
+            return True, symbol
 
     def find(self, id, data_type=None, scope=None, scope_type=None):
         for symbol in self.records:
