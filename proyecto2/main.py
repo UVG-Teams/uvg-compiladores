@@ -193,6 +193,11 @@ def main():
     tac()
 
 
+def viewall(*args):
+    global text_area_code, l
+    eval('text_area_code.yview(*args)')
+    eval('l.yview(*args)')
+
 
 if __name__ == '__main__':
     window = tk.Tk()
@@ -228,6 +233,12 @@ if __name__ == '__main__':
     l = LineNumbers(window, text_area_code, width=2, height=38, font=("Times New Roman", 15), foreground="gray", highlightthickness=0)
     # h = Scrollbar(window, orient='horizontal', command=text_area_symbolT.xview)
     # h.grid(row=166, column=10, sticky=tk.NS)
+    rolly = Scrollbar(window, orient=VERTICAL, command=viewall)
+    text_area_code['yscrollcommand'] = rolly.set
+    l['yscrollcommand'] = rolly.set
+    # rolly.grid(row=5, column=10)
+    rolly.place(x=1110, y=70)
+
 
     # text_area_symbolT['xscrollcommand'] = h.set
 
