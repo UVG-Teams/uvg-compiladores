@@ -12,9 +12,9 @@ l_1 := _r5 <- 1 # f
 l_2 := _r11 <- _r10 # f
 l_3 := _r12 <- goto l_1 if _r3
 	_r13 <- goto l_2 if _r4
-	_r14 <- goto l_0 if _r0
+l_4 := _r14 <- goto l_0 if _r0
 	_r15 <- goto l_3 if _r1
-	_r16 <- let _r14
+	_r16 <- let l_4
 	_r17 <- f
 	_r18 <- _r16
 	_r19 <- 5 + 6

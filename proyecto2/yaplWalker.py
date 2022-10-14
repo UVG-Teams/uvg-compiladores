@@ -561,10 +561,11 @@ class yaplWalker(yaplVisitor):
     # Visit a parse tree produced by yaplParser#expr_decl.
     def visitExpr_decl(self, ctx:yaplParser.Expr_declContext):
         expr_terceto, expr_ref = self.visit(ctx.expr())
+        expr_terceto.l = self.new_label()
 
         terceto, ref = self.tac.add(
             o = ctx.LET(),
-            x = expr_ref,
+            x = expr_terceto.l,
         )
 
         for node in ctx.asgn():
