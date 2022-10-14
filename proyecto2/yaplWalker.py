@@ -559,8 +559,18 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_while.
     def visitExpr_while(self, ctx:yaplParser.Expr_whileContext):
-        self.visitChildren(ctx)
-        return ctx
+        condition_terceto, condition_ref = self.visit(ctx.expr(0))
+
+        expr_terceto, expr_ref = self.visit(ctx.expr(1)) # loop
+        expr_terceto.l = self.new_label()
+
+        while_terceto, while_ref = self.tac.add(
+            o = "goto",
+            x = expr_terceto.l, # loop
+            y = condition_ref, # condition
+        )
+
+        return while_terceto, while_ref
 
 
     # Visit a parse tree produced by yaplParser#expr_brackets.
