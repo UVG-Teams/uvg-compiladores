@@ -13,16 +13,18 @@ class Terceto():
         self.o = o
         self.x = x
         self.y = y
-        self.r = r
+        # self.r = r
         self.l = l
 
     def keys(self):
+        return ["l", "o", "x", "y"]
         return ["l", "r", "o", "x", "y"]
 
     def values(self):
         l = self.l if self.l != None else ""
         y = self.y if self.y != None else ""
 
+        return [l, self.o, self.x, y]
         return [l, self.r, self.o, self.x, y]
 
 
@@ -50,7 +52,7 @@ class ThreeAddressCode():
 
         if not r:
             # Compiler Three Address Code Reference
-            r = "_t{i}".format(i=len(self.tercetos))
+            r = "_r{i}".format(i=len(self.tercetos))
 
         # if not l:
         #     # Compiler Three Address Code Label
@@ -65,7 +67,8 @@ class ThreeAddressCode():
         with open("output/code.tac", "w") as f:
             for terceto in self.tercetos:
                 l = terceto.l
-                r = terceto.r
+                # r = terceto.r
+                r = "_r{i}".format(i=self.tercetos.index(terceto))
                 o = terceto.o
                 x = terceto.x
                 y = terceto.y
