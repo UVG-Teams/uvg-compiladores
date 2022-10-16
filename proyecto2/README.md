@@ -1,4 +1,4 @@
-# Laboratorio 2
+# Proyecto 2
 
 ```console
 $ pipenv install
