@@ -1,7 +1,7 @@
 # Compiladores UVG
 
 Autores:
-- Luca Rivera
+- Gian Luca Rivera
 - Francisco Rosal
 
 Trabajos:
