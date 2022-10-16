@@ -26,6 +26,7 @@ ANSI_RESET = "\u001B[0m"
 ANSI_RED = "\u001B[31m"
 
 input = ""
+
 # Class that writes line number in text widget
 class LineNumbers(tk.Text):
     def __init__(self, master, text_widget, **kwargs):
@@ -213,17 +214,20 @@ if __name__ == '__main__':
         text ='Choose File',
         command = lambda:open_file()
     )
+
     runbtn = Button(
         window,
         text ='Run',
         # state="disabled",
         command = run
     )
+
     clearbtn = Button(
         window,
         text ='Clear',
         command = clear
     )
+
     label_file_explorer = tk.Label(window, text = " ", width = 20, height = 4, fg = "white")
     # text_area_code = scrolledtext.ScrolledText(window, width = 204, height = 40, font = ("Times New Roman",15), foreground = "white")
     text_area_code = tk.Text(window, width=135, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
