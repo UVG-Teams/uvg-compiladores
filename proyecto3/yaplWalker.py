@@ -359,6 +359,8 @@ class yaplWalker(yaplVisitor):
             scope_type="global"
         )
 
+        success = None
+
         if symbol:
             self.errors.append({
                 "msg": "Solo puede existir un metodo con el mismo nombre en la misma clase",
@@ -379,7 +381,10 @@ class yaplWalker(yaplVisitor):
         if success:
             self.current_method_uuid = symbol.uuid
 
-        expr_terceto, expr_ref = self.visit(ctx.expr())
+        if ctx.expr():
+            expr_terceto, expr_ref = self.visit(ctx.expr())
+        else:
+            expr_terceto, expr_ref = None, None
 
         if expr_terceto:
             expr_terceto.l = self.new_label()
@@ -519,6 +524,9 @@ class yaplWalker(yaplVisitor):
     def visitExpr_class_call(self, ctx:yaplParser.Expr_class_callContext):
         # self.find_type_id(ctx)
         # self.find_object_id(ctx)
+
+        expr_ref_0 = None
+        expr_ref_1 = None
 
         for node in ctx.expr():
             if node == ctx.expr(0):

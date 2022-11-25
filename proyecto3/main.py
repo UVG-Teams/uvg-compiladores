@@ -7,9 +7,10 @@ Gian Luca Rivera
 Francisco Rosal
 """
 
-import sys
 import os
+import sys
 import time
+import getopt
 from antlr4 import *
 from build.yaplLexer import yaplLexer
 from build.yaplParser import yaplParser
@@ -90,7 +91,8 @@ def tac():
     #     fetched_content = text_area_tac.get('1.0', 'end-1c')
     #     f.write(fetched_content)
     input = FileStream('output/code.tac')
-    text_area_tac.insert(tk.INSERT, input, "\n")
+    if interface:
+        text_area_tac.insert(tk.INSERT, input, "\n")
 
 def main():
     # input = FileStream(argv[1])
@@ -145,7 +147,8 @@ def main():
     walker.getTAC().generate_code()
 
     # ! AQUI
-    text_area_symbolT.insert(tk.INSERT, symbolTableRepresentation)
+    if interface:
+        text_area_symbolT.insert(tk.INSERT, symbolTableRepresentation)
     # tree = Treeview(window, columns=('id', 'data_type', 'line', 'column'), show='headings')
 
 
@@ -156,9 +159,10 @@ def main():
             print("LexicalError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
             # if ("missing '{'" in error["msg"]):
             #     print("Did you mean ")
-            text_area_console.insert(tk.INSERT, "\n")
-            text_area_console.insert(tk.INSERT, "LexicalError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
-            text_area_console.tag_config('error', foreground="red")
+            if interface:
+                text_area_console.insert(tk.INSERT, "\n")
+                text_area_console.insert(tk.INSERT, "LexicalError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
+                text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
 
@@ -167,9 +171,10 @@ def main():
         print("----------------------------- SYNTAX ERRORS ------------------------------")
         for error in parser_error_listener.errors:
             print("SyntaxError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"])
-            text_area_console.insert(tk.INSERT, "\n")
-            text_area_console.insert(tk.INSERT, "SyntaxError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
-            text_area_console.tag_config('error', foreground="red")
+            if interface:
+                text_area_console.insert(tk.INSERT, "\n")
+                text_area_console.insert(tk.INSERT, "SyntaxError: position " + str(error["line"]) + ":" + str(error["column"]) + " " + error["msg"], 'error')
+                text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
 
@@ -180,14 +185,16 @@ def main():
         for error in walker.errors:
             if "payload" in error:
                 print("SemanticError: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"])
-                text_area_console.insert(tk.INSERT, "\n")
-                text_area_console.insert(tk.INSERT, "SemanticError: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
-                text_area_console.tag_config('error', foreground="red")
+                if interface:
+                    text_area_console.insert(tk.INSERT, "\n")
+                    text_area_console.insert(tk.INSERT, "SemanticError: position " + str(error["payload"].line) + ":" + str(error["payload"].column) + " " + error["msg"], 'error')
+                    text_area_console.tag_config('error', foreground="red")
             else:
                 print("SemanticError: " + error["msg"])
-                text_area_console.insert(tk.INSERT, "\n")
-                text_area_console.insert(tk.INSERT, "SemanticError: " + error["msg"], 'error')
-                text_area_console.tag_config('error', foreground="red")
+                if interface:
+                    text_area_console.insert(tk.INSERT, "\n")
+                    text_area_console.insert(tk.INSERT, "SemanticError: " + error["msg"], 'error')
+                    text_area_console.tag_config('error', foreground="red")
         print("--------------------------------------------------------------------------")
         print("\n" + ANSI_RESET)
 
@@ -201,66 +208,93 @@ def viewall(*args):
 
 
 if __name__ == '__main__':
-    window = tk.Tk()
-    window.title('Analizador Semántico')
-    window.state('zoomed')
+    # Reading system args
+    sys_arguments = sys.argv[1:]
+    interface = True
+
+    # Options
+    options = "i:"
+
+    # Long options
+    long_options = ["interface="]
+
+    try:
+        # Parsing argument
+        arguments, values = getopt.getopt(sys_arguments, options, long_options)
+
+        # Checking each argument
+        for currentArgument, currentValue in arguments:
+
+            if currentArgument in ("-i", "--interface"):
+                interface = currentValue == "True" or currentValue == "true" or currentValue == "T"
+
+    except getopt.error as err:
+        # Output error, and return with an error code
+        print(str(err))
+
+    if not interface:
+        main()
+    else:
+        window = tk.Tk()
+        window.title('Analizador Semántico')
+        window.state('zoomed')
 
 
-    run_main = BooleanVar()
+        run_main = BooleanVar()
 
-    # Definition of UI elements
-    adharbtn = Button(
-        window,
-        text ='Choose File',
-        command = lambda:open_file()
-    )
+        # Definition of UI elements
+        adharbtn = Button(
+            window,
+            text ='Choose File',
+            command = lambda:open_file()
+        )
 
-    runbtn = Button(
-        window,
-        text ='Run',
-        # state="disabled",
-        command = run
-    )
+        runbtn = Button(
+            window,
+            text ='Run',
+            # state="disabled",
+            command = run
+        )
 
-    clearbtn = Button(
-        window,
-        text ='Clear',
-        command = clear
-    )
+        clearbtn = Button(
+            window,
+            text ='Clear',
+            command = clear
+        )
 
-    label_file_explorer = tk.Label(window, text = " ", width = 20, height = 4, fg = "white")
-    # text_area_code = scrolledtext.ScrolledText(window, width = 204, height = 40, font = ("Times New Roman",15), foreground = "white")
-    text_area_code = tk.Text(window, width=135, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
-    text_area_tac = tk.Text(window, width=62, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
-    text_area_console = tk.Text(window, width=102, height=16, font=("Times New Roman", 15), foreground="green", highlightthickness=0)
-    text_area_symbolT = tk.Text(window, width=98, height=19, font=("Courier", 14), foreground="skyblue", highlightthickness=0, wrap=NONE)
-    l = LineNumbers(window, text_area_code, width=2, height=38, font=("Times New Roman", 15), foreground="gray", highlightthickness=0)
-    # h = Scrollbar(window, orient='horizontal', command=text_area_symbolT.xview)
-    # h.grid(row=166, column=10, sticky=tk.NS)
-    rolly = Scrollbar(window, orient=VERTICAL, command=viewall)
-    text_area_code['yscrollcommand'] = rolly.set
-    l['yscrollcommand'] = rolly.set
-    # rolly.grid(row=5, column=10)
-    rolly.place(x=1110, y=70)
+        label_file_explorer = tk.Label(window, text = " ", width = 20, height = 4, fg = "white")
+        # text_area_code = scrolledtext.ScrolledText(window, width = 204, height = 40, font = ("Times New Roman",15), foreground = "white")
+        text_area_code = tk.Text(window, width=135, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
+        text_area_tac = tk.Text(window, width=62, height=38, font=("Times New Roman", 15), foreground="white", highlightthickness=0)
+        text_area_console = tk.Text(window, width=102, height=16, font=("Times New Roman", 15), foreground="green", highlightthickness=0)
+        text_area_symbolT = tk.Text(window, width=98, height=19, font=("Courier", 14), foreground="skyblue", highlightthickness=0, wrap=NONE)
+        l = LineNumbers(window, text_area_code, width=2, height=38, font=("Times New Roman", 15), foreground="gray", highlightthickness=0)
+        # h = Scrollbar(window, orient='horizontal', command=text_area_symbolT.xview)
+        # h.grid(row=166, column=10, sticky=tk.NS)
+        rolly = Scrollbar(window, orient=VERTICAL, command=viewall)
+        text_area_code['yscrollcommand'] = rolly.set
+        l['yscrollcommand'] = rolly.set
+        # rolly.grid(row=5, column=10)
+        rolly.place(x=1110, y=70)
 
 
-    # text_area_symbolT['xscrollcommand'] = h.set
+        # text_area_symbolT['xscrollcommand'] = h.set
 
-    # Add elements to UI
-    adharbtn.grid(row=0, column=0, padx=(0, 200))
-    label_file_explorer.grid(row=0, column=1)
-    runbtn.grid(row=0, column=16)
-    clearbtn.grid(row=0, column=17, columnspan=2)
-    text_area_code.grid(column=0, row=1, columnspan=12, rowspan=60, padx=(43.2, 0))
-    text_area_tac.grid(column=12, row=1, columnspan=6, rowspan=60, padx=(30, 0))
-    l.grid(column=0, row=1, padx=(0, 279))
-    # h.grid(column=10, row=166, padx=(0, 279))
-    text_area_console.grid(column=0, row=166, columnspan=10, pady=(20,0), padx=(0,1))
-    text_area_symbolT.grid(column=10, row=166, columnspan=10, pady=(20,0))
-    # tree.grid(column=10, row=166, columnspan=10, pady=(20,0))
+        # Add elements to UI
+        adharbtn.grid(row=0, column=0, padx=(0, 200))
+        label_file_explorer.grid(row=0, column=1)
+        runbtn.grid(row=0, column=16)
+        clearbtn.grid(row=0, column=17, columnspan=2)
+        text_area_code.grid(column=0, row=1, columnspan=12, rowspan=60, padx=(43.2, 0))
+        text_area_tac.grid(column=12, row=1, columnspan=6, rowspan=60, padx=(30, 0))
+        l.grid(column=0, row=1, padx=(0, 279))
+        # h.grid(column=10, row=166, padx=(0, 279))
+        text_area_console.grid(column=0, row=166, columnspan=10, pady=(20,0), padx=(0,1))
+        text_area_symbolT.grid(column=10, row=166, columnspan=10, pady=(20,0))
+        # tree.grid(column=10, row=166, columnspan=10, pady=(20,0))
 
-    # runbtn.wait_variable(run_main)
-    # main()
-    # text_area_console.insert(tk.INSERT, "\nCool")
-    window.mainloop()
+        # runbtn.wait_variable(run_main)
+        # main()
+        # text_area_console.insert(tk.INSERT, "\nCool")
+        window.mainloop()
 
