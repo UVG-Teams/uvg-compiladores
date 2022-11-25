@@ -144,7 +144,8 @@ def main():
     print("Total 3AC:", cont)
     print(threeACRepresentation)
 
-    walker.getTAC().generate_code()
+    walker.getTAC().generate_intermediate_code()
+    walker.getTAC().generate_assembly_code()
 
     # ! AQUI
     if interface:

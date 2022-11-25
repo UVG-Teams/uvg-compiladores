@@ -1,14 +1,13 @@
 .data
-    x: .word 30
-    y: .word 24
+    _t0: .word 30
+    _t1: .word 24
     diff: .word 0
 
 .text
 .globl main
-.ent main
 main:
-    lw $a0, x
-    lw $a1, y
+    lw $a0, _t0
+    lw $a1, _t1
 
     # li $v0, 0
     sub $v0, $a0, $a1
@@ -22,5 +21,3 @@ main:
     # exit program
     li $v0, 10
     syscall
-
-.end main

@@ -39,7 +39,7 @@ class yaplWalker(yaplVisitor):
 
     def init3AddressCode(self):
         # Three Address Code
-        self.tac = ThreeAddressCode()
+        self.tac = ThreeAddressCode(self.symbolTable)
 
     def getTAC(self):
         return self.tac
@@ -834,6 +834,7 @@ class yaplWalker(yaplVisitor):
         terceto, ref = self.tac.add(
             o = "<-",
             x = ctx.INT().getText(),
+            t = "data"
         )
         # x = 14
         # print(id(x))
@@ -858,6 +859,7 @@ class yaplWalker(yaplVisitor):
         terceto, ref = self.tac.add(
             o = "<-",
             x = ctx.STRING().getText(),
+            t = "data"
         )
         # self.add_to_symbol_table(
         #     ctx.STRING(),
