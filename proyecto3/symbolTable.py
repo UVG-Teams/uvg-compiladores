@@ -157,6 +157,11 @@ class SymbolTable():
                         return symbol
                 else:
                     return symbol
+    
+    def update(self, uuid, field, value):
+        for symbol in self.records:
+            if symbol.uuid == uuid:
+                setattr(symbol, field, value)
 
     def get_defined_classes(self):
         defined_classes = []

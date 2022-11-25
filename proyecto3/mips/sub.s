@@ -7,7 +7,6 @@
 .globl main
 .ent main
 main:
-
     lw $a0, x
     lw $a1, y
 

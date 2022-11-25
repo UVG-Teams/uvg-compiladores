@@ -52,7 +52,7 @@ class ThreeAddressCode():
 
         if not r:
             # Compiler Three Address Code Reference
-            r = "_r{i}".format(i=len(self.tercetos))
+            r = "_t{i}".format(i=len(self.tercetos))
 
         # if not l:
         #     # Compiler Three Address Code Label
@@ -65,10 +65,11 @@ class ThreeAddressCode():
 
     def generate_code(self):
         with open("output/code.tac", "w") as f:
+            # Writing tercetos
             for terceto in self.tercetos:
                 l = terceto.l
                 # r = terceto.r
-                r = "_r{i}".format(i=self.tercetos.index(terceto))
+                r = "_t{i}".format(i=self.tercetos.index(terceto))
                 o = terceto.o
                 x = terceto.x
                 y = terceto.y
@@ -82,7 +83,7 @@ class ThreeAddressCode():
                     f.write(instruction + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "call":
                     # Goto
-                    f.write(instruction + "{r} <- goto {x} ({y})\n".format(l=l, r=r, x=x, y=y))
+                    f.write(instruction + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "goto" and not y:
                     # Goto
                     f.write(instruction + "goto {x}\n".format(l=l, r=r, x=x))
