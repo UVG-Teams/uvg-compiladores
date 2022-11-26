@@ -132,7 +132,7 @@ class ThreeAddressCode():
                         elif t == "str":
                             f.write("\t{r}: .asciiz {x}\n".format(r=r, x=x))
                     elif o == "<-" and y:
-                        f.write("\t{r}: .word {y} @ {x}\n".format(r=r, x=x, y=y))
+                        f.write("\t{r}: .word {y} # {x}\n".format(r=r, x=x, y=y))
                 elif o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
                     # Save value in memory
                     symbol = self.symbol_table.get_from_addr(r)
@@ -143,6 +143,13 @@ class ThreeAddressCode():
                         f.write("\t{r}: .word 0\n".format(r=r))
                 elif t == "mv":
                     f.write("\t{r}: .word 0\n".format(r=r))
+                elif o == "<-":
+                    symbol = self.symbol_table.get_from_addr(r)
+
+                    if symbol:
+                        f.write("\t{r}: .word 0\n".format(r="_" + symbol.id))
+                    else:
+                        f.write("\t{r}: .word 0\n".format(r=r))
 
             # Writing code
             f.write("\n")
@@ -170,11 +177,19 @@ class ThreeAddressCode():
 
                     if o == "<-" and not y:
                         # Save value in memory
-                        pass
-                        # f.write(indent + "#" + "{r} <- {x}".format(l=l, r=r, x=x))
+                        f.write(indent + "#" + "{r} <- {x}".format(l=l, r=r, x=x))
                         # f.write(indent + "#lw $t0, {x}".format(l=l, r=r, x=x))
                     elif o == "<-" and y:
-                        f.write(indent + "#" + "{r} <- {y} @ {x}".format(l=l, r=r, x=x, y=y))
+                        f.write(indent + "#" + "{r} <- {y} # {x}".format(l=l, r=r, x=x, y=y))
+                        f.write(indent + "lw $t0, {y}".format(y=y))
+
+                        symbol = self.symbol_table.get_from_addr(r)
+
+                        if symbol:
+                            f.write(indent + "sw $t0, {r}".format(r="_" + symbol.id))
+                        else:
+                            f.write(indent + "sw $t0, {r}".format(r=r))
+
                     elif o == "call":
                         # Goto
                         # f.write(indent + "#" + "{r} <- call {x}, {y}".format(l=l, r=r, x=x, y=y))
@@ -206,6 +221,13 @@ class ThreeAddressCode():
                             o=o,
                         ))
                     else:
+                        f.write(indent + "#" + "{r} <- {x} {o} {y}".format(
+                            l=l,
+                            r=r,
+                            x=x,
+                            o=o,
+                            y=y,
+                        ))
                         if o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
                             f.write(indent + "lw $t1, {x}".format(x=x))
                             f.write(indent + "lw $t2, {y}".format(y=y))
@@ -237,13 +259,5 @@ class ThreeAddressCode():
                                 f.write(indent + "sw $t0, {r}".format(r="_" + symbol.id))
                             else:
                                 f.write(indent + "sw $t0, {r}".format(r=r))
-                        else:
-                            f.write(indent + "#" + "{r} <- {x} {o} {y}".format(
-                                l=l,
-                                r=r,
-                                x=x,
-                                o=o,
-                                y=y,
-                            ))
 
                         # f.write(indent + "sw $t0, {r}".format(r=r))

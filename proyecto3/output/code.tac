@@ -16,4 +16,9 @@ l_0 :=
 	_t14 <- "\n"
 	_t15 <- call out_string, _t14
 	_t16 <- call out_int, b
+	_t17 <- 1
+	_t18 <- 2
+	_t19 <- _t17 + _t18
+	_t20 <- _t19 @ c
+	_t21 <- call out_int, c
 	goto l_0
