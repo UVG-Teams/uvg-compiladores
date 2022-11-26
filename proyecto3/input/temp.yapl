@@ -1,9 +1,12 @@
 class Main {
-    a : Int <- 5 + 10 - (1 * 2);
+    a : Int <- 1 + 4;
+    b : Int <- 5 + 11 - (1 * 2);
     main(): Object {
         {
             out_string("Hello, World.\n");
             out_int(a);
+            out_string("\n");
+            out_int(b);
         }
     };
 };

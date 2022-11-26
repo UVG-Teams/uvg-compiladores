@@ -157,20 +157,22 @@ class ThreeAddressCode():
                 y = terceto.y
                 t = terceto.t
 
-                f.write("\n")
                 if t not in ["int", "str"]:
+                    f.write("\n")
                     if l:
                         symbol = self.symbol_table.get_from_addr(l)
                         # f.write("\n.text\n.globl {id}\n{id}:".format(id=symbol.id))
                         indent = "\n\t"
                     if t == "mv":
+                        f.write(indent + "# Movement")
                         f.write(indent + "lw $t1, {x}".format(x=x))
                         f.write(indent + "sw $t1, {r}".format(r=r))
 
                     if o == "<-" and not y:
                         # Save value in memory
+                        pass
                         # f.write(indent + "#" + "{r} <- {x}".format(l=l, r=r, x=x))
-                        f.write(indent + "#lw $t0, {x}".format(l=l, r=r, x=x))
+                        # f.write(indent + "#lw $t0, {x}".format(l=l, r=r, x=x))
                     elif o == "<-" and y:
                         f.write(indent + "#" + "{r} <- {y} @ {x}".format(l=l, r=r, x=x, y=y))
                     elif o == "call":
@@ -180,10 +182,12 @@ class ThreeAddressCode():
                         temp_y = "_" + y.replace("_", "")
 
                         if x == 'out_int':
+                            f.write(indent + "# Out Int")
                             f.write(indent + "lw $a0, {y}".format(y=temp_y))
                             f.write(indent + "li $v0, 1")
                             f.write(indent + "syscall")
                         elif x == 'out_string':
+                            f.write(indent + "# Out String")
                             f.write(indent + "la $a0, {y}".format(y=temp_y))
                             f.write(indent + "li $v0, 4")
                             f.write(indent + "syscall")
