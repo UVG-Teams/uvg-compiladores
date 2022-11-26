@@ -1,13 +1,19 @@
-	_t0 <- 5
-	_t1 <- 10
+	_t0 <- 1
+	_t1 <- 4
 	_t2 <- _t0 + _t1
-	_t3 <- 1
-	_t4 <- 2
-	_t5 <- _t3 * _t4
-	_t6 <- _t5
-	_t7 <- _t2 - _t6
-	_t8 <- "Hello, World.\n"
+	_t3 <- 5
+	_t4 <- 11
+	_t5 <- _t3 + _t4
+	_t6 <- 1
+	_t7 <- 2
+	_t8 <- _t6 * _t7
+	_t9 <- _t8
+	_t10 <- _t5 - _t9
+	_t11 <- "Hello, World.\n"
 l_0 := 
-	_t9 <- call out_string, _t8
-	_t10 <- call out_int, a
+	_t12 <- call out_string, _t11
+	_t13 <- call out_int, a
+	_t14 <- "\n"
+	_t15 <- call out_string, _t14
+	_t16 <- call out_int, b
 	goto l_0
