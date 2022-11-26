@@ -35,14 +35,14 @@ class yaplWalker(yaplVisitor):
         self.symbolTable = SymbolTable()
 
     def getSymbolTable(self):
-        return  self.symbolTable
+        return self.symbolTable
 
     def init3AddressCode(self):
         # Three Address Code
-        self.tac = ThreeAddressCode()
+        self.tac = ThreeAddressCode(self.symbolTable)
 
     def getTAC(self):
-        return  self.tac
+        return self.tac
 
     def add_to_symbol_table(
         self,
@@ -359,6 +359,8 @@ class yaplWalker(yaplVisitor):
             scope_type="global"
         )
 
+        success = None
+
         if symbol:
             self.errors.append({
                 "msg": "Solo puede existir un metodo con el mismo nombre en la misma clase",
@@ -379,18 +381,27 @@ class yaplWalker(yaplVisitor):
         if success:
             self.current_method_uuid = symbol.uuid
 
-        expr_terceto, expr_ref = self.visit(ctx.expr())
+        expr_terceto, expr_ref = None, None
+
+        if ctx.expr():
+            node = self.visit(ctx.expr())
+            if node:
+                expr_terceto, expr_ref = node
 
         if expr_terceto:
             expr_terceto.l = self.new_label()
 
+            self.symbolTable.update(symbol.uuid, 'address_id', expr_terceto.l)
+
             terceto, ref = self.tac.add(
-                o = "goto ({f})".format(f=ctx.OBJECT_ID()),
+                # o = "goto ({f})".format(f=ctx.OBJECT_ID()),
+                o = "goto",
                 x = expr_terceto.l,
             )
         else:
             terceto, ref = self.tac.add(
-                o = "goto ({f})".format(f=ctx.OBJECT_ID()),
+                # o = "goto ({f})".format(f=ctx.OBJECT_ID()),
+                o = "goto",
                 x = expr_ref,
             )
 
@@ -404,7 +415,7 @@ class yaplWalker(yaplVisitor):
             ctx.OBJECT_ID(),
             data_type=ctx.TYPE_ID(),
             scope="{class_scope}".format(class_scope=self.current_class_uuid),
-            scope_type="local"
+            scope_type="global"
         )
 
         if symbol:
@@ -413,16 +424,25 @@ class yaplWalker(yaplVisitor):
                 "payload": ctx.OBJECT_ID().getPayload()
             })
         else:
-            self.add_to_symbol_table(
+            success, symbol = self.add_to_symbol_table(
                 ctx.OBJECT_ID(),
                 data_type=ctx.TYPE_ID(),
                 line=ctx.OBJECT_ID().getPayload().line,
                 column=ctx.OBJECT_ID().getPayload().column,
                 scope="{class_scope}".format(class_scope=self.current_class_uuid),
-                scope_type="local",
+                scope_type="global",
             )
 
-        self.visitChildren(ctx)
+        expr_terceto, expr_ref = None, None
+
+        if ctx.expr():
+            node = self.visit(ctx.expr())
+            if node:
+                expr_terceto, expr_ref = node
+
+        if expr_terceto:
+            self.symbolTable.update(symbol.uuid, 'address_id', expr_ref)
+
         return ctx
 
 
@@ -486,7 +506,7 @@ class yaplWalker(yaplVisitor):
         class_scope = "{class_scope}".format(class_scope=self.current_class_uuid)
         method_scope = "{method_scope}".format(method_scope=self.current_method_uuid)
 
-        # Checking if already exists this formal on the current_scope
+        # Checking if already exists  on the current_scope
         method_scope_symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
             scope=method_scope,
@@ -496,7 +516,7 @@ class yaplWalker(yaplVisitor):
         class_scope_symbol = self.symbolTable.find(
             ctx.OBJECT_ID(),
             scope=class_scope,
-            scope_type="local"
+            scope_type="global"
         )
 
         symbol = method_scope_symbol or class_scope_symbol
@@ -510,7 +530,7 @@ class yaplWalker(yaplVisitor):
         )
 
         if symbol:
-            symbol.address_id = ref
+            self.symbolTable.update(symbol.uuid, 'address_id', ref)
 
         return terceto, ref
 
@@ -519,6 +539,9 @@ class yaplWalker(yaplVisitor):
     def visitExpr_class_call(self, ctx:yaplParser.Expr_class_callContext):
         # self.find_type_id(ctx)
         # self.find_object_id(ctx)
+
+        expr_ref_0 = None
+        expr_ref_1 = None
 
         for node in ctx.expr():
             if node == ctx.expr(0):
@@ -610,6 +633,8 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_brackets.
     def visitExpr_brackets(self, ctx:yaplParser.Expr_bracketsContext):
+        expr_terceto_0 = None
+        expr_ref_0 = None
 
         for node in ctx.expr():
             if node == ctx.expr(0):
@@ -806,10 +831,11 @@ class yaplWalker(yaplVisitor):
 
     # Visit a parse tree produced by yaplParser#expr_int.
     def visitExpr_int(self, ctx:yaplParser.Expr_intContext):
-        # terceto, ref = self.tac.add(
-        #     o = "<-",
-        #     x = ctx.INT().getText(),
-        # )
+        terceto, ref = self.tac.add(
+            o = "<-",
+            x = ctx.INT().getText(),
+            t = "int"
+        )
         # x = 14
         # print(id(x))
         # print(hex(id(x)))
@@ -824,15 +850,17 @@ class yaplWalker(yaplVisitor):
         #     max_size=MAX_SIZE,
         #     address_id=id(int(ctx.INT().getText()))
         # )
-        return None, ctx.INT().getText()
+        # return None, ctx.INT().getText()
+        return terceto, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_str.
     def visitExpr_str(self, ctx:yaplParser.Expr_strContext):
-        # terceto, ref = self.tac.add(
-        #     o = "<-",
-        #     x = ctx.STRING().getText(),
-        # )
+        terceto, ref = self.tac.add(
+            o = "<-",
+            x = ctx.STRING().getText(),
+            t = "str"
+        )
         # self.add_to_symbol_table(
         #     ctx.STRING(),
         #     data_type="String",
@@ -842,7 +870,8 @@ class yaplWalker(yaplVisitor):
         #     max_size=MAX_SIZE,
         #     address_id=id(str(ctx.STRING().getText()))
         # )
-        return None, ctx.STRING().getText()
+        # return None, ctx.STRING().getText()
+        return terceto, ref
 
 
     # Visit a parse tree produced by yaplParser#expr_true.

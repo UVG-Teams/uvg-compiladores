@@ -158,6 +158,16 @@ class SymbolTable():
                 else:
                     return symbol
 
+    def update(self, uuid, field, value):
+        for symbol in self.records:
+            if symbol.uuid == uuid:
+                setattr(symbol, field, value)
+
+    def get_from_addr(self, addr):
+        for symbol in self.records:
+            if symbol.address_id == addr:
+                return symbol
+
     def get_defined_classes(self):
         defined_classes = []
         for symbol in self.records:
