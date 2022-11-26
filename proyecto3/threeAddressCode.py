@@ -138,11 +138,16 @@ class ThreeAddressCode():
                     symbol = self.symbol_table.get_from_addr(r)
 
                     if symbol:
-                        f.write("\t{r}: .word 0\n".format(r=symbol.id))
+                        f.write("\t{r}: .word 0\n".format(r="_" + symbol.id))
                     else:
                         f.write("\t{r}: .word 0\n".format(r=r))
+                elif t == "mv":
+                    f.write("\t{r}: .word 0\n".format(r=r))
 
+            # Writing code
             f.write("\n")
+            f.write("\n.text\n.globl {id}\n{id}:\n".format(id="main"))
+            indent = "\t"
             for terceto in self.tercetos:
                 l = terceto.l
                 # r = terceto.r
@@ -155,36 +160,43 @@ class ThreeAddressCode():
                 if t not in ["int", "str"]:
                     if l:
                         symbol = self.symbol_table.get_from_addr(l)
-                        f.write("\n.text\n.globl {id}\n{id}:\n".format(id=symbol.id))
+                        # f.write("\n.text\n.globl {id}\n{id}:\n".format(id=symbol.id))
+                        indent = "\t"
+                    if t == "mv":
+                        f.write(indent + "lw $t1, {x}\n".format(x=x))
+                        f.write(indent + "sw $t1, {r}\n".format(r=r))
 
                     if o == "<-" and not y:
                         # Save value in memory
-                        # f.write("\t#" + "{r} <- {x}\n".format(l=l, r=r, x=x))
-                        f.write("\tlw $t0, {x}\n".format(l=l, r=r, x=x))
+                        # f.write(indent + "#" + "{r} <- {x}\n".format(l=l, r=r, x=x))
+                        f.write(indent + "#lw $t0, {x}\n".format(l=l, r=r, x=x))
                     elif o == "<-" and y:
-                        f.write("\t#" + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
+                        f.write(indent + "#" + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
                     elif o == "call":
                         # Goto
-                        # f.write("\t#" + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
+                        # f.write(indent + "#" + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
+
+                        temp_y = "_" + y.replace("_", "")
+
                         if x == 'out_int':
                             f.write("\n")
-                            f.write("\tlw $a0, {y}\n".format(y=y))
-                            f.write("\tli $v0, 1\n")
-                            f.write("\tsyscall\n")
+                            f.write(indent + "lw $a0, {y}\n".format(y=temp_y))
+                            f.write(indent + "li $v0, 1\n")
+                            f.write(indent + "syscall\n")
                         elif x == 'out_string':
                             f.write("\n")
-                            f.write("\tla $a0, {y}\n".format(y=y))
-                            f.write("\tli $v0, 4\n")
-                            f.write("\tsyscall\n")
+                            f.write(indent + "la $a0, {y}\n".format(y=temp_y))
+                            f.write(indent + "li $v0, 4\n")
+                            f.write(indent + "syscall\n")
                     elif o == "goto" and not y:
                         # Goto
-                        f.write("\t#" + "goto {x}\n".format(l=l, r=r, x=x))
+                        f.write(indent + "#" + "goto {x}\n".format(l=l, r=r, x=x))
                     elif o == "goto" and y:
                         # Conditional goto
-                        f.write("\t#" + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
+                        f.write(indent + "#" + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
                     elif not y:
                         # Unary operation
-                        f.write("\t#" + "{r} <- {o} {x}\n".format(
+                        f.write(indent + "#" + "{r} <- {o} {x}\n".format(
                             l=l,
                             r=r,
                             x=x,
@@ -192,38 +204,38 @@ class ThreeAddressCode():
                         ))
                     else:
                         if o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write(indent + "lw $t1, {x}\n".format(x=x))
+                            f.write(indent + "lw $t2, {y}\n".format(y=y))
 
                             if o == '+':
-                                f.write("\tadd $t0, $t1, $t2\n")
+                                f.write(indent + "add $t0, $t1, $t2\n")
                             elif o == '-':
-                                f.write("\tsub $t0, $t1, $t2\n")
+                                f.write(indent + "sub $t0, $t1, $t2\n")
                             elif o == '*':
-                                f.write("\tmul $t0, $t1, $t2\n")
+                                f.write(indent + "mul $t0, $t1, $t2\n")
                             elif o == '/':
-                                f.write("\tdiv $t0, $t1, $t2\n")
+                                f.write(indent + "div $t0, $t1, $t2\n")
                             elif o == '==':
-                                f.write("\tbeq $t0, $t1, {x}\n".format(x=x))
+                                f.write(indent + "beq $t0, $t1, {x}\n".format(x=x))
                             elif o == '!=':
-                                f.write("\tbne $t0, $t1, {x}\n".format(x=x))
+                                f.write(indent + "bne $t0, $t1, {x}\n".format(x=x))
                             elif o == '>':
-                                f.write("\tbgt $t0, $t1, {x}\n".format(x=x))
+                                f.write(indent + "bgt $t0, $t1, {x}\n".format(x=x))
                             elif o == '<':
-                                f.write("\tblt $t0, $t1, {x}\n".format(x=x))
+                                f.write(indent + "blt $t0, $t1, {x}\n".format(x=x))
                             elif o == '>=':
-                                f.write("\tbge $t0, $t1, {x}\n".format(x=x))
+                                f.write(indent + "bge $t0, $t1, {x}\n".format(x=x))
                             elif o == '<=':
-                                f.write("\tble $t0, $t1, {x}\n".format(x=x))
+                                f.write(indent + "ble $t0, $t1, {x}\n".format(x=x))
 
                             symbol = self.symbol_table.get_from_addr(r)
 
                             if symbol:
-                                f.write("\tsw $t0, {r}\n".format(r=symbol.id))
+                                f.write(indent + "sw $t0, {r}\n".format(r="_" + symbol.id))
                             else:
-                                f.write("\tsw $t0, {r}\n".format(r=r))
+                                f.write(indent + "sw $t0, {r}\n".format(r=r))
                         else:
-                            f.write("\t#" + "{r} <- {x} {o} {y}\n".format(
+                            f.write(indent + "#" + "{r} <- {x} {o} {y}\n".format(
                                 l=l,
                                 r=r,
                                 x=x,
@@ -231,5 +243,5 @@ class ThreeAddressCode():
                                 y=y,
                             ))
 
-                        # f.write("\tsw $t0, {r}\n".format(r=r))
+                        # f.write(indent + "sw $t0, {r}\n".format(r=r))
                         # f.write("\n")

@@ -807,7 +807,8 @@ class yaplWalker(yaplVisitor):
 
         terceto, ref = self.tac.add(
             o = "<-",
-            x = expr_ref
+            x = expr_ref,
+            t = "mv"
         )
 
         return terceto, ref
