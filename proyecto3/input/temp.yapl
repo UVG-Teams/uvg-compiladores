@@ -1,8 +1,8 @@
 class Main {
-    a : Int <- 15 + 6 * (11 - 1);
-    b : Int <- 1 + 4;
+    a : Int <- 1 + 4;
     main(): Object {
         {
+            out_string("Hello, World.\n");
             out_int(a);
         }
     };

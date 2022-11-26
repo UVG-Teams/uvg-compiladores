@@ -1,14 +1,8 @@
-	_t0 <- 15
-	_t1 <- 6
-	_t2 <- 11
-	_t3 <- 1
-	_t4 <- _t2 - _t3
-	_t5 <- _t4
-	_t6 <- _t1 * _t5
-	_t7 <- _t0 + _t6
-	_t8 <- 1
-	_t9 <- 4
-	_t10 <- _t8 + _t9
+	_t0 <- 1
+	_t1 <- 4
+	_t2 <- _t0 + _t1
+	_t3 <- "Hello, World.\n"
 l_0 := 
-	_t11 <- call out_int, a
+	_t4 <- call out_string, _t3
+	_t5 <- call out_int, a
 	goto l_0

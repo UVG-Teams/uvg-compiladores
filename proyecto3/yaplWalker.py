@@ -834,7 +834,7 @@ class yaplWalker(yaplVisitor):
         terceto, ref = self.tac.add(
             o = "<-",
             x = ctx.INT().getText(),
-            t = "data"
+            t = "int"
         )
         # x = 14
         # print(id(x))
@@ -859,7 +859,7 @@ class yaplWalker(yaplVisitor):
         terceto, ref = self.tac.add(
             o = "<-",
             x = ctx.STRING().getText(),
-            t = "data"
+            t = "str"
         )
         # self.add_to_symbol_table(
         #     ctx.STRING(),

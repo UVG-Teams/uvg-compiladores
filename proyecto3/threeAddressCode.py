@@ -78,32 +78,32 @@ class ThreeAddressCode():
                 x = terceto.x
                 y = terceto.y
 
-                instruction = "{l} := \n\t".format(l=l) if l else "\t"
+                line_init = "{l} := \n\t".format(l=l) if l else "\t"
 
                 if o == "<-" and not y:
                     # Save value in memory
-                    f.write(instruction + "{r} <- {x}\n".format(l=l, r=r, x=x))
+                    f.write(line_init + "{r} <- {x}\n".format(l=l, r=r, x=x))
                 elif o == "<-" and y:
-                    f.write(instruction + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
+                    f.write(line_init + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "call":
                     # Goto
-                    f.write(instruction + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
+                    f.write(line_init + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
                 elif o == "goto" and not y:
                     # Goto
-                    f.write(instruction + "goto {x}\n".format(l=l, r=r, x=x))
+                    f.write(line_init + "goto {x}\n".format(l=l, r=r, x=x))
                 elif o == "goto" and y:
                     # Conditional goto
-                    f.write(instruction + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
+                    f.write(line_init + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
                 elif not y:
                     # Unary operation
-                    f.write(instruction + "{r} <- {o} {x}\n".format(
+                    f.write(line_init + "{r} <- {o} {x}\n".format(
                         l=l,
                         r=r,
                         x=x,
                         o=o,
                     ))
                 else:
-                    f.write(instruction + "{r} <- {x} {o} {y}\n".format(
+                    f.write(line_init + "{r} <- {x} {o} {y}\n".format(
                         l=l,
                         r=r,
                         x=x,
@@ -124,14 +124,17 @@ class ThreeAddressCode():
                 y = terceto.y
                 t = terceto.t
 
-                if t == "data":
-                    instruction = "\t"
+                if t in ["int", "str"]:
+                    line_init = "\t"
 
                     if o == "<-" and not y:
                         # Save value in memory
-                        f.write(instruction + "{r}: .word {x}\n".format(l=l, r=r, x=x))
+                        if t == "int":
+                            f.write(line_init + "{r}: .word {x}\n".format(l=l, r=r, x=x))
+                        elif t == "str":
+                            f.write(line_init + "{r}: .asciiz {x}\n".format(l=l, r=r, x=x))
                     elif o == "<-" and y:
-                        f.write(instruction + "{r}: .word {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
+                        f.write(line_init + "{r}: .word {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
 
             f.write("\n")
             for terceto in self.tercetos:
@@ -143,39 +146,48 @@ class ThreeAddressCode():
                 y = terceto.y
                 t = terceto.t
 
-                if t != "data":
+                if t not in ["int", "str"]:
+                    line_init = "\t"
+
                     if l:
                         symbol = self.symbol_table.get_from_addr(l)
-
-                        instruction = "\n.text\n.globl {id}\n{id}:\n\t".format(id=symbol.id)
-                    else:
-                        instruction = "\t"
-
+                        f.write("\n.text\n.globl {id}\n{id}:\n".format(id=symbol.id))
 
                     if o == "<-" and not y:
                         # Save value in memory
-                        f.write(instruction + "{r} <- {x}\n".format(l=l, r=r, x=x))
+                        # f.write(line_init + "#" + "{r} <- {x}\n".format(l=l, r=r, x=x))
+                        f.write(line_init + "lw $t0, {x}\n".format(l=l, r=r, x=x))
                     elif o == "<-" and y:
-                        f.write(instruction + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
+                        f.write(line_init + "#" + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
                     elif o == "call":
                         # Goto
-                        f.write(instruction + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
+                        # f.write(line_init + "#" + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
+                        if x == 'out_int':
+                            f.write("\n")
+                            f.write(line_init + "lw $a0, {y}\n".format(y=y))
+                            f.write(line_init + "li $v0, 1\n")
+                            f.write(line_init + "syscall\n")
+                        elif x == 'out_string':
+                            f.write("\n")
+                            f.write(line_init + "la $a0, {y}\n".format(y=y))
+                            f.write(line_init + "li $v0, 4\n")
+                            f.write(line_init + "syscall\n")
                     elif o == "goto" and not y:
                         # Goto
-                        f.write(instruction + "goto {x}\n".format(l=l, r=r, x=x))
+                        f.write(line_init + "#" + "goto {x}\n".format(l=l, r=r, x=x))
                     elif o == "goto" and y:
                         # Conditional goto
-                        f.write(instruction + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
+                        f.write(line_init + "#" + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
                     elif not y:
                         # Unary operation
-                        f.write(instruction + "{r} <- {o} {x}\n".format(
+                        f.write(line_init + "#" + "{r} <- {o} {x}\n".format(
                             l=l,
                             r=r,
                             x=x,
                             o=o,
                         ))
                     else:
-                        f.write(instruction + "{r} <- {x} {o} {y}\n".format(
+                        f.write(line_init + "#" + "{r} <- {x} {o} {y}\n".format(
                             l=l,
                             r=r,
                             x=x,
