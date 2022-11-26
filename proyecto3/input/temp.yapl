@@ -1,5 +1,5 @@
 class Main {
-    a : Int <- 1 + 4;
+    a : Int <- 5 + 10 - (1 * 2);
     main(): Object {
         {
             out_string("Hello, World.\n");
