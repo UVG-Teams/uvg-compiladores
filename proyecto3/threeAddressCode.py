@@ -135,7 +135,12 @@ class ThreeAddressCode():
                         f.write("\t{r}: .word {y} @ {x}\n".format(r=r, x=x, y=y))
                 elif o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
                     # Save value in memory
-                    f.write("\t{r}: .word 0\n".format(r=r))
+                    symbol = self.symbol_table.get_from_addr(r)
+
+                    if symbol:
+                        f.write("\t{r}: .word 0\n".format(r=symbol.id))
+                    else:
+                        f.write("\t{r}: .word 0\n".format(r=r))
 
             f.write("\n")
             for terceto in self.tercetos:
@@ -186,56 +191,37 @@ class ThreeAddressCode():
                             o=o,
                         ))
                     else:
-                        if o == '+':
+                        if o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
                             f.write("\tlw $t1, {x}\n".format(x=x))
                             f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tadd $t0, $t1, $t2\n")
-                            f.write("\tsw $t0, {r}\n".format(r=r))
-                        elif o == '-':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tsub $t0, $t1, $t2\n")
-                            f.write("\tsw $t0, {r}\n".format(r=r))
-                        elif o == '*':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tmul $t0, $t1, $t2\n")
-                            f.write("\tsw $t0, {r}\n".format(r=r))
-                        elif o == '/':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tdiv $t0, $t1, $t2\n")
-                            f.write("\tsw $t0, {r}\n".format(r=r))
-                        elif o == '==':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tbeq $t1, $t2, {x}\n".format(x=x))
-                            f.write("\tsw $t1, {r}\n".format(r=r))
-                        elif o == '!=':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tbne $t1, $t2, {x}\n".format(x=x))
-                            f.write("\tsw $t1, {r}\n".format(r=r))
-                        elif o == '>':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tbgt $t1, $t2, {x}\n".format(x=x))
-                            f.write("\tsw $t1, {r}\n".format(r=r))
-                        elif o == '<':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tblt $t1, $t2, {x}\n".format(x=x))
-                            f.write("\tsw $t1, {r}\n".format(r=r))
-                        elif o == '>=':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tbge $t1, $t2, {x}\n".format(x=x))
-                            f.write("\tsw $t1, {r}\n".format(r=r))
-                        elif o == '<=':
-                            f.write("\tlw $t1, {x}\n".format(x=x))
-                            f.write("\tlw $t2, {y}\n".format(y=y))
-                            f.write("\tble $t1, $t2, {x}\n".format(x=x))
-                            f.write("\tsw $t1, {r}\n".format(r=r))
+
+                            if o == '+':
+                                f.write("\tadd $t0, $t1, $t2\n")
+                            elif o == '-':
+                                f.write("\tsub $t0, $t1, $t2\n")
+                            elif o == '*':
+                                f.write("\tmul $t0, $t1, $t2\n")
+                            elif o == '/':
+                                f.write("\tdiv $t0, $t1, $t2\n")
+                            elif o == '==':
+                                f.write("\tbeq $t0, $t1, {x}\n".format(x=x))
+                            elif o == '!=':
+                                f.write("\tbne $t0, $t1, {x}\n".format(x=x))
+                            elif o == '>':
+                                f.write("\tbgt $t0, $t1, {x}\n".format(x=x))
+                            elif o == '<':
+                                f.write("\tblt $t0, $t1, {x}\n".format(x=x))
+                            elif o == '>=':
+                                f.write("\tbge $t0, $t1, {x}\n".format(x=x))
+                            elif o == '<=':
+                                f.write("\tble $t0, $t1, {x}\n".format(x=x))
+
+                            symbol = self.symbol_table.get_from_addr(r)
+
+                            if symbol:
+                                f.write("\tsw $t0, {r}\n".format(r=symbol.id))
+                            else:
+                                f.write("\tsw $t0, {r}\n".format(r=r))
                         else:
                             f.write("\t#" + "{r} <- {x} {o} {y}\n".format(
                                 l=l,
@@ -244,5 +230,6 @@ class ThreeAddressCode():
                                 o=o,
                                 y=y,
                             ))
+
                         # f.write("\tsw $t0, {r}\n".format(r=r))
                         # f.write("\n")
