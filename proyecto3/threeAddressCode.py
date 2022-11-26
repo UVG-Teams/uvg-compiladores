@@ -125,16 +125,17 @@ class ThreeAddressCode():
                 t = terceto.t
 
                 if t in ["int", "str"]:
-                    line_init = "\t"
-
                     if o == "<-" and not y:
                         # Save value in memory
                         if t == "int":
-                            f.write(line_init + "{r}: .word {x}\n".format(l=l, r=r, x=x))
+                            f.write("\t{r}: .word {x}\n".format(r=r, x=x))
                         elif t == "str":
-                            f.write(line_init + "{r}: .asciiz {x}\n".format(l=l, r=r, x=x))
+                            f.write("\t{r}: .asciiz {x}\n".format(r=r, x=x))
                     elif o == "<-" and y:
-                        f.write(line_init + "{r}: .word {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
+                        f.write("\t{r}: .word {y} @ {x}\n".format(r=r, x=x, y=y))
+                elif o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
+                    # Save value in memory
+                    f.write("\t{r}: .word 0\n".format(r=r))
 
             f.write("\n")
             for terceto in self.tercetos:
@@ -147,50 +148,101 @@ class ThreeAddressCode():
                 t = terceto.t
 
                 if t not in ["int", "str"]:
-                    line_init = "\t"
-
                     if l:
                         symbol = self.symbol_table.get_from_addr(l)
                         f.write("\n.text\n.globl {id}\n{id}:\n".format(id=symbol.id))
 
                     if o == "<-" and not y:
                         # Save value in memory
-                        # f.write(line_init + "#" + "{r} <- {x}\n".format(l=l, r=r, x=x))
-                        f.write(line_init + "lw $t0, {x}\n".format(l=l, r=r, x=x))
+                        # f.write("\t#" + "{r} <- {x}\n".format(l=l, r=r, x=x))
+                        f.write("\tlw $t0, {x}\n".format(l=l, r=r, x=x))
                     elif o == "<-" and y:
-                        f.write(line_init + "#" + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
+                        f.write("\t#" + "{r} <- {y} @ {x}\n".format(l=l, r=r, x=x, y=y))
                     elif o == "call":
                         # Goto
-                        # f.write(line_init + "#" + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
+                        # f.write("\t#" + "{r} <- call {x}, {y}\n".format(l=l, r=r, x=x, y=y))
                         if x == 'out_int':
                             f.write("\n")
-                            f.write(line_init + "lw $a0, {y}\n".format(y=y))
-                            f.write(line_init + "li $v0, 1\n")
-                            f.write(line_init + "syscall\n")
+                            f.write("\tlw $a0, {y}\n".format(y=y))
+                            f.write("\tli $v0, 1\n")
+                            f.write("\tsyscall\n")
                         elif x == 'out_string':
                             f.write("\n")
-                            f.write(line_init + "la $a0, {y}\n".format(y=y))
-                            f.write(line_init + "li $v0, 4\n")
-                            f.write(line_init + "syscall\n")
+                            f.write("\tla $a0, {y}\n".format(y=y))
+                            f.write("\tli $v0, 4\n")
+                            f.write("\tsyscall\n")
                     elif o == "goto" and not y:
                         # Goto
-                        f.write(line_init + "#" + "goto {x}\n".format(l=l, r=r, x=x))
+                        f.write("\t#" + "goto {x}\n".format(l=l, r=r, x=x))
                     elif o == "goto" and y:
                         # Conditional goto
-                        f.write(line_init + "#" + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
+                        f.write("\t#" + "goto {x} if {y}\n".format(l=l, r=r, x=x, y=y))
                     elif not y:
                         # Unary operation
-                        f.write(line_init + "#" + "{r} <- {o} {x}\n".format(
+                        f.write("\t#" + "{r} <- {o} {x}\n".format(
                             l=l,
                             r=r,
                             x=x,
                             o=o,
                         ))
                     else:
-                        f.write(line_init + "#" + "{r} <- {x} {o} {y}\n".format(
-                            l=l,
-                            r=r,
-                            x=x,
-                            o=o,
-                            y=y,
-                        ))
+                        if o == '+':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tadd $t0, $t1, $t2\n")
+                            f.write("\tsw $t0, {r}\n".format(r=r))
+                        elif o == '-':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tsub $t0, $t1, $t2\n")
+                            f.write("\tsw $t0, {r}\n".format(r=r))
+                        elif o == '*':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tmul $t0, $t1, $t2\n")
+                            f.write("\tsw $t0, {r}\n".format(r=r))
+                        elif o == '/':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tdiv $t0, $t1, $t2\n")
+                            f.write("\tsw $t0, {r}\n".format(r=r))
+                        elif o == '==':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tbeq $t1, $t2, {x}\n".format(x=x))
+                            f.write("\tsw $t1, {r}\n".format(r=r))
+                        elif o == '!=':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tbne $t1, $t2, {x}\n".format(x=x))
+                            f.write("\tsw $t1, {r}\n".format(r=r))
+                        elif o == '>':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tbgt $t1, $t2, {x}\n".format(x=x))
+                            f.write("\tsw $t1, {r}\n".format(r=r))
+                        elif o == '<':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tblt $t1, $t2, {x}\n".format(x=x))
+                            f.write("\tsw $t1, {r}\n".format(r=r))
+                        elif o == '>=':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tbge $t1, $t2, {x}\n".format(x=x))
+                            f.write("\tsw $t1, {r}\n".format(r=r))
+                        elif o == '<=':
+                            f.write("\tlw $t1, {x}\n".format(x=x))
+                            f.write("\tlw $t2, {y}\n".format(y=y))
+                            f.write("\tble $t1, $t2, {x}\n".format(x=x))
+                            f.write("\tsw $t1, {r}\n".format(r=r))
+                        else:
+                            f.write("\t#" + "{r} <- {x} {o} {y}\n".format(
+                                l=l,
+                                r=r,
+                                x=x,
+                                o=o,
+                                y=y,
+                            ))
+                        # f.write("\tsw $t0, {r}\n".format(r=r))
+                        # f.write("\n")
