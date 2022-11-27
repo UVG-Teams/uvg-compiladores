@@ -90,7 +90,7 @@ def tac():
     # with open('output/code.tac', 'w') as f:
     #     fetched_content = text_area_tac.get('1.0', 'end-1c')
     #     f.write(fetched_content)
-    input = FileStream('output/code.tac')
+    input = FileStream('output/code.s')
     if interface:
         text_area_tac.insert(tk.INSERT, input, "\n")
 
