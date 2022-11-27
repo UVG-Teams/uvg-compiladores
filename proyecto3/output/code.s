@@ -27,6 +27,9 @@
 	_t35: .word 1
 	_t36: .word 0
 	_i: .word 0
+	buffer: .space 20
+	str1:  .asciiz "Enter string(max 20 chars): "
+	str2:  .asciiz "You wrote:\n"
 
 
 .text
@@ -151,6 +154,18 @@ l_0:
 	ble $t1, $t2, l_0
 
 	#goto l_1
+
+	# input string
+	li $v0,8 #take in input
+	la $a0, buffer #load byte space into address
+	li $a1, 20 # allot the byte space for string
+	move $t0,$a0 #save string to t0
+	syscall
+
+	la $a0, buffer #reload byte space to primary address
+	move $a0,$t0 # primary address = t0 address (load pointer)
+	li $v0,4 # print string
+	syscall
 
 exit_program:
 	li $v0, 10
