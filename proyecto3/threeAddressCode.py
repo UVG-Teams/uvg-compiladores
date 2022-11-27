@@ -156,6 +156,9 @@ class ThreeAddressCode():
                         f.write("\t{r}: .word 0\n".format(r=r))
                 elif t == "mv":
                     f.write("\t{r}: .word 0\n".format(r=r))
+                elif o == "call":
+                    if x == "in_int":
+                        f.write("\t{r}: .word 0\n".format(r=r))
                 elif o == "<-":
                     symbol = self.symbol_table.get_from_addr(r)
 
@@ -220,7 +223,6 @@ class ThreeAddressCode():
                         if y:
                             temp_y = "_" + y.replace("_", "")
 
-                        print(l, r, o, x, y, t)
                         if x == 'out_int':
                             f.write(indent + "# Output Int")
                             f.write(indent + "lw $a0, {y}".format(y=temp_y))

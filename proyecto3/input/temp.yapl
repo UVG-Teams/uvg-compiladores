@@ -3,7 +3,7 @@ class Main {
     main(): Object {
         {
             out_string("Hello, World.\n");
-            a = in_int();
+            a <- in_int();
             out_int(a);
             out_string("\n");
         }
