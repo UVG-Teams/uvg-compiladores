@@ -125,7 +125,6 @@ class ThreeAddressCode():
                 y = terceto.y
                 t = terceto.t
 
-                print(l, r, o, x, y, t)
                 if t in ["int", "str"]:
                     symbol = self.symbol_table.get_from_addr(r)
 
@@ -237,8 +236,9 @@ class ThreeAddressCode():
                         # Conditional goto
                         f.write(indent + "#" + "goto {x} if {y}".format(l=l, r=r, x=x, y=y))
 
-                        for inst_line in self.instructions_stack[y]:
-                            f.write(inst_line.replace("$goto", x))
+                        if y in self.instructions_stack:
+                            for inst_line in self.instructions_stack[y]:
+                                f.write(inst_line.replace("$goto", x))
                     elif not y:
                         # Unary operation
                         f.write(indent + "#" + "{r} <- {o} {x}".format(
@@ -311,7 +311,7 @@ class ThreeAddressCode():
                                 group.append(indent + "blt $t1, $t2, $goto")
                             elif o == "<=":
                                 group.append(indent + "ble $t1, $t2, $goto")
-                            
+
                             self.instructions_stack[r] = group
 
                         # f.write(indent + "sw $t0, {r}".format(r=r))
