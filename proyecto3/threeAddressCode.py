@@ -239,6 +239,14 @@ class ThreeAddressCode():
                             f.write(indent + "syscall")
                             f.write(indent + "move $t0, $v0")
                             f.write(indent + "sw $t0, {r}".format(r=r))
+                        elif x == 'in_string':
+                            f.write(indent + "# Input String")
+                            f.write(indent + "li $v0, 8")
+                            f.write(indent + "li $a1, 100")
+                            f.write(indent + "la $a0, {r}".format(r=r))
+                            f.write(indent + "move $t0, $a0")
+                            f.write(indent + "syscall")
+                            # f.write(indent + "sw $t0, {r}".format(r=r))
                     elif o == "goto" and not y:
                         # Goto
                         f.write(indent + "#" + "goto {x}".format(l=l, r=r, x=x))
