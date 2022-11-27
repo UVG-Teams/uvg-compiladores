@@ -1,27 +1,11 @@
 class Main {
-    a : Int <- 1 + 4;
-    b : Int <- 5 + 10 - (1 * 2);
-    c : Int;
-    cont: Int <- 10;
-	i: Int <- 1;
+    a : Int;
     main(): Object {
         {
             out_string("Hello, World.\n");
+            a = in_int();
             out_int(a);
             out_string("\n");
-            out_int(b);
-
-            out_string("\n");
-            c <- 1 + 2;
-            out_int(c);
-
-            while i <= cont loop
-                {
-                    out_string("\n");
-                    out_int(i);
-                    i <- i + 1;
-                }
-            pool;
         }
     };
 };

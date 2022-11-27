@@ -1,36 +1,33 @@
 .data
 	_t0: .asciiz "Hello, World.\n"
-	_t3: .word 0
-	_t5: .asciiz "\n"
+	_a: .word 0
+	_t3: .asciiz "\n"
 
 
 .text
 .globl main
 main:
 
-	# Output String
+	# Out String
 	la $a0, _t0
 	li $v0, 4
 	syscall
 
-	# Input Int
+	# In Int
 	li $v0, 5
 	syscall
 	move $t0, $v0
-	sw $t0, _t3
+	sw $t0, _a
 
-
-	# Output Int
-	lw $a0, _t3
+	# Out Int
+	lw $a0, _a
 	li $v0, 1
 	syscall
 
-	# Output String
-	la $a0, _t5
+	# Out String
+	la $a0, _t3
 	li $v0, 4
 	syscall
-
-	#goto l_0
 
 exit_program:
 	li $v0, 10
