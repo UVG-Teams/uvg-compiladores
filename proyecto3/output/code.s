@@ -32,6 +32,7 @@ main:
 	li $v0, 1
 	syscall
 
+
 l_0:
 	# Out String
 	la $a0, _t9
@@ -54,12 +55,12 @@ l_0:
 	sw $t0, _i
 
 	#goto l_0 if _t8
-
-	#goto l_1
 	#_t8 <- i <= cont
 	lw $t1, _i
 	lw $t2, _cont
 	ble $t1, $t2, l_0
+
+	#goto l_1
 
 exit_program:
 	li $v0, 10

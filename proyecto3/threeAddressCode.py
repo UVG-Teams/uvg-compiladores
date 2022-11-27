@@ -34,6 +34,7 @@ class ThreeAddressCode():
     def __init__(self, symbol_table):
         self.tercetos = []
         self.symbol_table = symbol_table
+        self.instructions_stack = {}
 
     def add(self, o=None, x=None, y=None, r=None, l=None, t=None):
 
@@ -235,6 +236,9 @@ class ThreeAddressCode():
                     elif o == "goto" and y:
                         # Conditional goto
                         f.write(indent + "#" + "goto {x} if {y}".format(l=l, r=r, x=x, y=y))
+
+                        for inst_line in self.instructions_stack[y]:
+                            f.write(inst_line.replace("$goto", x))
                     elif not y:
                         # Unary operation
                         f.write(indent + "#" + "{r} <- {o} {x}".format(
@@ -244,15 +248,14 @@ class ThreeAddressCode():
                             o=o,
                         ))
                     else:
-                        f.write(indent + "#" + "{r} <- {x} {o} {y}".format(
-                            l=l,
-                            r=r,
-                            x=x,
-                            o=o,
-                            y=y,
-                        ))
-
                         if o in ["+", "-", "*", "/"]:
+                            f.write(indent + "#" + "{r} <- {x} {o} {y}".format(
+                                l=l,
+                                r=r,
+                                x=x,
+                                o=o,
+                                y=y,
+                            ))
 
                             if type(x) == "Int":
                                 f.write(indent + "lw $t1, {x}".format(x=x))
@@ -282,22 +285,34 @@ class ThreeAddressCode():
 
                         if o in ["=", "<", "<="]:
 
+                            group = []
+
+                            group.append(indent + "#" + "{r} <- {x} {o} {y}".format(
+                                l=l,
+                                r=r,
+                                x=x,
+                                o=o,
+                                y=y,
+                            ))
+
                             if type(x) == "Int":
-                                f.write(indent + "lw $t1, {x}".format(x=x))
+                                group.append(indent + "lw $t1, {x}".format(x=x))
                             else:
-                                f.write(indent + "lw $t1, _{x}".format(x=x.replace("_", "")))
+                                group.append(indent + "lw $t1, _{x}".format(x=x.replace("_", "")))
 
                             if type(y) == "Int":
-                                f.write(indent + "lw $t2, {y}".format(y=y))
+                                group.append(indent + "lw $t2, {y}".format(y=y))
                             else:
-                                f.write(indent + "lw $t2, _{y}".format(y=y.replace("_", "")))
+                                group.append(indent + "lw $t2, _{y}".format(y=y.replace("_", "")))
 
                             if o == "=":
-                                f.write(indent + "beq $t1, $t2, {goto}".format(goto=l))
+                                group.append(indent + "beq $t1, $t2, $goto")
                             elif o == "<":
-                                f.write(indent + "blt $t1, $t2, {goto}".format(goto=l))
+                                group.append(indent + "blt $t1, $t2, $goto")
                             elif o == "<=":
-                                f.write(indent + "ble $t1, $t2, {goto}".format(goto=l))
+                                group.append(indent + "ble $t1, $t2, $goto")
+                            
+                            self.instructions_stack[r] = group
 
                         # f.write(indent + "sw $t0, {r}".format(r=r))
 
