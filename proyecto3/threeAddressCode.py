@@ -124,21 +124,34 @@ class ThreeAddressCode():
                 y = terceto.y
                 t = terceto.t
 
+                print(l, r, o, x, y, t)
                 if t in ["int", "str"]:
-                    if o == "<-" and not y:
-                        # Save value in memory
-                        if t == "int":
-                            f.write("\t{r}: .word {x}\n".format(r=r, x=x))
-                        elif t == "str":
-                            f.write("\t{r}: .asciiz {x}\n".format(r=r, x=x))
-                    elif o == "<-" and y:
-                        f.write("\t{r}: .word {y} # {x}\n".format(r=r, x=x, y=y))
-                elif o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
+                    symbol = self.symbol_table.get_from_addr(r)
+
+                    if symbol:
+                        if o == "<-" and not y:
+                            # Save value in memory
+                            if t == "int":
+                                f.write("\t_{r}: .word {x}\n".format(r=symbol.id, x=x))
+                            elif t == "str":
+                                f.write("\t_{r}: .asciiz {x}\n".format(r=symbol.id, x=x))
+                        elif o == "<-" and y:
+                            f.write("\t_{r}: .word {y} # {x}\n".format(r=symbol.id, x=x, y=y))
+                    else:
+                        if o == "<-" and not y:
+                            # Save value in memory
+                            if t == "int":
+                                f.write("\t{r}: .word {x}\n".format(r=r, x=x))
+                            elif t == "str":
+                                f.write("\t{r}: .asciiz {x}\n".format(r=r, x=x))
+                        elif o == "<-" and y:
+                            f.write("\t{r}: .word {y} # {x}\n".format(r=r, x=x, y=y))
+                elif o in ["+", "-", "*", "/", "=", "<", "<="]:
                     # Save value in memory
                     symbol = self.symbol_table.get_from_addr(r)
 
                     if symbol:
-                        f.write("\t{r}: .word 0\n".format(r="_" + symbol.id))
+                        f.write("\t_{r}: .word 0\n".format(r=symbol.id))
                     else:
                         f.write("\t{r}: .word 0\n".format(r=r))
                 elif t == "mv":
@@ -147,7 +160,7 @@ class ThreeAddressCode():
                     symbol = self.symbol_table.get_from_addr(r)
 
                     if symbol:
-                        f.write("\t{r}: .word 0\n".format(r="_" + symbol.id))
+                        f.write("\t_{r}: .word 0\n".format(r=symbol.id))
                     else:
                         f.write("\t{r}: .word 0\n".format(r=r))
 
@@ -164,12 +177,23 @@ class ThreeAddressCode():
                 y = terceto.y
                 t = terceto.t
 
+                if l:
+                    symbol = self.symbol_table.get_from_addr(l)
+
+                    if symbol:
+                        f.write("\n")
+                    else:
+                        f.write("\n\n{l}:".format(l=l))
+
                 if t not in ["int", "str"]:
-                    f.write("\n")
                     if l:
-                        symbol = self.symbol_table.get_from_addr(l)
-                        # f.write("\n.text\n.globl {id}\n{id}:".format(id=symbol.id))
+                        # symbol = self.symbol_table.get_from_addr(l)
+                        # if symbol:
+                        #     f.write("\n.text\n.globl {id}\n{id}:".format(id=symbol.id))
                         indent = "\n\t"
+                    else:
+                        f.write("\n")
+
                     if t == "mv":
                         f.write(indent + "# Movement")
                         f.write(indent + "lw $t1, {x}".format(x=x))
@@ -186,14 +210,13 @@ class ThreeAddressCode():
                         symbol = self.symbol_table.get_from_addr(r)
 
                         if symbol:
-                            f.write(indent + "sw $t0, {r}".format(r="_" + symbol.id))
+                            f.write(indent + "sw $t0, _{r}".format(r=symbol.id))
                         else:
                             f.write(indent + "sw $t0, {r}".format(r=r))
 
                     elif o == "call":
                         # Goto
                         # f.write(indent + "#" + "{r} <- call {x}, {y}".format(l=l, r=r, x=x, y=y))
-
                         temp_y = "_" + y.replace("_", "")
 
                         if x == 'out_int':
@@ -228,36 +251,58 @@ class ThreeAddressCode():
                             o=o,
                             y=y,
                         ))
-                        if o in ["+", "-", "*", "/", "==", "!=", ">", "<", ">=", "<="]:
-                            f.write(indent + "lw $t1, {x}".format(x=x))
-                            f.write(indent + "lw $t2, {y}".format(y=y))
 
-                            if o == '+':
+                        if o in ["+", "-", "*", "/"]:
+
+                            if type(x) == "Int":
+                                f.write(indent + "lw $t1, {x}".format(x=x))
+                            else:
+                                f.write(indent + "lw $t1, _{x}".format(x=x.replace("_", "")))
+
+                            if type(y) == "Int":
+                                f.write(indent + "lw $t2, {y}".format(y=y))
+                            else:
+                                f.write(indent + "lw $t2, _{y}".format(y=y.replace("_", "")))
+
+                            if o == "+":
                                 f.write(indent + "add $t0, $t1, $t2")
-                            elif o == '-':
+                            elif o == "-":
                                 f.write(indent + "sub $t0, $t1, $t2")
-                            elif o == '*':
+                            elif o == "*":
                                 f.write(indent + "mul $t0, $t1, $t2")
-                            elif o == '/':
+                            elif o == "/":
                                 f.write(indent + "div $t0, $t1, $t2")
-                            elif o == '==':
-                                f.write(indent + "beq $t0, $t1, {x}".format(x=x))
-                            elif o == '!=':
-                                f.write(indent + "bne $t0, $t1, {x}".format(x=x))
-                            elif o == '>':
-                                f.write(indent + "bgt $t0, $t1, {x}".format(x=x))
-                            elif o == '<':
-                                f.write(indent + "blt $t0, $t1, {x}".format(x=x))
-                            elif o == '>=':
-                                f.write(indent + "bge $t0, $t1, {x}".format(x=x))
-                            elif o == '<=':
-                                f.write(indent + "ble $t0, $t1, {x}".format(x=x))
 
                             symbol = self.symbol_table.get_from_addr(r)
 
                             if symbol:
-                                f.write(indent + "sw $t0, {r}".format(r="_" + symbol.id))
+                                f.write(indent + "sw $t0, _{r}".format(r=symbol.id))
                             else:
                                 f.write(indent + "sw $t0, {r}".format(r=r))
 
+                        if o in ["=", "<", "<="]:
+
+                            if type(x) == "Int":
+                                f.write(indent + "lw $t1, {x}".format(x=x))
+                            else:
+                                f.write(indent + "lw $t1, _{x}".format(x=x.replace("_", "")))
+
+                            if type(y) == "Int":
+                                f.write(indent + "lw $t2, {y}".format(y=y))
+                            else:
+                                f.write(indent + "lw $t2, _{y}".format(y=y.replace("_", "")))
+
+                            if o == "=":
+                                f.write(indent + "beq $t1, $t2, {goto}".format(goto=l))
+                            elif o == "<":
+                                f.write(indent + "blt $t1, $t2, {goto}".format(goto=l))
+                            elif o == "<=":
+                                f.write(indent + "ble $t1, $t2, {goto}".format(goto=l))
+
                         # f.write(indent + "sw $t0, {r}".format(r=r))
+
+
+            f.write("\n\n")
+            f.write("exit_program:")
+            f.write(indent + "li $v0, 10")
+            f.write(indent + "syscall")

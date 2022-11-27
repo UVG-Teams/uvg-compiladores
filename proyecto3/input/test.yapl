@@ -1,12 +1,17 @@
 class Main {
     a : Int <- 1 + 4;
     b : Int <- 5 + 11 - (1 * 2);
+    c : Int;
     main(): Object {
         {
             out_string("Hello, World.\n");
             out_int(a);
             out_string("\n");
             out_int(b);
+
+            out_string("\n");
+            c <- 1 + 2;
+            out_int(c);
 
             if a = 5 then
                 {
