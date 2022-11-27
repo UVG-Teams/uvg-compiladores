@@ -1,12 +1,16 @@
 class Main {
     a : Int <- 1 + 4;
-    b : Int <- 5 + 10 - (1 * 2);
+    b : Int <- 5 + 11 - (1 * 2);
     c : Int;
+    d : Int;
     cont: Int <- 10;
 	i: Int <- 1;
     main(): Object {
         {
             out_string("Hello, World.\n");
+            d <- in_int();
+            out_int(d);
+            out_string("\n");
             out_int(a);
             out_string("\n");
             out_int(b);

@@ -570,6 +570,11 @@ class yaplWalker(yaplVisitor):
         # TODO: Check if the method has the same scope_type
         # TODO: Check if the method belongs to the same class
 
+        expr_terceto_0 = None
+        expr_ref_0 = None
+        expr_terceto = None
+        expr_ref = None
+
         for node in ctx.expr():
             if node == ctx.expr(0):
                 expr_terceto_0, expr_ref_0 = self.visit(ctx.expr(0))

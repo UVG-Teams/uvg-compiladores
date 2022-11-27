@@ -156,6 +156,9 @@ class ThreeAddressCode():
                         f.write("\t{r}: .word 0\n".format(r=r))
                 elif t == "mv":
                     f.write("\t{r}: .word 0\n".format(r=r))
+                elif o == "call":
+                    if x == "in_int":
+                        f.write("\t{r}: .word 0\n".format(r=r))
                 elif o == "<-":
                     symbol = self.symbol_table.get_from_addr(r)
 
@@ -217,18 +220,25 @@ class ThreeAddressCode():
                     elif o == "call":
                         # Goto
                         # f.write(indent + "#" + "{r} <- call {x}, {y}".format(l=l, r=r, x=x, y=y))
-                        temp_y = "_" + y.replace("_", "")
+                        if y:
+                            temp_y = "_" + y.replace("_", "")
 
                         if x == 'out_int':
-                            f.write(indent + "# Out Int")
+                            f.write(indent + "# Output Int")
                             f.write(indent + "lw $a0, {y}".format(y=temp_y))
                             f.write(indent + "li $v0, 1")
                             f.write(indent + "syscall")
                         elif x == 'out_string':
-                            f.write(indent + "# Out String")
+                            f.write(indent + "# Output String")
                             f.write(indent + "la $a0, {y}".format(y=temp_y))
                             f.write(indent + "li $v0, 4")
                             f.write(indent + "syscall")
+                        elif x == 'in_int':
+                            f.write(indent + "# Input Int")
+                            f.write(indent + "li $v0, 5")
+                            f.write(indent + "syscall")
+                            f.write(indent + "move $t0, $v0")
+                            f.write(indent + "sw $t0, {r}".format(r=r))
                     elif o == "goto" and not y:
                         # Goto
                         f.write(indent + "#" + "goto {x}".format(l=l, r=r, x=x))

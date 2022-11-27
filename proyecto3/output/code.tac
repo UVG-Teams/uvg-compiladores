@@ -14,24 +14,29 @@
 	_t13 <- "Hello, World.\n"
 l_1 := 
 	_t14 <- call out_string, _t13
-	_t15 <- call out_int, a
-	_t16 <- "\n"
-	_t17 <- call out_string, _t16
-	_t18 <- call out_int, b
-	_t19 <- "\n"
-	_t20 <- call out_string, _t19
-	_t21 <- 1
-	_t22 <- 2
-	_t23 <- _t21 + _t22
-	_t24 <- _t23 @ c
-	_t25 <- call out_int, c
-	_t26 <- i <= cont
-	_t27 <- "\n"
+	_t15 <- call in_int, None
+	_t16 <- _t15 @ d
+	_t17 <- call out_int, d
+	_t18 <- "\n"
+	_t19 <- call out_string, _t18
+	_t20 <- call out_int, a
+	_t21 <- "\n"
+	_t22 <- call out_string, _t21
+	_t23 <- call out_int, b
+	_t24 <- "\n"
+	_t25 <- call out_string, _t24
+	_t26 <- 1
+	_t27 <- 2
+	_t28 <- _t26 + _t27
+	_t29 <- _t28 @ c
+	_t30 <- call out_int, c
+	_t31 <- i <= cont
+	_t32 <- "\n"
 l_0 := 
-	_t28 <- call out_string, _t27
-	_t29 <- call out_int, i
-	_t30 <- 1
-	_t31 <- i + _t30
-	_t32 <- _t31 @ i
-	goto l_0 if _t26
+	_t33 <- call out_string, _t32
+	_t34 <- call out_int, i
+	_t35 <- 1
+	_t36 <- i + _t35
+	_t37 <- _t36 @ i
+	goto l_0 if _t31
 	goto l_1
