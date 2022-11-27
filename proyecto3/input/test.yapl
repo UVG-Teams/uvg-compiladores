@@ -1,12 +1,19 @@
 class Main {
     a : Int <- 1 + 4;
     b : Int <- 5 + 11 - (1 * 2);
+    c : Int;
+    cont: Int <- 10;
+	i: Int <- 1;
     main(): Object {
         {
             out_string("Hello, World.\n");
             out_int(a);
             out_string("\n");
             out_int(b);
+
+            out_string("\n");
+            c <- 1 + 2;
+            out_int(c);
 
             if a = 5 then
                 {
@@ -17,6 +24,14 @@ class Main {
                     out_string("a no es 5");
                 }
             fi;
+
+            while i <= cont loop
+                {
+                    out_string("\n");
+                    out_int(i);
+                    i <- i + 1;
+                }
+            pool;
         }
     };
 };

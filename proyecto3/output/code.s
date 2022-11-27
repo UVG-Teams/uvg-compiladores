@@ -10,12 +10,20 @@
 	_t8: .word 0
 	_t9: .word 0
 	_b: .word 0
-	_t11: .asciiz "Hello, World.\n"
-	_t14: .asciiz "\n"
-	_t17: .word 1
-	_t18: .word 2
-	_t19: .word 0
+	_cont: .word 10
+	_t12: .word 1
+	_t13: .asciiz "Hello, World.\n"
+	_t16: .asciiz "\n"
+	_t19: .asciiz "\n"
+	_t21: .word 1
+	_t22: .word 2
+	_t23: .word 0
 	_c: .word 0
+	_t26: .word 0
+	_t27: .asciiz "\n"
+	_t30: .word 1
+	_t31: .word 0
+	_i: .word 0
 
 
 .text
@@ -52,7 +60,7 @@ main:
 	sw $t0, _b
 
 	# Out String
-	la $a0, _t11
+	la $a0, _t13
 	li $v0, 4
 	syscall
 
@@ -62,7 +70,7 @@ main:
 	syscall
 
 	# Out String
-	la $a0, _t14
+	la $a0, _t16
 	li $v0, 4
 	syscall
 
@@ -71,14 +79,19 @@ main:
 	li $v0, 1
 	syscall
 
-	#_t19 <- _t17 + _t18
-	lw $t1, _t17
-	lw $t2, _t18
-	add $t0, $t1, $t2
-	sw $t0, _t19
+	# Out String
+	la $a0, _t19
+	li $v0, 4
+	syscall
 
-	#_t20 <- _t19 # c
-	lw $t0, _t19
+	#_t23 <- _t21 + _t22
+	lw $t1, _t21
+	lw $t2, _t22
+	add $t0, $t1, $t2
+	sw $t0, _t23
+
+	#_t24 <- _t23 # c
+	lw $t0, _t23
 	sw $t0, _c
 
 	# Out Int
@@ -86,4 +99,36 @@ main:
 	li $v0, 1
 	syscall
 
-	#goto l_0
+
+l_0:
+	# Out String
+	la $a0, _t27
+	li $v0, 4
+	syscall
+
+	# Out Int
+	lw $a0, _i
+	li $v0, 1
+	syscall
+
+	#_t31 <- i + _t30
+	lw $t1, _i
+	lw $t2, _t30
+	add $t0, $t1, $t2
+	sw $t0, _t31
+
+	#_t32 <- _t31 # i
+	lw $t0, _t31
+	sw $t0, _i
+
+	#goto l_0 if _t26
+	#_t26 <- i <= cont
+	lw $t1, _i
+	lw $t2, _cont
+	ble $t1, $t2, l_0
+
+	#goto l_1
+
+exit_program:
+	li $v0, 10
+	syscall
